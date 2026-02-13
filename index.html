@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aaru Beauty | For the Bold</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Custom Font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Playfair+Display:ital,wght@1,400;1,700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Animations */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        @keyframes gradient-xy {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(-5%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+            50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+        }
+        
+        .animate-marquee { animation: marquee 20s linear infinite; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-blob { animation: blob 7s infinite; }
+        .animate-spin-slow { animation: spin-slow 8s linear infinite; }
+        .animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .animate-bounce-slow { animation: bounce-slow 3s infinite; }
+        .animate-wiggle { animation: wiggle 1s ease-in-out infinite; }
+        .animate-gradient-xy {
+            background-size: 200% 200%;
+            animation: gradient-xy 15s ease infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#FFF0F5] text-gray-900 overflow-x-hidden selection:bg-pink-300 selection:text-white">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- Icon Components (SVG equivalents of Lucide React) ---
+        const Icon = ({ path, className, size = 24, fill = "none" }) => (
+            <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width={size} 
+                height={size} 
+                viewBox="0 0 24 24" 
+                fill={fill} 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className={className}
+            >
+                {path}
+            </svg>
+        );
+
+        const Icons = {
+            ShoppingBag: (props) => <Icon {...props} path={<><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></>} />,
+            Star: (props) => <Icon {...props} path={<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>} />,
+            Heart: (props) => <Icon {...props} path={<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>} />,
+            Menu: (props) => <Icon {...props} path={<><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></>} />,
+            X: (props) => <Icon {...props} path={<><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>} />,
+            ArrowRight: (props) => <Icon {...props} path={<><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>} />,
+            Instagram: (props) => <Icon {...props} path={<><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></>} />,
+            Twitter: (props) => <Icon {...props} path={<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>} />,
+            Facebook: (props) => <Icon {...props} path={<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>} />,
+            Youtube: (props) => <Icon {...props} path={<><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></>} />,
+            Send: (props) => <Icon {...props} path={<><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></>} />,
+            Sparkles: (props) => <Icon {...props} path={<><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 3v4"/><path d="M3 5h4"/><path d="M3 9h4"/></>} />,
+            Linkedin: (props) => <Icon {...props} path={<><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></>} />
+        };
+
+        // --- Helper Components ---
+        
+        const useOnScreen = (options) => {
+            const ref = useRef(null);
+            const [isVisible, setIsVisible] = useState(false);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+                }, options);
+
+                if (ref.current) observer.observe(ref.current);
+                return () => { if (ref.current) observer.unobserve(ref.current); };
+            }, [ref, options]);
+
+            return [ref, isVisible];
+        };
+
+        const RevealOnScroll = ({ children, delay = 0, className = "" }) => {
+            const [ref, isVisible] = useOnScreen({ threshold: 0.1 });
+            return (
+                <div ref={ref} className={`transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+                    {children}
+                </div>
+            );
+        };
+
+        const Blob = ({ color, size, top, left, delay }) => (
+            <div className={`absolute rounded-full filter blur-3xl opacity-40 animate-blob mix-blend-multiply ${color} ${size}`} style={{ top, left, animationDelay: `${delay}s` }}></div>
+        );
+
+        const Sparkle = ({ className, delay = 0 }) => (
+            <div className={`absolute animate-pulse-slow ${className}`} style={{ animationDelay: `${delay}s` }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                </svg>
+            </div>
+        );
+
+        const ProductCard = ({ title, price, tag, gradient, imgColor, delay }) => (
+            <RevealOnScroll delay={delay}>
+                <div className="group relative bg-white rounded-3xl overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-200/50 border-2 border-transparent hover:border-purple-300">
+                <div className={`h-72 ${gradient} relative p-6 flex items-center justify-center overflow-hidden`}>
+                    <div className="absolute w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                    
+                    <div className="relative z-10 w-40 h-48 bg-white/90 rounded-t-full rounded-b-3xl shadow-lg flex items-end justify-center pb-6 group-hover:rotate-6 group-hover:-translate-y-2 transition-transform duration-500 ease-out">
+                        <span className="font-serif text-3xl italic opacity-30 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">Aaru</span>
+                        <div className="absolute top-4 right-4 w-4 h-12 bg-white/50 rounded-full rotate-12 blur-[1px]"></div>
+                    </div>
+                    
+                    {tag && (
+                        <div className="absolute top-4 left-4 bg-black/5 backdrop-blur-sm border border-white/20 text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider transform -rotate-2 group-hover:rotate-0 transition-transform">
+                            {tag}
+                        </div>
+                    )}
+                    
+                    <button className="absolute bottom-4 right-4 bg-white text-black p-4 rounded-full shadow-lg translate-y-20 group-hover:translate-y-0 transition-all duration-300 hover:bg-black hover:text-white">
+                        <Icons.ShoppingBag size={20} />
+                    </button>
+                </div>
+                
+                <div className="p-6 relative bg-white">
+                    <div className="flex justify-between items-end mb-1">
+                        <h3 className="text-xl font-black text-gray-900 group-hover:text-purple-600 transition-colors">{title}</h3>
+                        <span className="font-bold text-lg bg-yellow-100 px-2 rounded-md transform rotate-2">${price}</span>
+                    </div>
+                    <p className="text-gray-400 text-sm font-medium">Glow that lasts all day.</p>
+                    <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 group-hover:w-full transition-all duration-500"></div>
+                </div>
+                </div>
+            </RevealOnScroll>
+        );
+
+        const AboutPage = () => {
+            return (
+                <section className="pt-32 pb-20 px-4 min-h-screen relative overflow-hidden bg-[#FFF0F5]">
+                    <div className="absolute top-20 right-0 w-96 h-96 bg-purple-200 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
+
+                    <div className="max-w-7xl mx-auto">
+                        <RevealOnScroll>
+                            <div className="text-center mb-16">
+                                <span className="bg-white border-2 border-black px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-4 inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] animate-bounce-slow">
+                                    The Visionary
+                                </span>
+                                <h1 className="text-6xl md:text-8xl font-black mb-6 text-gray-900">
+                                    Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Arushi</span>
+                                </h1>
+                            </div>
+                        </RevealOnScroll>
+
+                        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-24">
+                            <div className="w-full md:w-1/2 relative">
+                                <RevealOnScroll delay={200}>
+                                    <div className="relative z-10 p-4">
+                                        <div className="absolute inset-0 bg-black rounded-[2.5rem] transform translate-x-4 translate-y-4 rotate-2"></div>
+                                        <div className="relative bg-[#FFDBC8] rounded-[2.5rem] border-4 border-black overflow-hidden aspect-[4/5] group transform -rotate-1 hover:rotate-0 transition-all duration-500">
+                                            <img 
+                                                src="https://uploads.onecompiler.io/44dgk2ydn/44dgk33da/3.png" 
+                                                alt="Arushi Bhansali" 
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
+                                                <p className="text-white font-bold text-xl">"Be bold. Be you."</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="absolute -top-4 -right-2 bg-yellow-300 border-2 border-black p-4 rounded-full font-black text-sm rotate-12 shadow-lg animate-wiggle z-20">
+                                            Founder <br/> CEO
+                                        </div>
+                                        <div className="absolute bottom-10 -left-2 bg-white border-2 border-black px-6 py-2 rounded-full font-bold text-lg -rotate-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-20 hover:scale-110 transition-transform">
+                                            @arushi_b ✨
+                                        </div>
+                                    </div>
+                                </RevealOnScroll>
+                            </div>
+
+                            <div className="w-full md:w-1/2">
+                                <RevealOnScroll delay={400}>
+                                    <div className="space-y-8 bg-white/50 backdrop-blur-sm p-8 rounded-[2rem] border border-white">
+                                        <h2 className="text-4xl font-black leading-tight text-gray-900">
+                                            Redefining beauty for the <br/>
+                                            <span className="italic font-serif text-purple-600 bg-purple-100 px-2 rounded-lg inline-block transform -rotate-1 mt-1">bold & fearless.</span>
+                                        </h2>
+                                        <p className="text-xl text-gray-700 leading-relaxed font-medium">
+                                            "I started Aaru with a simple mission: to create beauty products that aren't just about covering up, but about 
+                                            <span className="font-bold text-black underline decoration-yellow-400 decoration-4"> standing out</span>. We are building a community where creativity meets confidence."
+                                        </p>
+                                        <p className="text-lg text-gray-600 leading-relaxed">
+                                            With a background in creative design and a passion for skincare science, Arushi bridges the gap between aesthetic packaging and effective formulas. What started as a mood board is now a movement.
+                                        </p>
+                                        
+                                        <div className="grid grid-cols-2 gap-4 pt-4">
+                                            <div className="bg-white p-5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(200,200,200,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow">
+                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Fave Product</p>
+                                                <p className="font-black text-lg text-purple-600">Celestial Gloss</p>
+                                            </div>
+                                            <div className="bg-white p-5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(200,200,200,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow">
+                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Zodiac Sign</p>
+                                                <p className="font-black text-lg text-orange-500">Leo ♌</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-6 flex gap-4">
+                                            <a href="https://www.linkedin.com/in/arushi-bhansali-b1a53b277/" target="_blank" className="flex items-center gap-2 font-bold text-black hover:text-blue-600 transition-colors">
+                                                <Icons.Linkedin size={20} /> Connect on LinkedIn
+                                            </a>
+                                        </div>
+                                    </div>
+                                </RevealOnScroll>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )
+        }
+
+        const Navbar = ({ onNavigate, currentView }) => {
+            const [isOpen, setIsOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg shadow-sm py-2' : 'bg-transparent py-6'}`}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center">
+                            <div className="flex-shrink-0 flex items-center gap-3 cursor-pointer" onClick={() => onNavigate('home')}>
+                                <div className="relative group">
+                                    <div className="absolute inset-0 bg-pink-400 rounded-full blur group-hover:blur-md transition-all"></div>
+                                    <img src="https://uploads.onecompiler.io/44dgk2ydn/44dgk33da/Logo.png" alt="Aaru Logo" className="h-12 w-12 rounded-full relative z-10 bg-white object-contain p-1 border-2 border-black" />
+                                </div>
+                                <span className={`font-black text-2xl tracking-tighter transition-colors ${scrolled ? 'text-black' : 'text-black md:text-black'}`}>AARU</span>
+                            </div>
+                            
+                            <div className="hidden md:flex items-center space-x-8">
+                                <button onClick={() => onNavigate('home')} className={`font-bold text-lg hover:-translate-y-1 transition-transform ${scrolled || currentView === 'about' ? 'text-gray-900' : 'text-gray-900'} ${currentView === 'home' ? 'text-purple-600' : ''}`}>Shop</button>
+                                <button onClick={() => onNavigate('about')} className={`font-bold text-lg hover:-translate-y-1 transition-transform ${scrolled || currentView === 'about' ? 'text-gray-900' : 'text-gray-900'} ${currentView === 'about' ? 'text-purple-600' : ''}`}>About</button>
+                                <button className={`font-bold text-lg hover:-translate-y-1 transition-transform ${scrolled || currentView === 'about' ? 'text-gray-900' : 'text-gray-900'}`}>Journal</button>
+                                
+                                <button className="bg-yellow-300 text-black px-6 py-2 rounded-full font-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center gap-2">
+                                    Cart (0)
+                                </button>
+                            </div>
+
+                            <div className="md:hidden">
+                                <button onClick={() => setIsOpen(!isOpen)} className="text-black">
+                                    {isOpen ? <Icons.X size={28} /> : <Icons.Menu size={28} />}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {isOpen && (
+                        <div className="md:hidden bg-white border-b border-black/5 px-4 pt-2 pb-6 space-y-4 absolute w-full top-20 left-0 shadow-lg">
+                            <button onClick={() => { onNavigate('home'); setIsOpen(false); }} className="block text-xl font-bold w-full text-left py-2">Shop</button>
+                            <button onClick={() => { onNavigate('about'); setIsOpen(false); }} className="block text-xl font-bold w-full text-left py-2">About</button>
+                            <button className="block text-xl font-bold w-full text-left py-2">Journal</button>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const App = () => {
+            const [currentPage, setCurrentPage] = useState('home');
+
+            useEffect(() => {
+                window.scrollTo(0, 0);
+            }, [currentPage]);
+
+            return (
+                <div className="min-h-screen">
+                    <Navbar onNavigate={setCurrentPage} currentView={currentPage} />
+                    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+                        <Blob color="bg-purple-300" size="w-96 h-96" top="-10%" left="-10%" delay="0" />
+                        <Blob color="bg-pink-300" size="w-96 h-96" top="40%" left="80%" delay="2" />
+                        <Blob color="bg-yellow-200" size="w-80 h-80" top="80%" left="20%" delay="4" />
+                    </div>
+
+                    {currentPage === 'home' && (
+                        <>
+                            <section className="relative pt-32 pb-20 px-4 min-h-screen flex flex-col justify-center items-center overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#B6A6E9] via-[#E2CBF7] to-[#FFC4D6] animate-gradient-xy rounded-b-[4rem] z-0"></div>
+                                <Sparkle className="text-yellow-300 w-16 h-16 top-32 left-10 md:left-32 z-10 animate-spin-slow" delay={0.5} />
+                                <Sparkle className="text-white w-10 h-10 bottom-40 right-10 z-10" delay={1.2} />
+                                
+                                <div className="max-w-7xl mx-auto w-full relative z-10 text-center flex flex-col items-center">
+                                    <RevealOnScroll>
+                                        <div className="inline-block bg-white/20 backdrop-blur-md border border-white/40 rounded-full px-6 py-2 mb-8 animate-bounce-slow">
+                                            <p className="text-white font-bold tracking-widest uppercase text-xs md:text-sm">✨ The Future of Beauty is Here</p>
+                                        </div>
+                                    </RevealOnScroll>
+                                    
+                                    <div className="relative inline-block mb-8">
+                                        <RevealOnScroll delay={200}>
+                                            <h1 className="text-[18vw] md:text-[14vw] leading-[0.8] font-black text-white tracking-tighter drop-shadow-lg mix-blend-overlay animate-float">beauty</h1>
+                                        </RevealOnScroll>
+                                        <RevealOnScroll delay={400}>
+                                            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-serif italic text-5xl md:text-8xl text-black rotate-[-5deg] whitespace-nowrap z-20 drop-shadow-sm">
+                                                for the <span className="underline decoration-4 decoration-wavy decoration-yellow-300">bold</span> ones
+                                            </span>
+                                        </RevealOnScroll>
+                                    </div>
+
+                                    <RevealOnScroll delay={600} className="w-full">
+                                        <div className="mt-8 flex flex-col md:flex-row gap-6 justify-center items-center">
+                                            <button className="bg-black text-white px-12 py-5 rounded-full font-bold text-xl hover:bg-white hover:text-black transition-all transform hover:scale-110 shadow-xl flex items-center gap-3 group">
+                                                Shop Now <Icons.ArrowRight size={24} className="group-hover:translate-x-2 transition-transform"/>
+                                            </button>
+                                            <div className="bg-white/30 backdrop-blur-md p-2 rounded-full flex items-center gap-4 pr-6">
+                                                <div className="flex -space-x-4 pl-2">
+                                                    {[1,2,3].map(i => <img key={i} src={`https://i.pravatar.cc/100?img=${i+25}`} className="w-12 h-12 rounded-full border-2 border-white" alt="User" />)}
+                                                </div>
+                                                <span className="text-black font-bold text-sm">Join the cult.</span>
+                                            </div>
+                                        </div>
+                                    </RevealOnScroll>
+                                    
+                                    <RevealOnScroll delay={800} className="mt-16 w-full">
+                                        <div className="flex flex-wrap justify-center gap-6 md:gap-10 bg-white/10 backdrop-blur-sm py-6 rounded-full max-w-4xl mx-auto border border-white/20">
+                                            {[
+                                                { Icon: Icons.Linkedin, handle: "Arushi Bhansali", url: "https://www.linkedin.com/in/arushi-bhansali-b1a53b277/", color: "hover:text-blue-700" },
+                                                { Icon: Icons.Instagram, handle: "@aarubeauty", url: "#", color: "hover:text-pink-600" },
+                                                { Icon: Icons.Facebook, handle: "Aaru Beauty", url: "#", color: "hover:text-blue-600" },
+                                                { Icon: Icons.Youtube, handle: "Aaru Official", url: "#", color: "hover:text-red-600" },
+                                                { Icon: Icons.Twitter, handle: "@aaru_tweets", url: "#", color: "hover:text-blue-400" }
+                                            ].map((social, idx) => (
+                                                <a key={idx} href={social.url} target={social.url.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer" className={`flex items-center gap-2 text-white group ${social.color} transition-colors px-4`}>
+                                                    <div className="bg-white text-black p-2 rounded-full group-hover:scale-125 transition-transform duration-300 shadow-lg">
+                                                        <social.Icon size={18} />
+                                                    </div>
+                                                    <span className="font-bold tracking-wide hidden md:block">{social.handle}</span>
+                                                </a>
+                                            ))}
+                                        </div>
+                                    </RevealOnScroll>
+                                </div>
+                            </section>
+
+                            <div className="bg-yellow-300 py-6 overflow-hidden -rotate-1 shadow-lg relative z-20 border-y-4 border-black">
+                                <div className="animate-marquee whitespace-nowrap flex gap-12">
+                                    {[...Array(10)].map((_, i) => (
+                                        <span key={i} className="text-black font-black text-2xl uppercase tracking-widest flex items-center gap-6">
+                                            <Icons.Sparkles size={24} className="text-purple-600 animate-pulse" /> 
+                                            <span>New Drop: <span className="text-purple-600">Celestial Gloss</span></span>
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <section className="py-32 px-4 relative z-10">
+                                <div className="max-w-6xl mx-auto">
+                                    <RevealOnScroll>
+                                        <div className="bg-[#FFDBC8] rounded-[3rem] p-8 md:p-20 flex flex-col md:flex-row items-center gap-16 relative overflow-hidden shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] border-4 border-black">
+                                            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#0000001a_2px,transparent_2px)] [background-size:24px_24px] opacity-20"></div>
+
+                                            <div className="w-full md:w-1/2 relative z-10 group cursor-pointer" onClick={() => setCurrentPage('about')}>
+                                                <div className="aspect-square bg-gradient-to-tr from-orange-300 to-yellow-200 rounded-full overflow-hidden border-4 border-black shadow-2xl rotate-[-3deg] group-hover:rotate-0 transition-all duration-500 w-3/4 mx-auto relative z-10">
+                                                    <img src="https://uploads.onecompiler.io/44dgk2ydn/44dgk33da/3.png" alt="Arushi" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
+                                                </div>
+                                                <div className="absolute -top-4 -right-4 bg-white px-4 py-2 rounded-lg border-2 border-black rotate-12 shadow-lg font-black text-sm animate-wiggle">Click to Meet Arushi</div>
+                                                <div className="absolute bottom-10 left-0 bg-purple-400 text-white p-3 rounded-full border-2 border-black -rotate-12 animate-bounce-slow"><Icons.Heart fill="white" /></div>
+                                            </div>
+
+                                            <div className="w-full md:w-1/2 text-left space-y-8 relative z-10">
+                                                <div className="inline-block border-2 border-black rounded-full px-6 py-2 text-sm font-black uppercase bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">About The Brand</div>
+                                                <h2 className="text-5xl md:text-7xl font-black leading-tight text-gray-900">We make magic <br/><span className="font-serif italic font-normal text-purple-600 bg-white/50 px-2 rounded-lg">for your skin.</span></h2>
+                                                <p className="text-xl text-gray-800 font-medium leading-relaxed">Hi everyone! Aaru is more than just makeup. We are a graphic-inspired, content-first beauty brand designed for the <span className="font-bold underline decoration-wavy decoration-purple-400">dreamers</span>.</p>
+                                                <button onClick={() => setCurrentPage('about')} className="text-black font-black text-lg border-b-4 border-black hover:text-purple-600 hover:border-purple-600 transition-colors pt-4">Read Our Story</button>
+                                            </div>
+                                        </div>
+                                    </RevealOnScroll>
+                                </div>
+                            </section>
+
+                            <section className="py-20 px-4 max-w-7xl mx-auto relative z-10">
+                                <RevealOnScroll>
+                                    <div className="text-center mb-20">
+                                        <span className="text-purple-600 font-bold tracking-widest uppercase mb-2 block">Shop The Drop</span>
+                                        <h2 className="text-5xl md:text-7xl font-black mb-6 text-gray-900">The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Collection</span></h2>
+                                        <div className="w-24 h-2 bg-black mx-auto rounded-full"></div>
+                                    </div>
+                                </RevealOnScroll>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                                    <ProductCard title="Stardust Blush" price="24.00" tag="HOT" gradient="bg-gradient-to-b from-pink-100 to-pink-200" delay={100} />
+                                    <ProductCard title="Nebula Glaze" price="18.00" tag="NEW" gradient="bg-gradient-to-b from-blue-100 to-blue-200" delay={200} />
+                                    <ProductCard title="Eclipse Liner" price="22.00" tag="VIRAL" gradient="bg-gradient-to-b from-purple-100 to-purple-200" delay={300} />
+                                    <ProductCard title="Cloud Foam" price="32.00" tag={null} gradient="bg-gradient-to-b from-green-100 to-green-200" delay={400} />
+                                </div>
+                            </section>
+
+                            <section className="py-32 px-4 overflow-hidden relative z-10">
+                                <div className="absolute inset-0 bg-white skew-y-3 transform scale-110 z-0"></div>
+                                <div className="max-w-6xl mx-auto relative z-10">
+                                    <RevealOnScroll>
+                                        <div className="text-center mb-16">
+                                            <div className="inline-flex items-center justify-center p-3 bg-black rounded-full mb-6 animate-spin-slow">
+                                                <Sparkle className="text-white w-8 h-8 relative left-0 top-0 animate-none" />
+                                            </div>
+                                            <h2 className="text-6xl font-black mb-4">Seen on TikTok</h2>
+                                            <a href="#" className="text-2xl font-serif italic text-gray-500 hover:text-black transition-colors">@aarubeauty</a>
+                                        </div>
+                                    </RevealOnScroll>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                                        <RevealOnScroll delay={100} className="md:mt-20">
+                                            <div className="bg-gray-900 rounded-[2.5rem] p-3 border-4 border-gray-200 shadow-2xl rotate-[-6deg] hover:rotate-0 transition-all duration-500 hover:scale-105">
+                                                <div className="aspect-[9/16] bg-[#FFDBC8] rounded-[2rem] relative overflow-hidden group cursor-pointer">
+                                                    <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=800&auto=format&fit=crop" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="TikTok"/>
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
+                                                            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
+                                                        <p className="text-white font-bold text-sm">GRWM with Aaru ✨</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </RevealOnScroll>
+
+                                        <RevealOnScroll delay={0} className="z-20">
+                                            <div className="bg-white rounded-[2.5rem] p-3 border-4 border-purple-400 shadow-[0px_20px_50px_rgba(168,85,247,0.4)] scale-110 hover:scale-115 transition-all duration-500">
+                                                <div className="aspect-[9/16] bg-[#B6A6E9] rounded-[2rem] relative overflow-hidden group cursor-pointer">
+                                                    <img src="https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="TikTok"/>
+                                                    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm px-4 py-2 rounded-full text-white text-xs font-bold border border-white/20">2.4M Views</div>
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                                            <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[22px] border-l-black border-b-[12px] border-b-transparent ml-2"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </RevealOnScroll>
+
+                                        <RevealOnScroll delay={200} className="md:mt-20">
+                                            <div className="bg-gray-900 rounded-[2.5rem] p-3 border-4 border-gray-200 shadow-2xl rotate-[6deg] hover:rotate-0 transition-all duration-500 hover:scale-105">
+                                                <div className="aspect-[9/16] bg-blue-100 rounded-[2rem] relative overflow-hidden group cursor-pointer">
+                                                    <img src="https://images.unsplash.com/photo-1522335789203-abd6523f7216?q=80&w=800&auto=format&fit=crop" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="TikTok"/>
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
+                                                            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
+                                                        <p className="text-white font-bold text-sm">Unboxing the new set 📦</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </RevealOnScroll>
+                                    </div>
+                                </div>
+                            </section>
+                        </>
+                    )}
+
+                    {currentPage === 'about' && <AboutPage />}
+
+                    <footer className="bg-[#B6A6E9] pt-32 pb-10 px-4 rounded-t-[4rem] relative overflow-hidden z-10">
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#B6A6E9] to-[#9F8FEF]"></div>
+                        <Sparkle className="text-white w-24 h-24 top-20 right-20 opacity-30 animate-pulse" />
+                        <Sparkle className="text-yellow-300 w-12 h-12 bottom-40 left-10 opacity-60 animate-bounce-slow" />
+                        
+                        <div className="max-w-7xl mx-auto text-center relative z-10">
+                            <RevealOnScroll>
+                                <h2 className="text-[15vw] font-black text-white leading-none mb-12 tracking-tighter drop-shadow-md hover:scale-105 transition-transform duration-700 cursor-default">let's glow</h2>
+                            </RevealOnScroll>
+                            
+                            <RevealOnScroll delay={200}>
+                                <div className="bg-white rounded-[2rem] p-8 md:p-12 max-w-3xl mx-auto border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] mb-20">
+                                    <p className="text-black text-2xl font-black mb-8">Join the Aaru club for exclusive drops.</p>
+                                    <div className="flex flex-col md:flex-row gap-4">
+                                        <input type="email" placeholder="your@email.com" className="flex-1 bg-gray-100 rounded-full px-8 py-5 text-lg focus:outline-none focus:ring-4 focus:ring-purple-400 font-bold" />
+                                        <button className="bg-black text-white px-10 py-5 rounded-full font-black text-lg hover:bg-yellow-300 hover:text-black transition-colors shadow-lg flex items-center justify-center gap-2">
+                                            Subscribe <Icons.Send size={20} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </RevealOnScroll>
+
+                            <div className="flex flex-col md:flex-row justify-between items-center text-white/90 text-sm font-bold border-t border-white/20 pt-10">
+                                <p>© 2026 Aaru Beauty. All rights reserved.</p>
+                                <div className="flex gap-8 mt-6 md:mt-0">
+                                    <a href="#" className="hover:text-yellow-300 transition-colors">Privacy</a>
+                                    <a href="#" className="hover:text-yellow-300 transition-colors">Terms</a>
+                                    <a href="#" className="hover:text-yellow-300 transition-colors">Shipping</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
