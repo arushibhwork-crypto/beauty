@@ -1,564 +1,753 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaru Beauty | For the Bold</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ree'ch Brand Agency</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Custom Font -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Playfair+Display:ital,wght@1,400;1,700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
+  <!-- Google Fonts -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&display=swap');
 
-        /* Animations */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
-        }
-        @keyframes gradient-xy {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
-        }
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes bounce-slow {
-            0%, 100% { transform: translateY(-5%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
-            50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
-        }
-        
-        .animate-marquee { animation: marquee 20s linear infinite; }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-blob { animation: blob 7s infinite; }
-        .animate-spin-slow { animation: spin-slow 8s linear infinite; }
-        .animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        .animate-bounce-slow { animation: bounce-slow 3s infinite; }
-        .animate-wiggle { animation: wiggle 1s ease-in-out infinite; }
-        .animate-gradient-xy {
-            background-size: 200% 200%;
-            animation: gradient-xy 15s ease infinite;
-        }
-    </style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .font-script {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .drop-shadow-3d {
+      text-shadow: 4px 4px 0px #D0D9A5, 8px 8px 0px #EAB4C0, 12px 12px 0px #8A9A5B;
+    }
+
+    .drop-shadow-3d-small {
+      text-shadow: 3px 3px 0px #D0D9A5, 6px 6px 0px #8A9A5B;
+    }
+
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    .animate-spin-slow {
+      animation: spin 8s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .animate-blob {
+      animation: blob 7s infinite;
+    }
+
+    .animation-delay-2000 {
+      animation-delay: 2s;
+    }
+    
+    .animation-delay-4000 {
+      animation-delay: 4s;
+    }
+
+    @keyframes blob {
+      0% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+      100% { transform: translate(0px, 0px) scale(1); }
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-6deg) scale(1); }
+      50% { transform: rotate(6deg) scale(1.05); }
+    }
+
+    .animate-wiggle {
+      animation: wiggle 2.5s ease-in-out infinite;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #EAB4C0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #8A9A5B;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D0D9A5;
+    }
+    
+    /* Hide scrollbar for nav pills on mobile */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+  </style>
 </head>
-<body class="bg-[#FFF0F5] text-gray-900 overflow-x-hidden selection:bg-pink-300 selection:text-white">
+<body class="min-h-screen bg-[#EAB4C0] text-[#8A9A5B] overflow-x-hidden selection:bg-[#D0D9A5] selection:text-[#8A9A5B] relative w-full">
 
-    <div id="root"></div>
+  <!-- Loading Screen -->
+  <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#EAB4C0] transition-opacity duration-500">
+    <div class="relative animate-bounce mb-4">
+      <i data-lucide="sparkles" class="w-12 h-12 text-[#8A9A5B]"></i>
+    </div>
+    <h1 class="text-4xl md:text-6xl font-serif font-bold tracking-tight text-[#8A9A5B]">
+      Vibe <span class="font-script font-normal lowercase text-[1.2em]">check...</span>
+    </h1>
+    <p class="text-[#D0D9A5] mt-2 font-bold tracking-wide animate-pulse">Entering Ree'ch</p>
+  </div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-40 px-4 md:px-6 pt-4 md:pt-6 pb-2 transition-all duration-300 bg-[#EAB4C0]">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+      <!-- Logo -->
+      <div class="text-2xl md:text-3xl font-bold uppercase tracking-tighter text-[#8A9A5B] cursor-pointer shrink-0 self-start sm:self-auto" onclick="switchPage('home')">Ree'ch</div>
+      
+      <!-- Nav Links & CTA -->
+      <div class="flex items-center justify-start sm:justify-end gap-6 md:gap-8 overflow-x-auto w-full sm:w-auto pb-2 pr-2 pt-1 no-scrollbar">
+        <button onclick="switchPage('home')" class="text-[#8A9A5B] font-bold uppercase tracking-widest text-xs md:text-sm hover:text-[#D0D9A5] transition-colors duration-300 focus:outline-none whitespace-nowrap">
+          Home
+        </button>
+        <button onclick="switchPage('about')" class="text-[#8A9A5B] font-bold uppercase tracking-widest text-xs md:text-sm hover:text-[#D0D9A5] transition-colors duration-300 focus:outline-none whitespace-nowrap">
+          About
+        </button>
+        <button onclick="scrollToServices()" class="text-[#8A9A5B] font-bold uppercase tracking-widest text-xs md:text-sm hover:text-[#D0D9A5] transition-colors duration-300 focus:outline-none whitespace-nowrap">
+          Services
+        </button>
+        <button onclick="scrollToContact()" class="text-[#8A9A5B] font-bold uppercase tracking-widest text-xs md:text-sm hover:text-[#D0D9A5] transition-colors duration-300 focus:outline-none whitespace-nowrap">
+          Slay With Us
+        </button>
+      </div>
+    </div>
+  </nav>
 
-        // --- Icon Components (SVG equivalents of Lucide React) ---
-        const Icon = ({ path, className, size = 24, fill = "none" }) => (
-            <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width={size} 
-                height={size} 
-                viewBox="0 0 24 24" 
-                fill={fill} 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className={className}
-            >
-                {path}
-            </svg>
-        );
+  <!-- ======================== HOME PAGE VIEW ======================== -->
+  <main id="home-page" class="block pt-20 sm:pt-0">
+    <!-- Hero Section -->
+    <section class="relative min-h-[85vh] flex items-center justify-center pt-24 sm:pt-36 pb-16 overflow-hidden bg-[#EAB4C0]">
+      <!-- Animated Background Blobs -->
+      <div class="absolute top-20 left-10 w-48 h-48 sm:w-72 sm:h-72 bg-[#8A9A5B] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+      <div class="absolute top-40 right-10 w-48 h-48 sm:w-72 sm:h-72 bg-[#D0D9A5] rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
+      <div class="absolute -bottom-8 left-20 sm:left-40 w-48 h-48 sm:w-72 sm:h-72 bg-[#8A9A5B] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
 
-        const Icons = {
-            ShoppingBag: (props) => <Icon {...props} path={<><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></>} />,
-            Star: (props) => <Icon {...props} path={<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>} />,
-            Heart: (props) => <Icon {...props} path={<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>} />,
-            Menu: (props) => <Icon {...props} path={<><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></>} />,
-            X: (props) => <Icon {...props} path={<><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>} />,
-            ArrowRight: (props) => <Icon {...props} path={<><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>} />,
-            Instagram: (props) => <Icon {...props} path={<><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></>} />,
-            Twitter: (props) => <Icon {...props} path={<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>} />,
-            Facebook: (props) => <Icon {...props} path={<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>} />,
-            Youtube: (props) => <Icon {...props} path={<><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></>} />,
-            Send: (props) => <Icon {...props} path={<><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></>} />,
-            Sparkles: (props) => <Icon {...props} path={<><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 3v4"/><path d="M3 5h4"/><path d="M3 9h4"/></>} />,
-            Linkedin: (props) => <Icon {...props} path={<><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></>} />
-        };
-
-        // --- Helper Components ---
+      <div class="relative z-10 max-w-[90rem] mx-auto px-4 sm:px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-8 py-10 lg:py-16 w-full mt-4 md:mt-12">
         
-        const useOnScreen = (options) => {
-            const ref = useRef(null);
-            const [isVisible, setIsVisible] = useState(false);
+        <!-- Left Column: Text -->
+        <div class="flex flex-col items-start text-left space-y-4 relative z-20 w-full md:w-[55%] shrink-0 mt-8 sm:mt-0">
+          <h1 class="text-[3.5rem] sm:text-[5rem] md:text-[6.5rem] lg:text-[8.5rem] xl:text-[10rem] font-serif font-bold uppercase tracking-tighter leading-[0.85] md:leading-[0.8] text-[#8A9A5B] relative z-10 w-full">
+            BRANDS THAT <br>
+            <span class="text-[#D0D9A5] font-script lowercase tracking-normal text-[4.2rem] sm:text-[6.5rem] md:text-[8.5rem] lg:text-[11.5rem] xl:text-[13.5rem] drop-shadow-[3px_3px_0px_#8A9A5B] block mt-2 md:-mt-6 lg:-mt-8 relative z-20 font-normal">hit different.</span>
+          </h1>
+          
+          <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl max-w-2xl font-bold text-[#8A9A5B]/90 mt-10 sm:mt-16 md:mt-24 lg:mt-32 mb-6 md:mb-8 leading-relaxed relative z-30">
+            Trends switch. Positioning slays. <br class="hidden sm:block">
+            We don’t chase hype. We build perception.
+          </p>
 
-            useEffect(() => {
-                const observer = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
-                }, options);
+          <button onclick="scrollToContact()" class="flex items-center gap-3 bg-[#8A9A5B] text-[#EAB4C0] px-8 py-4 sm:px-10 sm:py-5 rounded-full font-bold text-base sm:text-lg lg:text-xl uppercase tracking-wider hover:bg-[#D0D9A5] hover:text-[#8A9A5B] transition-all duration-300 shadow-[6px_6px_0px_#D0D9A5] sm:shadow-[8px_8px_0px_#D0D9A5] hover:shadow-[4px_4px_0px_#D0D9A5] hover:translate-y-1">
+            Start Building <i data-lucide="arrow-right" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+          </button>
+        </div>
 
-                if (ref.current) observer.observe(ref.current);
-                return () => { if (ref.current) observer.unobserve(ref.current); };
-            }, [ref, options]);
+        <!-- Right Column: Aesthetic Oval Avatar Placeholder -->
+        <div class="relative w-full md:w-[45%] flex justify-center items-center mt-16 md:mt-0 float-animation group cursor-pointer z-10 lg:-ml-8">
+          
+          <!-- GenZ Dialogue Box -->
+          <div class="absolute right-0 top-0 sm:-right-2 sm:top-4 md:right-0 md:top-12 lg:-right-4 lg:top-24 bg-[#EAB4C0] border-2 border-[#8A9A5B] text-[#8A9A5B] px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl rounded-bl-none font-bold text-xs sm:text-sm shadow-[4px_4px_0px_#D0D9A5] z-30 animate-wiggle">
+            main character energy ✨
+          </div>
 
-            return [ref, isVisible];
-        };
+          <div class="relative w-64 h-[350px] sm:w-72 sm:h-[420px] md:w-[22rem] md:h-[32rem] lg:w-[26rem] lg:h-[38rem] xl:w-[30rem] xl:h-[44rem] rounded-full bg-gradient-to-br from-[#D0D9A5]/60 to-[#EAB4C0]/20 shadow-[15px_15px_0px_#8A9A5B] sm:shadow-[20px_20px_0px_#8A9A5B] border-2 border-[#8A9A5B] flex flex-col items-center justify-center overflow-hidden transition-transform duration-500 hover:scale-[1.02] backdrop-blur-sm">
+             <div class="absolute inset-0 bg-white opacity-20 rotate-45 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+             <i data-lucide="star" class="w-10 h-10 sm:w-12 sm:h-12 text-[#8A9A5B] mb-4 opacity-50"></i>
+             <span class="text-xs sm:text-sm md:text-base font-bold text-[#8A9A5B]/90 uppercase tracking-widest text-center px-6 sm:px-8 italic">
+               [ Insert 3D Avatar ]
+            </span>
+          </div>
+          <!-- Decorative sparkles around oval -->
+          <i data-lucide="sparkles" class="absolute -top-4 right-8 sm:-top-6 sm:right-12 lg:right-4 w-10 h-10 sm:w-14 sm:h-14 text-[#D0D9A5] animate-spin-slow"></i>
+          <i data-lucide="star" class="absolute -bottom-2 left-10 sm:-bottom-4 sm:left-16 lg:left-8 w-8 h-8 sm:w-10 sm:h-10 text-[#8A9A5B] animate-bounce"></i>
+        </div>
 
-        const RevealOnScroll = ({ children, delay = 0, className = "" }) => {
-            const [ref, isVisible] = useOnScreen({ threshold: 0.1 });
-            return (
-                <div ref={ref} className={`transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
-                    {children}
-                </div>
-            );
-        };
+      </div>
+    </section>
 
-        const Blob = ({ color, size, top, left, delay }) => (
-            <div className={`absolute rounded-full filter blur-3xl opacity-40 animate-blob mix-blend-multiply ${color} ${size}`} style={{ top, left, animationDelay: `${delay}s` }}></div>
-        );
+    <!-- About Section (The Tea) -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 bg-[#8A9A5B] text-[#EAB4C0] relative rounded-t-[2rem] sm:rounded-t-[3rem] -mt-4 sm:-mt-6 z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16 items-center">
+        <div>
+          <h2 class="text-xs sm:text-sm font-serif font-bold tracking-widest uppercase text-[#D0D9A5] mb-4">The Tea ☕</h2>
+          <h3 class="text-4xl sm:text-5xl md:text-7xl font-serif font-bold leading-none mb-6 sm:mb-8">
+            Where culture meets <br class="hidden sm:block"><span class="text-[#D0D9A5] font-script font-normal lowercase text-[1.2em]">intention.</span>
+          </h3>
+        </div>
+        <div class="text-base sm:text-lg md:text-xl font-bold leading-relaxed text-[#EAB4C0] space-y-4 sm:space-y-6">
+          <p>
+            We’re an influencer marketing and brand strategy agency built for brands that want more than attention. <strong class="text-white">They want perception.</strong>
+          </p>
+          <p>
+            In today’s scroll-heavy world, content is easy. Impact isn’t. We focus on narrative, positioning, and moments that feel natural - never forced.
+          </p>
+          <p class="text-[#D0D9A5] font-bold text-xl sm:text-2xl pt-2 sm:pt-4">
+            Because brands that try too hard fade. <br>Brands that stand firm? They stay iconic.
+          </p>
+        </div>
+      </div>
+    </section>
 
-        const Sparkle = ({ className, delay = 0 }) => (
-            <div className={`absolute animate-pulse-slow ${className}`} style={{ animationDelay: `${delay}s` }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                </svg>
+    <!-- Services Section -->
+    <section id="services" class="py-20 sm:py-32 px-4 sm:px-6 bg-[#EAB4C0] relative overflow-hidden">
+      
+      <!-- Decorative Background Blobs -->
+      <div class="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 bg-[#D0D9A5] rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob pointer-events-none"></div>
+      <div class="absolute bottom-20 left-0 w-64 h-64 sm:w-80 sm:h-80 bg-[#8A9A5B] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000 pointer-events-none"></div>
+
+      <!-- Floating Star Background -->
+      <i data-lucide="star" class="absolute bottom-40 right-6 sm:right-10 md:right-32 w-8 h-8 sm:w-12 sm:h-12 text-[#8A9A5B] float-animation opacity-50 pointer-events-none" style="animation-delay: 2s;"></i>
+
+      <div class="max-w-4xl mx-auto relative z-10 w-full">
+        <div class="text-center mb-16 sm:mb-20 flex flex-col items-center max-w-full">
+          
+          <div class="relative inline-block mt-8 sm:mt-12 md:mt-20 mb-4 md:mb-8 w-full max-w-[fit-content]">
+            <!-- Sparkle Icon -->
+            <i data-lucide="sparkles" class="absolute -top-6 -left-4 sm:-left-12 md:-top-8 md:-left-32 lg:-left-44 w-8 h-8 sm:w-10 sm:h-10 md:w-16 md:h-16 text-[#8A9A5B] float-animation pointer-events-none"></i>
+            
+            <!-- Wiggling Dialogue Box -->
+            <div class="absolute bottom-1 sm:bottom-2 md:bottom-8 -left-6 sm:-left-20 md:-left-48 lg:-left-60 bg-[#D0D9A5] border-2 sm:border-[3px] border-[#8A9A5B] text-[#8A9A5B] px-2 py-1 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl sm:rounded-3xl rounded-bl-none font-bold text-[10px] sm:text-sm md:text-lg shadow-[3px_3px_0px_#8A9A5B] sm:shadow-[4px_4px_0px_#8A9A5B] md:shadow-[6px_6px_0px_#8A9A5B] z-30 animate-wiggle transform -rotate-6 whitespace-nowrap">
+              literally this 👇
             </div>
-        );
 
-        const ProductCard = ({ title, price, tag, gradient, imgColor, delay }) => (
-            <RevealOnScroll delay={delay}>
-                <div className="group relative bg-white rounded-3xl overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-200/50 border-2 border-transparent hover:border-purple-300">
-                <div className={`h-72 ${gradient} relative p-6 flex items-center justify-center overflow-hidden`}>
-                    <div className="absolute w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
-                    
-                    <div className="relative z-10 w-40 h-48 bg-white/90 rounded-t-full rounded-b-3xl shadow-lg flex items-end justify-center pb-6 group-hover:rotate-6 group-hover:-translate-y-2 transition-transform duration-500 ease-out">
-                        <span className="font-serif text-3xl italic opacity-30 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">Aaru</span>
-                        <div className="absolute top-4 right-4 w-4 h-12 bg-white/50 rounded-full rotate-12 blur-[1px]"></div>
-                    </div>
-                    
-                    {tag && (
-                        <div className="absolute top-4 left-4 bg-black/5 backdrop-blur-sm border border-white/20 text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider transform -rotate-2 group-hover:rotate-0 transition-transform">
-                            {tag}
-                        </div>
-                    )}
-                    
-                    <button className="absolute bottom-4 right-4 bg-white text-black p-4 rounded-full shadow-lg translate-y-20 group-hover:translate-y-0 transition-all duration-300 hover:bg-black hover:text-white">
-                        <Icons.ShoppingBag size={20} />
-                    </button>
-                </div>
-                
-                <div className="p-6 relative bg-white">
-                    <div className="flex justify-between items-end mb-1">
-                        <h3 className="text-xl font-black text-gray-900 group-hover:text-purple-600 transition-colors">{title}</h3>
-                        <span className="font-bold text-lg bg-yellow-100 px-2 rounded-md transform rotate-2">${price}</span>
-                    </div>
-                    <p className="text-gray-400 text-sm font-medium">Glow that lasts all day.</p>
-                    <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 group-hover:w-full transition-all duration-500"></div>
-                </div>
-                </div>
-            </RevealOnScroll>
-        );
+            <!-- Spinning Sticker -->
+            <div class="absolute -top-8 sm:-top-10 md:-top-16 -right-6 sm:-right-20 md:-right-40 lg:-right-48 bg-[#D0D9A5] text-[#8A9A5B] border-2 sm:border-[3px] border-[#8A9A5B] rounded-full w-16 h-16 sm:w-24 sm:h-24 md:w-36 md:h-36 lg:w-40 lg:h-40 flex items-center justify-center font-bold uppercase text-center shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] animate-spin-slow z-20 text-[8px] sm:text-xs md:text-sm p-1 sm:p-2">
+              The<br>Blueprint
+            </div>
 
-        const AboutPage = () => {
-            return (
-                <section className="pt-32 pb-20 px-4 min-h-screen relative overflow-hidden bg-[#FFF0F5]">
-                    <div className="absolute top-20 right-0 w-96 h-96 bg-purple-200 rounded-full blur-3xl opacity-30 animate-pulse"></div>
-                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
+            <h2 class="text-5xl sm:text-7xl md:text-[7rem] lg:text-[8.5rem] font-serif font-bold tracking-tighter text-[#8A9A5B] relative z-10 leading-none">Our <span class="font-script text-[#D0D9A5] lowercase font-normal text-[1.1em] tracking-normal drop-shadow-[2px_2px_0px_#8A9A5B]">magic</span></h2>
+          </div>
+          
+          <p class="text-lg sm:text-xl md:text-2xl font-bold italic text-[#8A9A5B]/90 mt-4 sm:mt-6 max-w-2xl relative z-10 px-4">We don’t just “execute campaigns.” We engineer brand presence.</p>
+        </div>
 
-                    <div className="max-w-7xl mx-auto">
-                        <RevealOnScroll>
-                            <div className="text-center mb-16">
-                                <span className="bg-white border-2 border-black px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-4 inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] animate-bounce-slow">
-                                    The Visionary
-                                </span>
-                                <h1 className="text-6xl md:text-8xl font-black mb-6 text-gray-900">
-                                    Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Arushi</span>
-                                </h1>
-                            </div>
-                        </RevealOnScroll>
+        <div class="flex overflow-x-auto gap-6 sm:gap-8 pb-12 pt-4 px-2 sm:px-4 snap-x snap-mandatory no-scrollbar items-start w-full" id="services-container">
+          
+          <!-- Service 1 -->
+          <div class="service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col" data-active="false">
+            <!-- Image Placeholder (1:1 Aspect Ratio) -->
+            <div class="w-full aspect-square bg-[#D0D9A5] border-b-[3px] sm:border-b-4 border-[#8A9A5B] relative flex flex-col items-center justify-center group overflow-hidden shrink-0">
+               <div class="absolute inset-0 bg-[#8A9A5B] opacity-10 transition-opacity"></div>
+               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
+               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ Service Image ]</span>
+            </div>
+            
+            <!-- Clickable Header Area (Uniform Height) -->
+            <div class="service-header p-5 sm:p-6 flex justify-between items-start gap-4 cursor-pointer hover:bg-[#D0D9A5] transition-colors duration-300 h-32 sm:h-36 shrink-0">
+              <h3 class="text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide w-[80%] text-[#8A9A5B] leading-tight">Creative PR Architecture</h3>
+              <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]">
+                <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#8A9A5B]"></i>
+              </div>
+            </div>
 
-                        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-24">
-                            <div className="w-full md:w-1/2 relative">
-                                <RevealOnScroll delay={200}>
-                                    <div className="relative z-10 p-4">
-                                        <div className="absolute inset-0 bg-black rounded-[2.5rem] transform translate-x-4 translate-y-4 rotate-2"></div>
-                                        <div className="relative bg-[#FFDBC8] rounded-[2.5rem] border-4 border-black overflow-hidden aspect-[4/5] group transform -rotate-1 hover:rotate-0 transition-all duration-500">
-                                            <img 
-                                                src="https://uploads.onecompiler.io/44dgk2ydn/44dgk33da/3.png" 
-                                                alt="Arushi Bhansali" 
-                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                                                <p className="text-white font-bold text-xl">"Be bold. Be you."</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="absolute -top-4 -right-2 bg-yellow-300 border-2 border-black p-4 rounded-full font-black text-sm rotate-12 shadow-lg animate-wiggle z-20">
-                                            Founder <br/> CEO
-                                        </div>
-                                        <div className="absolute bottom-10 -left-2 bg-white border-2 border-black px-6 py-2 rounded-full font-bold text-lg -rotate-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-20 hover:scale-110 transition-transform">
-                                            @arushi_b ✨
-                                        </div>
-                                    </div>
-                                </RevealOnScroll>
-                            </div>
+            <!-- Dropdown Content -->
+            <div class="service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]">
+              <h4 class="text-lg sm:text-xl font-bold italic text-[#D0D9A5] mb-3 sm:mb-4 pt-4">Strategic visibility - not random hype.</h4>
+              <p class="text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed opacity-90 font-bold text-[#EAB4C0]">We design how your brand shows up in the public space. From campaign concepts to media angles, we build a PR blueprint that feels intentional, relevant, and culturally aligned. This isn’t just press. It’s perception planning.</p>
+              <div class="bg-[#EAB4C0] text-[#8A9A5B] p-4 sm:p-5 rounded-xl border-2 border-[#8A9A5B] mb-6 shadow-[3px_3px_0px_#D0D9A5]">
+                <h5 class="font-bold uppercase mb-3 text-[#8A9A5B]/90 text-sm sm:text-base">What you get:</h5>
+                <ul class="space-y-2 text-sm sm:text-base font-bold">
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Campaign ideation & PR strategy</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Cultural positioning angles</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Media & visibility mapping</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Long-term narrative structure</li>
+                </ul>
+              </div>
+              <p class="pb-6 sm:pb-8 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#D0D9A5]">Because exposure without strategy? Mid.</p>
+            </div>
+          </div>
 
-                            <div className="w-full md:w-1/2">
-                                <RevealOnScroll delay={400}>
-                                    <div className="space-y-8 bg-white/50 backdrop-blur-sm p-8 rounded-[2rem] border border-white">
-                                        <h2 className="text-4xl font-black leading-tight text-gray-900">
-                                            Redefining beauty for the <br/>
-                                            <span className="italic font-serif text-purple-600 bg-purple-100 px-2 rounded-lg inline-block transform -rotate-1 mt-1">bold & fearless.</span>
-                                        </h2>
-                                        <p className="text-xl text-gray-700 leading-relaxed font-medium">
-                                            "I started Aaru with a simple mission: to create beauty products that aren't just about covering up, but about 
-                                            <span className="font-bold text-black underline decoration-yellow-400 decoration-4"> standing out</span>. We are building a community where creativity meets confidence."
-                                        </p>
-                                        <p className="text-lg text-gray-600 leading-relaxed">
-                                            With a background in creative design and a passion for skincare science, Arushi bridges the gap between aesthetic packaging and effective formulas. What started as a mood board is now a movement.
-                                        </p>
-                                        
-                                        <div className="grid grid-cols-2 gap-4 pt-4">
-                                            <div className="bg-white p-5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(200,200,200,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow">
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Fave Product</p>
-                                                <p className="font-black text-lg text-purple-600">Celestial Gloss</p>
-                                            </div>
-                                            <div className="bg-white p-5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(200,200,200,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow">
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Zodiac Sign</p>
-                                                <p className="font-black text-lg text-orange-500">Leo ♌</p>
-                                            </div>
-                                        </div>
+          <!-- Service 2 -->
+          <div class="service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col" data-active="false">
+            <!-- Image Placeholder (1:1 Aspect Ratio) -->
+            <div class="w-full aspect-square bg-[#D0D9A5] border-b-[3px] sm:border-b-4 border-[#8A9A5B] relative flex flex-col items-center justify-center group overflow-hidden shrink-0">
+               <div class="absolute inset-0 bg-[#8A9A5B] opacity-10 transition-opacity"></div>
+               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
+               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ Service Image ]</span>
+            </div>
+            
+            <!-- Clickable Header Area (Uniform Height) -->
+            <div class="service-header p-5 sm:p-6 flex justify-between items-start gap-4 cursor-pointer hover:bg-[#D0D9A5] transition-colors duration-300 h-32 sm:h-36 shrink-0">
+              <h3 class="text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide w-[80%] text-[#8A9A5B] leading-tight">Moment & Influencer Marketing</h3>
+              <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]">
+                <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#8A9A5B]"></i>
+              </div>
+            </div>
 
-                                        <div className="pt-6 flex gap-4">
-                                            <a href="https://www.linkedin.com/in/arushi-bhansali-b1a53b277/" target="_blank" className="flex items-center gap-2 font-bold text-black hover:text-blue-600 transition-colors">
-                                                <Icons.Linkedin size={20} /> Connect on LinkedIn
-                                            </a>
-                                        </div>
-                                    </div>
-                                </RevealOnScroll>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            )
+            <!-- Dropdown Content -->
+            <div class="service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]">
+              <h4 class="text-lg sm:text-xl font-bold italic text-[#D0D9A5] mb-3 sm:mb-4 pt-4">Right creator. Right timing. Real impact.</h4>
+              <p class="text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed opacity-90 font-bold text-[#EAB4C0]">We don’t just send products to influencers and hope for the best. We carefully match your brand with creators who align with your energy, audience, and positioning - then place your product inside moments that feel natural, not scripted.</p>
+              <div class="bg-[#EAB4C0] text-[#8A9A5B] p-4 sm:p-5 rounded-xl border-2 border-[#8A9A5B] mb-6 shadow-[3px_3px_0px_#D0D9A5]">
+                <h5 class="font-bold uppercase mb-3 text-[#8A9A5B]/90 text-sm sm:text-base">What you get:</h5>
+                <ul class="space-y-2 text-sm sm:text-base font-bold">
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Influencer identification</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Strategic seeding plans</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Campaign rollouts</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Relationship-based collabs</li>
+                </ul>
+              </div>
+              <p class="pb-6 sm:pb-8 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#D0D9A5]">We seed stories, not just products.</p>
+            </div>
+          </div>
+
+          <!-- Service 3 -->
+          <div class="service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col" data-active="false">
+            <!-- Image Placeholder (1:1 Aspect Ratio) -->
+            <div class="w-full aspect-square bg-[#D0D9A5] border-b-[3px] sm:border-b-4 border-[#8A9A5B] relative flex flex-col items-center justify-center group overflow-hidden shrink-0">
+               <div class="absolute inset-0 bg-[#8A9A5B] opacity-10 transition-opacity"></div>
+               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
+               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ Service Image ]</span>
+            </div>
+            
+            <!-- Clickable Header Area (Uniform Height) -->
+            <div class="service-header p-5 sm:p-6 flex justify-between items-start gap-4 cursor-pointer hover:bg-[#D0D9A5] transition-colors duration-300 h-32 sm:h-36 shrink-0">
+              <h3 class="text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide w-[80%] text-[#8A9A5B] leading-tight">Narrative-Led Positioning</h3>
+              <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]">
+                <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#8A9A5B]"></i>
+              </div>
+            </div>
+
+            <!-- Dropdown Content -->
+            <div class="service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]">
+              <h4 class="text-lg sm:text-xl font-bold italic text-[#D0D9A5] mb-3 sm:mb-4 pt-4">Your story, but sharper.</h4>
+              <p class="text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed opacity-90 font-bold text-[#EAB4C0]">If people can’t explain your brand in one line, it’s a problem. We define your voice, tone, personality, and cultural stance so your brand feels consistent everywhere - from social to campaigns to collaborations.</p>
+              <div class="bg-[#EAB4C0] text-[#8A9A5B] p-4 sm:p-5 rounded-xl border-2 border-[#8A9A5B] mb-6 shadow-[3px_3px_0px_#D0D9A5]">
+                <h5 class="font-bold uppercase mb-3 text-[#8A9A5B]/90 text-sm sm:text-base">What you get:</h5>
+                <ul class="space-y-2 text-sm sm:text-base font-bold">
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Core messaging framework</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Brand voice & tone guide</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Audience clarity</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Narrative direction</li>
+                </ul>
+              </div>
+              <p class="pb-6 sm:pb-8 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#D0D9A5]">Because trends change. Identity doesn’t.</p>
+            </div>
+          </div>
+
+          <!-- Service 4 -->
+          <div class="service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col" data-active="false">
+            <!-- Image Placeholder (1:1 Aspect Ratio) -->
+            <div class="w-full aspect-square bg-[#D0D9A5] border-b-[3px] sm:border-b-4 border-[#8A9A5B] relative flex flex-col items-center justify-center group overflow-hidden shrink-0">
+               <div class="absolute inset-0 bg-[#8A9A5B] opacity-10 transition-opacity"></div>
+               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
+               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ Service Image ]</span>
+            </div>
+            
+            <!-- Clickable Header Area (Uniform Height) -->
+            <div class="service-header p-5 sm:p-6 flex justify-between items-start gap-4 cursor-pointer hover:bg-[#D0D9A5] transition-colors duration-300 h-32 sm:h-36 shrink-0">
+              <h3 class="text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide w-[80%] text-[#8A9A5B] leading-tight">Performance-Driven UGC</h3>
+              <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]">
+                <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#8A9A5B]"></i>
+              </div>
+            </div>
+
+            <!-- Dropdown Content -->
+            <div class="service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]">
+              <h4 class="text-lg sm:text-xl font-bold italic text-[#D0D9A5] mb-3 sm:mb-4 pt-4">Content that looks native - and converts.</h4>
+              <p class="text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed opacity-90 font-bold text-[#EAB4C0]">We create creator-led content that blends seamlessly into feeds while still driving real results. Authentic energy. Strategic execution. Soft sell. Strong impact.</p>
+              <div class="bg-[#EAB4C0] text-[#8A9A5B] p-4 sm:p-5 rounded-xl border-2 border-[#8A9A5B] mb-6 shadow-[3px_3px_0px_#D0D9A5]">
+                <h5 class="font-bold uppercase mb-3 text-[#8A9A5B]/90 text-sm sm:text-base">What you get:</h5>
+                <ul class="space-y-2 text-sm sm:text-base font-bold">
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> UGC creator sourcing</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Script & concept direction</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Conversion-focused content</li>
+                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Paid-ad-ready assets</li>
+                </ul>
+              </div>
+              <p class="pb-6 sm:pb-8 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#D0D9A5]">It’s not just aesthetic. It performs.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- The Sauce Section (Flip Cards) -->
+    <section id="the-sauce" class="py-20 sm:py-32 px-4 sm:px-6 bg-[#D0D9A5] border-t-4 border-[#8A9A5B] relative overflow-hidden">
+      <!-- Decorative background elements -->
+      <i data-lucide="star" class="absolute top-10 left-6 sm:left-10 w-12 h-12 sm:w-16 sm:h-16 text-[#8A9A5B] animate-spin-slow opacity-50"></i>
+      <i data-lucide="sparkles" class="absolute bottom-10 right-6 sm:right-10 w-16 h-16 sm:w-24 sm:h-24 text-[#EAB4C0] animate-pulse opacity-60"></i>
+
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 sm:mb-20 relative z-10 px-2">
+          <h2 class="text-xs sm:text-sm font-serif font-bold tracking-widest uppercase text-[#8A9A5B] mb-4 bg-[#EAB4C0] inline-block px-3 py-1 sm:px-4 sm:py-1 rounded-full shadow-[2px_2px_0px_#8A9A5B] sm:shadow-[3px_3px_0px_#8A9A5B]">What we do</h2>
+          <h3 class="text-5xl sm:text-6xl md:text-8xl font-serif font-bold tracking-tighter text-[#8A9A5B] mb-4 sm:mb-6 uppercase leading-none">
+            THE <span class="font-script text-[#EAB4C0] lowercase font-normal text-[1.2em] tracking-normal drop-shadow-[2px_2px_0px_#8A9A5B]">sauce</span>
+          </h3>
+          <p class="text-xl sm:text-2xl md:text-3xl font-bold italic text-[#8A9A5B]/90 mt-2 sm:mt-4 max-w-2xl mx-auto">Everything you need to stop the scroll and start the conversation.</p>
+        </div>
+
+        <!-- Flip Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 perspective-1000 z-10 relative">
+          
+          <!-- Card 1 -->
+          <div class="group h-[380px] sm:h-[450px] [perspective:1000px] cursor-pointer">
+            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#8A9A5B] sm:shadow-[10px_10px_0px_#8A9A5B] rounded-2xl sm:rounded-[2rem]">
+              <!-- Front -->
+              <div class="absolute inset-0 bg-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-24 h-24 sm:w-32 sm:h-32 bg-[#D0D9A5] rounded-full mix-blend-multiply opacity-50 animate-blob"></div>
+                <i data-lucide="zap" class="w-20 h-20 sm:w-24 sm:h-24 text-[#8A9A5B] mb-6 sm:mb-8 fill-[#8A9A5B] group-hover:scale-110 transition-transform duration-300"></i>
+                <h4 class="text-3xl sm:text-4xl font-serif font-bold uppercase text-center leading-none text-[#8A9A5B]">Viral<br><span class="text-[#8A9A5B] font-script capitalize font-normal text-[2.5rem] sm:text-[3rem] tracking-normal block mt-2">Strategy</span></h4>
+              </div>
+              <!-- Back -->
+              <div class="absolute inset-0 bg-[#8A9A5B] text-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 sm:p-8 text-center">
+                <h4 class="text-xl sm:text-2xl font-serif font-bold uppercase mb-4 sm:mb-6 text-[#D0D9A5]">Viral Strategy</h4>
+                <p class="text-base sm:text-xl font-bold leading-relaxed">We don't do boring briefs. We hack culture and jump on trends before they peak. We script the hooks that keep them watching.</p>
+                <i data-lucide="sparkles" class="w-6 h-6 sm:w-8 sm:h-8 text-[#EAB4C0] mt-6 sm:mt-8 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="group h-[380px] sm:h-[450px] [perspective:1000px] cursor-pointer md:mt-12">
+            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#8A9A5B] sm:shadow-[10px_10px_0px_#8A9A5B] rounded-2xl sm:rounded-[2rem]">
+              <!-- Front -->
+              <div class="absolute inset-0 bg-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
+                <div class="absolute -bottom-10 -left-10 w-24 h-24 sm:w-32 sm:h-32 bg-[#D0D9A5] rounded-full mix-blend-multiply opacity-50 animate-blob"></div>
+                <i data-lucide="heart-handshake" class="w-20 h-20 sm:w-24 sm:h-24 text-[#8A9A5B] mb-6 sm:mb-8 group-hover:scale-110 transition-transform duration-300"></i>
+                <h4 class="text-3xl sm:text-4xl font-serif font-bold uppercase text-center leading-none text-[#8A9A5B]">Brand<br><span class="text-[#8A9A5B] font-script capitalize font-normal text-[2.2rem] sm:text-[2.6rem] tracking-normal block mt-2">Matchmaking</span></h4>
+              </div>
+              <!-- Back -->
+              <div class="absolute inset-0 bg-[#8A9A5B] text-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 sm:p-8 text-center">
+                <h4 class="text-xl sm:text-2xl font-serif font-bold uppercase mb-4 sm:mb-6 text-[#D0D9A5]">Brand Matchmaking</h4>
+                <p class="text-base sm:text-xl font-bold leading-relaxed">No forced sponsorships. We pair your brand with creators who already vibe with your product. Authenticity is the only currency.</p>
+                <i data-lucide="users" class="w-6 h-6 sm:w-8 sm:h-8 text-[#EAB4C0] mt-6 sm:mt-8 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="group h-[380px] sm:h-[450px] [perspective:1000px] cursor-pointer">
+            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#8A9A5B] sm:shadow-[10px_10px_0px_#8A9A5B] rounded-2xl sm:rounded-[2rem]">
+              <!-- Front -->
+              <div class="absolute inset-0 bg-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
+                <div class="absolute bottom-4 -right-8 w-24 h-24 sm:w-32 sm:h-32 bg-[#D0D9A5] rounded-full mix-blend-multiply opacity-50 animate-blob animation-delay-4000"></div>
+                <i data-lucide="flame" class="w-20 h-20 sm:w-24 sm:h-24 text-[#8A9A5B] mb-6 sm:mb-8 fill-[#8A9A5B] group-hover:scale-110 transition-transform duration-300"></i>
+                <h4 class="text-3xl sm:text-4xl font-serif font-bold uppercase text-center leading-none text-[#8A9A5B]">Paid<br><span class="text-[#8A9A5B] font-script capitalize font-normal text-[2.2rem] sm:text-[2.6rem] tracking-normal block mt-2">Amplification</span></h4>
+              </div>
+              <!-- Back -->
+              <div class="absolute inset-0 bg-[#8A9A5B] text-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 sm:p-8 text-center">
+                <h4 class="text-xl sm:text-2xl font-serif font-bold uppercase mb-4 sm:mb-6 text-[#D0D9A5]">Paid Amplification</h4>
+                <p class="text-base sm:text-xl font-bold leading-relaxed">When a post bangs, we put gas on the fire. Our whitelisting strategy turns organic wins into massive ROAS.</p>
+                <i data-lucide="rocket" class="w-6 h-6 sm:w-8 sm:h-8 text-[#EAB4C0] mt-6 sm:mt-8 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================== ABOUT PAGE VIEW ======================== -->
+  <main id="about-page" class="hidden min-h-screen bg-[#EAB4C0] pt-20 sm:pt-0">
+    <!-- Vision & Mission Grid -->
+    <section class="pt-24 sm:pt-48 pb-16 sm:pb-24 px-4 sm:px-6 bg-[#EAB4C0]">
+      <div class="max-w-7xl mx-auto flex flex-col gap-12 sm:gap-20">
+        
+        <!-- Vision Block -->
+        <div class="bg-[#D0D9A5] p-6 sm:p-10 md:p-14 rounded-3xl sm:rounded-[2rem] shadow-[6px_6px_0px_#8A9A5B] sm:shadow-[8px_8px_0px_#8A9A5B] flex flex-col md:flex-row gap-8 md:gap-12 relative">
+          
+          <!-- Spinning GenZ Sticker -->
+          <div class="absolute -top-6 -right-2 sm:-top-8 sm:-right-4 md:-right-8 bg-[#EAB4C0] text-[#8A9A5B] border-2 border-[#8A9A5B] rounded-full w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center font-bold uppercase text-center shadow-[3px_3px_0px_#8A9A5B] sm:shadow-[4px_4px_0px_#8A9A5B] animate-spin-slow z-20 leading-tight p-2 text-xs sm:text-base">
+            Vibes<br>Only
+          </div>
+
+          <!-- Left side: Heading & Image -->
+          <div class="w-full md:w-1/2 flex flex-col">
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#8A9A5B] uppercase mb-6 sm:mb-8">Vision</h2>
+            <div class="w-full aspect-square bg-white border-4 border-[#8A9A5B] rounded-2xl sm:rounded-[2rem] flex flex-col items-center justify-center shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] overflow-hidden relative">
+               <div class="absolute inset-0 bg-[#8A9A5B] opacity-5 transition-opacity"></div>
+               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
+               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ 1:1 Image ]</span>
+            </div>
+          </div>
+
+          <!-- Right side: Text -->
+          <div class="w-full md:w-1/2 flex flex-col justify-center pt-4 md:pt-0">
+            <h3 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#8A9A5B] mb-6 sm:mb-8 leading-tight">
+              Seen.<br>Saved.<br><span class="font-script text-[#EAB4C0] capitalize font-normal text-[1.4em] drop-shadow-[2px_2px_0px_#8A9A5B]">Spoken about.</span>
+            </h3>
+            <p class="text-xl sm:text-2xl lg:text-3xl text-[#8A9A5B] font-bold leading-relaxed">
+              Hype fades. Perception stays. <br>We shape how the internet remembers you.
+            </p>
+          </div>
+        </div>
+
+        <!-- Mission Block -->
+        <div class="bg-[#8A9A5B] p-6 sm:p-10 md:p-14 rounded-3xl sm:rounded-[2rem] shadow-[6px_6px_0px_#D0D9A5] sm:shadow-[8px_8px_0px_#D0D9A5] flex flex-col md:flex-row-reverse gap-8 md:gap-12 relative">
+          
+          <!-- Right side (First on Mobile): Heading & Image -->
+          <div class="w-full md:w-1/2 flex flex-col">
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#EAB4C0] uppercase mb-6 sm:mb-8 md:text-right">Mission</h2>
+            <div class="w-full aspect-square bg-white border-4 border-[#EAB4C0] rounded-2xl sm:rounded-[2rem] flex flex-col items-center justify-center shadow-[4px_4px_0px_#EAB4C0] sm:shadow-[6px_6px_0px_#EAB4C0] overflow-hidden relative">
+               <div class="absolute inset-0 bg-[#EAB4C0] opacity-10 transition-opacity"></div>
+               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
+               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ 1:1 Image ]</span>
+            </div>
+          </div>
+
+          <!-- Left side (Second on Mobile): Text -->
+          <div class="w-full md:w-1/2 flex flex-col justify-center pt-4 md:pt-0">
+            <p class="text-2xl sm:text-3xl lg:text-4xl text-[#EAB4C0] font-bold mb-6 sm:mb-8 leading-snug">
+              Ree’ch exists to build brands that don’t just trend <br>
+              <span class="text-[#8A9A5B] bg-[#D0D9A5] px-3 py-1 sm:py-2 rounded-lg italic inline-block mt-4 shadow-[3px_3px_0px_#EAB4C0]">they take up space.</span>
+            </p>
+            <p class="text-lg sm:text-xl lg:text-2xl text-white font-bold leading-relaxed">
+              Because chasing the algorithm is exhausting. Owning your positioning? Power move. We don’t follow waves. We create presence.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Founder Section -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 bg-[#D0D9A5] relative overflow-hidden border-y-4 border-[#8A9A5B]">
+      <div class="absolute -right-10 sm:-right-20 top-0 w-64 h-64 sm:w-96 sm:h-96 bg-[#8A9A5B] rounded-full mix-blend-multiply blur-3xl opacity-20"></div>
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 sm:gap-16 relative z-10">
+        
+        <div class="w-full md:w-1/2 flex justify-center relative mt-12 sm:mt-0">
+          
+          <!-- GenZ Dialogue Box -->
+          <div class="absolute -left-2 sm:-left-2 md:left-4 -top-6 sm:top-10 bg-[#EAB4C0] border-2 border-[#8A9A5B] text-[#8A9A5B] px-4 py-2 sm:px-5 sm:py-3 rounded-2xl sm:rounded-3xl rounded-br-none font-bold text-sm sm:text-md md:text-lg shadow-[4px_4px_0px_#D0D9A5] sm:shadow-[6px_6px_0px_#D0D9A5] z-30 float-animation" style="animation-duration: 4s;">
+            serving looks & strategy 💅
+          </div>
+
+          <!-- Founder Image Frame / Placeholder -->
+          <div class="w-64 h-80 sm:w-72 sm:h-96 md:w-96 md:h-[500px] bg-[#EAB4C0] p-3 sm:p-4 pb-12 sm:pb-16 rounded-lg shadow-[10px_10px_0px_#8A9A5B] sm:shadow-[15px_15px_0px_#8A9A5B] transform -rotate-3 hover:rotate-0 transition-transform duration-500">
+             <div class="w-full h-full bg-[#D0D9A5] border-2 border-dashed border-[#8A9A5B] flex flex-col items-center justify-center text-center p-4 sm:p-6">
+               <i data-lucide="sparkles" class="w-8 h-8 sm:w-10 sm:h-10 text-[#8A9A5B] mb-3 sm:mb-4"></i>
+               <p class="font-bold text-[#8A9A5B] uppercase tracking-widest text-xs sm:text-base">[ Anushree's Photo Here ]</p>
+               <p class="text-xs sm:text-sm mt-2 font-bold italic text-[#8A9A5B]/90">Make it aesthetic ✨</p>
+             </div>
+             <p class="text-center mt-4 sm:mt-6 font-script text-xl sm:text-2xl text-[#8A9A5B] font-bold">Anushree</p>
+          </div>
+        </div>
+
+        <div class="w-full md:w-1/2 text-[#8A9A5B] text-center md:text-left">
+          <h2 class="text-xs sm:text-sm font-serif font-bold tracking-widest uppercase text-[#8A9A5B] mb-2">The Brains Behind The Brand</h2>
+          <h3 class="text-4xl sm:text-5xl md:text-7xl font-serif font-bold uppercase mb-6 sm:mb-8">
+            Meet <br class="sm:hidden"><span class="text-[#EAB4C0] font-script capitalize tracking-normal text-[4rem] sm:text-[5.5rem] md:text-[8.5rem] drop-shadow-[2px_2px_0px_#8A9A5B] sm:drop-shadow-[3px_3px_0px_#8A9A5B] block mt-2 md:-mt-4 relative z-20 leading-[0.8] font-normal">Anushree</span>
+          </h3>
+          
+          <div class="text-base sm:text-lg md:text-xl font-bold space-y-4 sm:space-y-6 leading-relaxed">
+            <p>
+              Ree’ch was built by Anushree, a goal-driven creative who understands that branding isn’t just aesthetics <br>
+              <strong class="bg-[#8A9A5B] text-[#EAB4C0] px-2 py-0.5 sm:py-1 rounded inline-block mt-2">it’s psychology.</strong>
+            </p>
+            <p>
+              She saw brands chasing trends, burning budgets, and still blending in. So she built something different. Ree’ch was created to help brands stand firm, speak clearly, and move with culture — not behind it.
+            </p>
+            <div class="text-xl sm:text-2xl font-bold italic text-[#8A9A5B] pt-2 sm:pt-4">
+              No fluff. No fake hype. <br>Just sharp strategy and real presence.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================== SHARED SECTIONS ======================== -->
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 sm:py-32 px-4 sm:px-6 bg-[#8A9A5B] text-[#EAB4C0] text-center relative overflow-hidden">
+    <!-- Decorative elements -->
+    <i data-lucide="star" class="absolute top-10 left-10 sm:top-20 sm:left-20 w-8 h-8 sm:w-12 sm:h-12 text-[#D0D9A5] animate-spin-slow"></i>
+    <i data-lucide="star" class="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-10 h-10 sm:w-16 sm:h-16 text-[#EAB4C0] animate-bounce"></i>
+
+    <div class="max-w-4xl mx-auto relative z-10">
+      <h2 class="text-4xl sm:text-5xl md:text-8xl font-serif font-bold uppercase tracking-tighter mb-6 sm:mb-8 leading-none px-2">
+        Ready to stop <br class="hidden md:block"><span class="font-script text-[#D0D9A5] lowercase font-normal text-[1.1em] tracking-normal">blending in?</span>
+      </h2>
+      <p class="text-xl sm:text-2xl md:text-3xl font-bold italic text-[#EAB4C0] mb-10 sm:mb-12 px-4">
+        Let’s build something that actually hits.
+      </p>
+      
+      <!-- Button -->
+      <button onclick="scrollToContact()" class="bg-[#D0D9A5] text-[#8A9A5B] text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-widest px-8 py-4 sm:px-12 sm:py-6 rounded-full hover:bg-[#EAB4C0] transition-all duration-300 shadow-[6px_6px_0px_#D0D9A5] sm:shadow-[8px_8px_0px_#D0D9A5] hover:shadow-[3px_3px_0px_#D0D9A5] sm:hover:shadow-[4px_4px_0px_#D0D9A5] hover:translate-y-1 w-full sm:w-auto max-w-sm mx-auto">
+        Spill The Tea <span class="block text-xs sm:text-sm font-bold opacity-70 mt-1 sm:inline sm:ml-2 sm:mt-0">(Contact Us)</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#EAB4C0] text-[#8A9A5B] py-10 sm:py-12 px-4 sm:px-6 border-t-4 border-[#8A9A5B]">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
+      <div class="text-3xl sm:text-4xl font-bold uppercase tracking-tighter cursor-pointer" onclick="switchPage('home')">Ree'ch</div>
+      
+      <div class="font-bold text-base sm:text-lg md:text-xl text-center md:text-left px-4">
+        Built for culture. <br class="sm:hidden"><span class="text-[#D0D9A5] italic font-bold lowercase">Not just the feed.</span>
+      </div>
+
+      <div class="flex gap-4">
+        <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#8A9A5B] bg-[#D0D9A5] text-[#8A9A5B] flex items-center justify-center hover:bg-[#8A9A5B] hover:text-[#EAB4C0] transition-colors duration-300 shadow-[2px_2px_0px_#8A9A5B] sm:shadow-[3px_3px_0px_#8A9A5B]">
+          <i data-lucide="instagram" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </a>
+        <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#8A9A5B] bg-[#D0D9A5] text-[#8A9A5B] flex items-center justify-center hover:bg-[#8A9A5B] hover:text-[#EAB4C0] transition-colors duration-300 shadow-[2px_2px_0px_#8A9A5B] sm:shadow-[3px_3px_0px_#8A9A5B]">
+          <i data-lucide="twitter" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </a>
+        <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#8A9A5B] bg-[#D0D9A5] text-[#8A9A5B] flex items-center justify-center hover:bg-[#8A9A5B] hover:text-[#EAB4C0] transition-colors duration-300 shadow-[2px_2px_0px_#8A9A5B] sm:shadow-[3px_3px_0px_#8A9A5B]">
+          <i data-lucide="mail" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Loader Vibe Check Logic
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.classList.add('opacity-0');
+        setTimeout(() => {
+          loader.classList.add('hidden');
+        }, 500); // Wait for CSS transition
+      }, 2500);
+    });
+
+    // --- Page Routing Logic ---
+    function switchPage(page) {
+      // Instantly go to top
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      
+      const homePage = document.getElementById('home-page');
+      const aboutPage = document.getElementById('about-page');
+      
+      if (page === 'home') {
+        homePage.classList.remove('hidden');
+        homePage.classList.add('block');
+        aboutPage.classList.add('hidden');
+        aboutPage.classList.remove('block');
+      } else if (page === 'about') {
+        homePage.classList.add('hidden');
+        homePage.classList.remove('block');
+        aboutPage.classList.remove('hidden');
+        aboutPage.classList.add('block');
+      }
+    }
+
+    function scrollToServices() {
+      const homePage = document.getElementById('home-page');
+      
+      // If we are not on the homepage, switch to it first
+      if (homePage.classList.contains('hidden')) {
+        switchPage('home');
+        // Wait a tiny bit for the DOM to render the home page before scrolling
+        setTimeout(() => {
+          document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+      } else {
+        // If already on homepage, just scroll
+        document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function scrollToContact() {
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    }
+    // -------------------------
+
+    // Services Scrolling Cards Accordion Logic
+    const serviceCards = document.querySelectorAll('.service-card');
+    
+    serviceCards.forEach(card => {
+      const header = card.querySelector('.service-header');
+      header.addEventListener('click', () => {
+        const isActive = card.getAttribute('data-active') === 'true';
+
+        // Close all cards to ensure clean layout
+        serviceCards.forEach(c => {
+          c.setAttribute('data-active', 'false');
+          
+          // Reset main container
+          c.className = 'service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col';
+          
+          // Reset header background
+          const h = c.querySelector('.service-header');
+          h.classList.remove('bg-[#D0D9A5]');
+          
+          // Reset icon container and color
+          const iconContainer = c.querySelector('.icon-container');
+          iconContainer.className = 'icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]';
+          
+          const icon = iconContainer.querySelector('svg') || iconContainer.querySelector('i');
+          if (icon) {
+            icon.classList.remove('text-[#EAB4C0]');
+            icon.classList.add('text-[#8A9A5B]');
+          }
+
+          // Hide content
+          const content = c.querySelector('.service-content');
+          content.className = 'service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]';
+        });
+
+        // If the clicked card wasn't active, open it
+        if (!isActive) {
+          card.setAttribute('data-active', 'true');
+          
+          // Active header background
+          header.classList.add('bg-[#D0D9A5]');
+          
+          // Active icon state (turns into an 'X' via rotation, changes color)
+          const iconContainer = card.querySelector('.icon-container');
+          iconContainer.className = 'icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 bg-[#8A9A5B] border-[#8A9A5B] rotate-45 shrink-0';
+          
+          const icon = iconContainer.querySelector('svg') || iconContainer.querySelector('i');
+          if (icon) {
+            icon.classList.remove('text-[#8A9A5B]');
+            icon.classList.add('text-[#EAB4C0]'); 
+          }
+
+          // Show dropdown content vertically expanding
+          const content = card.querySelector('.service-content');
+          content.className = 'service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-[1000px] opacity-100 bg-[#8A9A5B]';
+          
+          // Optional: smoothly scroll the horizontal container so the open card is centered
+          setTimeout(() => {
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }, 300);
         }
-
-        const Navbar = ({ onNavigate, currentView }) => {
-            const [isOpen, setIsOpen] = useState(false);
-            const [scrolled, setScrolled] = useState(false);
-
-            useEffect(() => {
-                const handleScroll = () => setScrolled(window.scrollY > 50);
-                window.addEventListener('scroll', handleScroll);
-                return () => window.removeEventListener('scroll', handleScroll);
-            }, []);
-
-            return (
-                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg shadow-sm py-2' : 'bg-transparent py-6'}`}>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between items-center">
-                            <div className="flex-shrink-0 flex items-center gap-3 cursor-pointer" onClick={() => onNavigate('home')}>
-                                <div className="relative group">
-                                    <div className="absolute inset-0 bg-pink-400 rounded-full blur group-hover:blur-md transition-all"></div>
-                                    <img src="https://uploads.onecompiler.io/44dgk2ydn/44dgk33da/Logo.png" alt="Aaru Logo" className="h-12 w-12 rounded-full relative z-10 bg-white object-contain p-1 border-2 border-black" />
-                                </div>
-                                <span className={`font-black text-2xl tracking-tighter transition-colors ${scrolled ? 'text-black' : 'text-black md:text-black'}`}>AARU</span>
-                            </div>
-                            
-                            <div className="hidden md:flex items-center space-x-8">
-                                <button onClick={() => onNavigate('home')} className={`font-bold text-lg hover:-translate-y-1 transition-transform ${scrolled || currentView === 'about' ? 'text-gray-900' : 'text-gray-900'} ${currentView === 'home' ? 'text-purple-600' : ''}`}>Shop</button>
-                                <button onClick={() => onNavigate('about')} className={`font-bold text-lg hover:-translate-y-1 transition-transform ${scrolled || currentView === 'about' ? 'text-gray-900' : 'text-gray-900'} ${currentView === 'about' ? 'text-purple-600' : ''}`}>About</button>
-                                <button className={`font-bold text-lg hover:-translate-y-1 transition-transform ${scrolled || currentView === 'about' ? 'text-gray-900' : 'text-gray-900'}`}>Journal</button>
-                                
-                                <button className="bg-yellow-300 text-black px-6 py-2 rounded-full font-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center gap-2">
-                                    Cart (0)
-                                </button>
-                            </div>
-
-                            <div className="md:hidden">
-                                <button onClick={() => setIsOpen(!isOpen)} className="text-black">
-                                    {isOpen ? <Icons.X size={28} /> : <Icons.Menu size={28} />}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    {isOpen && (
-                        <div className="md:hidden bg-white border-b border-black/5 px-4 pt-2 pb-6 space-y-4 absolute w-full top-20 left-0 shadow-lg">
-                            <button onClick={() => { onNavigate('home'); setIsOpen(false); }} className="block text-xl font-bold w-full text-left py-2">Shop</button>
-                            <button onClick={() => { onNavigate('about'); setIsOpen(false); }} className="block text-xl font-bold w-full text-left py-2">About</button>
-                            <button className="block text-xl font-bold w-full text-left py-2">Journal</button>
-                        </div>
-                    )}
-                </nav>
-            );
-        };
-
-        const App = () => {
-            const [currentPage, setCurrentPage] = useState('home');
-
-            useEffect(() => {
-                window.scrollTo(0, 0);
-            }, [currentPage]);
-
-            return (
-                <div className="min-h-screen">
-                    <Navbar onNavigate={setCurrentPage} currentView={currentPage} />
-                    <div className="fixed inset-0 pointer-events-none overflow-hidden">
-                        <Blob color="bg-purple-300" size="w-96 h-96" top="-10%" left="-10%" delay="0" />
-                        <Blob color="bg-pink-300" size="w-96 h-96" top="40%" left="80%" delay="2" />
-                        <Blob color="bg-yellow-200" size="w-80 h-80" top="80%" left="20%" delay="4" />
-                    </div>
-
-                    {currentPage === 'home' && (
-                        <>
-                            <section className="relative pt-32 pb-20 px-4 min-h-screen flex flex-col justify-center items-center overflow-hidden">
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#B6A6E9] via-[#E2CBF7] to-[#FFC4D6] animate-gradient-xy rounded-b-[4rem] z-0"></div>
-                                <Sparkle className="text-yellow-300 w-16 h-16 top-32 left-10 md:left-32 z-10 animate-spin-slow" delay={0.5} />
-                                <Sparkle className="text-white w-10 h-10 bottom-40 right-10 z-10" delay={1.2} />
-                                
-                                <div className="max-w-7xl mx-auto w-full relative z-10 text-center flex flex-col items-center">
-                                    <RevealOnScroll>
-                                        <div className="inline-block bg-white/20 backdrop-blur-md border border-white/40 rounded-full px-6 py-2 mb-8 animate-bounce-slow">
-                                            <p className="text-white font-bold tracking-widest uppercase text-xs md:text-sm">✨ The Future of Beauty is Here</p>
-                                        </div>
-                                    </RevealOnScroll>
-                                    
-                                    <div className="relative inline-block mb-8">
-                                        <RevealOnScroll delay={200}>
-                                            <h1 className="text-[18vw] md:text-[14vw] leading-[0.8] font-black text-white tracking-tighter drop-shadow-lg mix-blend-overlay animate-float">beauty</h1>
-                                        </RevealOnScroll>
-                                        <RevealOnScroll delay={400}>
-                                            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-serif italic text-5xl md:text-8xl text-black rotate-[-5deg] whitespace-nowrap z-20 drop-shadow-sm">
-                                                for the <span className="underline decoration-4 decoration-wavy decoration-yellow-300">bold</span> ones
-                                            </span>
-                                        </RevealOnScroll>
-                                    </div>
-
-                                    <RevealOnScroll delay={600} className="w-full">
-                                        <div className="mt-8 flex flex-col md:flex-row gap-6 justify-center items-center">
-                                            <button className="bg-black text-white px-12 py-5 rounded-full font-bold text-xl hover:bg-white hover:text-black transition-all transform hover:scale-110 shadow-xl flex items-center gap-3 group">
-                                                Shop Now <Icons.ArrowRight size={24} className="group-hover:translate-x-2 transition-transform"/>
-                                            </button>
-                                            <div className="bg-white/30 backdrop-blur-md p-2 rounded-full flex items-center gap-4 pr-6">
-                                                <div className="flex -space-x-4 pl-2">
-                                                    {[1,2,3].map(i => <img key={i} src={`https://i.pravatar.cc/100?img=${i+25}`} className="w-12 h-12 rounded-full border-2 border-white" alt="User" />)}
-                                                </div>
-                                                <span className="text-black font-bold text-sm">Join the cult.</span>
-                                            </div>
-                                        </div>
-                                    </RevealOnScroll>
-                                    
-                                    <RevealOnScroll delay={800} className="mt-16 w-full">
-                                        <div className="flex flex-wrap justify-center gap-6 md:gap-10 bg-white/10 backdrop-blur-sm py-6 rounded-full max-w-4xl mx-auto border border-white/20">
-                                            {[
-                                                { Icon: Icons.Linkedin, handle: "Arushi Bhansali", url: "https://www.linkedin.com/in/arushi-bhansali-b1a53b277/", color: "hover:text-blue-700" },
-                                                { Icon: Icons.Instagram, handle: "@aarubeauty", url: "#", color: "hover:text-pink-600" },
-                                                { Icon: Icons.Facebook, handle: "Aaru Beauty", url: "#", color: "hover:text-blue-600" },
-                                                { Icon: Icons.Youtube, handle: "Aaru Official", url: "#", color: "hover:text-red-600" },
-                                                { Icon: Icons.Twitter, handle: "@aaru_tweets", url: "#", color: "hover:text-blue-400" }
-                                            ].map((social, idx) => (
-                                                <a key={idx} href={social.url} target={social.url.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer" className={`flex items-center gap-2 text-white group ${social.color} transition-colors px-4`}>
-                                                    <div className="bg-white text-black p-2 rounded-full group-hover:scale-125 transition-transform duration-300 shadow-lg">
-                                                        <social.Icon size={18} />
-                                                    </div>
-                                                    <span className="font-bold tracking-wide hidden md:block">{social.handle}</span>
-                                                </a>
-                                            ))}
-                                        </div>
-                                    </RevealOnScroll>
-                                </div>
-                            </section>
-
-                            <div className="bg-yellow-300 py-6 overflow-hidden -rotate-1 shadow-lg relative z-20 border-y-4 border-black">
-                                <div className="animate-marquee whitespace-nowrap flex gap-12">
-                                    {[...Array(10)].map((_, i) => (
-                                        <span key={i} className="text-black font-black text-2xl uppercase tracking-widest flex items-center gap-6">
-                                            <Icons.Sparkles size={24} className="text-purple-600 animate-pulse" /> 
-                                            <span>New Drop: <span className="text-purple-600">Celestial Gloss</span></span>
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <section className="py-32 px-4 relative z-10">
-                                <div className="max-w-6xl mx-auto">
-                                    <RevealOnScroll>
-                                        <div className="bg-[#FFDBC8] rounded-[3rem] p-8 md:p-20 flex flex-col md:flex-row items-center gap-16 relative overflow-hidden shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] border-4 border-black">
-                                            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#0000001a_2px,transparent_2px)] [background-size:24px_24px] opacity-20"></div>
-
-                                            <div className="w-full md:w-1/2 relative z-10 group cursor-pointer" onClick={() => setCurrentPage('about')}>
-                                                <div className="aspect-square bg-gradient-to-tr from-orange-300 to-yellow-200 rounded-full overflow-hidden border-4 border-black shadow-2xl rotate-[-3deg] group-hover:rotate-0 transition-all duration-500 w-3/4 mx-auto relative z-10">
-                                                    <img src="https://uploads.onecompiler.io/44dgk2ydn/44dgk33da/3.png" alt="Arushi" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
-                                                </div>
-                                                <div className="absolute -top-4 -right-4 bg-white px-4 py-2 rounded-lg border-2 border-black rotate-12 shadow-lg font-black text-sm animate-wiggle">Click to Meet Arushi</div>
-                                                <div className="absolute bottom-10 left-0 bg-purple-400 text-white p-3 rounded-full border-2 border-black -rotate-12 animate-bounce-slow"><Icons.Heart fill="white" /></div>
-                                            </div>
-
-                                            <div className="w-full md:w-1/2 text-left space-y-8 relative z-10">
-                                                <div className="inline-block border-2 border-black rounded-full px-6 py-2 text-sm font-black uppercase bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">About The Brand</div>
-                                                <h2 className="text-5xl md:text-7xl font-black leading-tight text-gray-900">We make magic <br/><span className="font-serif italic font-normal text-purple-600 bg-white/50 px-2 rounded-lg">for your skin.</span></h2>
-                                                <p className="text-xl text-gray-800 font-medium leading-relaxed">Hi everyone! Aaru is more than just makeup. We are a graphic-inspired, content-first beauty brand designed for the <span className="font-bold underline decoration-wavy decoration-purple-400">dreamers</span>.</p>
-                                                <button onClick={() => setCurrentPage('about')} className="text-black font-black text-lg border-b-4 border-black hover:text-purple-600 hover:border-purple-600 transition-colors pt-4">Read Our Story</button>
-                                            </div>
-                                        </div>
-                                    </RevealOnScroll>
-                                </div>
-                            </section>
-
-                            <section className="py-20 px-4 max-w-7xl mx-auto relative z-10">
-                                <RevealOnScroll>
-                                    <div className="text-center mb-20">
-                                        <span className="text-purple-600 font-bold tracking-widest uppercase mb-2 block">Shop The Drop</span>
-                                        <h2 className="text-5xl md:text-7xl font-black mb-6 text-gray-900">The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Collection</span></h2>
-                                        <div className="w-24 h-2 bg-black mx-auto rounded-full"></div>
-                                    </div>
-                                </RevealOnScroll>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                                    <ProductCard title="Stardust Blush" price="24.00" tag="HOT" gradient="bg-gradient-to-b from-pink-100 to-pink-200" delay={100} />
-                                    <ProductCard title="Nebula Glaze" price="18.00" tag="NEW" gradient="bg-gradient-to-b from-blue-100 to-blue-200" delay={200} />
-                                    <ProductCard title="Eclipse Liner" price="22.00" tag="VIRAL" gradient="bg-gradient-to-b from-purple-100 to-purple-200" delay={300} />
-                                    <ProductCard title="Cloud Foam" price="32.00" tag={null} gradient="bg-gradient-to-b from-green-100 to-green-200" delay={400} />
-                                </div>
-                            </section>
-
-                            <section className="py-32 px-4 overflow-hidden relative z-10">
-                                <div className="absolute inset-0 bg-white skew-y-3 transform scale-110 z-0"></div>
-                                <div className="max-w-6xl mx-auto relative z-10">
-                                    <RevealOnScroll>
-                                        <div className="text-center mb-16">
-                                            <div className="inline-flex items-center justify-center p-3 bg-black rounded-full mb-6 animate-spin-slow">
-                                                <Sparkle className="text-white w-8 h-8 relative left-0 top-0 animate-none" />
-                                            </div>
-                                            <h2 className="text-6xl font-black mb-4">Seen on TikTok</h2>
-                                            <a href="#" className="text-2xl font-serif italic text-gray-500 hover:text-black transition-colors">@aarubeauty</a>
-                                        </div>
-                                    </RevealOnScroll>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                                        <RevealOnScroll delay={100} className="md:mt-20">
-                                            <div className="bg-gray-900 rounded-[2.5rem] p-3 border-4 border-gray-200 shadow-2xl rotate-[-6deg] hover:rotate-0 transition-all duration-500 hover:scale-105">
-                                                <div className="aspect-[9/16] bg-[#FFDBC8] rounded-[2rem] relative overflow-hidden group cursor-pointer">
-                                                    <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=800&auto=format&fit=crop" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="TikTok"/>
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
-                                                            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
-                                                        <p className="text-white font-bold text-sm">GRWM with Aaru ✨</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </RevealOnScroll>
-
-                                        <RevealOnScroll delay={0} className="z-20">
-                                            <div className="bg-white rounded-[2.5rem] p-3 border-4 border-purple-400 shadow-[0px_20px_50px_rgba(168,85,247,0.4)] scale-110 hover:scale-115 transition-all duration-500">
-                                                <div className="aspect-[9/16] bg-[#B6A6E9] rounded-[2rem] relative overflow-hidden group cursor-pointer">
-                                                    <img src="https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="TikTok"/>
-                                                    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm px-4 py-2 rounded-full text-white text-xs font-bold border border-white/20">2.4M Views</div>
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                                                            <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[22px] border-l-black border-b-[12px] border-b-transparent ml-2"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </RevealOnScroll>
-
-                                        <RevealOnScroll delay={200} className="md:mt-20">
-                                            <div className="bg-gray-900 rounded-[2.5rem] p-3 border-4 border-gray-200 shadow-2xl rotate-[6deg] hover:rotate-0 transition-all duration-500 hover:scale-105">
-                                                <div className="aspect-[9/16] bg-blue-100 rounded-[2rem] relative overflow-hidden group cursor-pointer">
-                                                    <img src="https://images.unsplash.com/photo-1522335789203-abd6523f7216?q=80&w=800&auto=format&fit=crop" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="TikTok"/>
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
-                                                            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
-                                                        <p className="text-white font-bold text-sm">Unboxing the new set 📦</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </RevealOnScroll>
-                                    </div>
-                                </div>
-                            </section>
-                        </>
-                    )}
-
-                    {currentPage === 'about' && <AboutPage />}
-
-                    <footer className="bg-[#B6A6E9] pt-32 pb-10 px-4 rounded-t-[4rem] relative overflow-hidden z-10">
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#B6A6E9] to-[#9F8FEF]"></div>
-                        <Sparkle className="text-white w-24 h-24 top-20 right-20 opacity-30 animate-pulse" />
-                        <Sparkle className="text-yellow-300 w-12 h-12 bottom-40 left-10 opacity-60 animate-bounce-slow" />
-                        
-                        <div className="max-w-7xl mx-auto text-center relative z-10">
-                            <RevealOnScroll>
-                                <h2 className="text-[15vw] font-black text-white leading-none mb-12 tracking-tighter drop-shadow-md hover:scale-105 transition-transform duration-700 cursor-default">let's glow</h2>
-                            </RevealOnScroll>
-                            
-                            <RevealOnScroll delay={200}>
-                                <div className="bg-white rounded-[2rem] p-8 md:p-12 max-w-3xl mx-auto border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] mb-20">
-                                    <p className="text-black text-2xl font-black mb-8">Join the Aaru club for exclusive drops.</p>
-                                    <div className="flex flex-col md:flex-row gap-4">
-                                        <input type="email" placeholder="your@email.com" className="flex-1 bg-gray-100 rounded-full px-8 py-5 text-lg focus:outline-none focus:ring-4 focus:ring-purple-400 font-bold" />
-                                        <button className="bg-black text-white px-10 py-5 rounded-full font-black text-lg hover:bg-yellow-300 hover:text-black transition-colors shadow-lg flex items-center justify-center gap-2">
-                                            Subscribe <Icons.Send size={20} />
-                                        </button>
-                                    </div>
-                                </div>
-                            </RevealOnScroll>
-
-                            <div className="flex flex-col md:flex-row justify-between items-center text-white/90 text-sm font-bold border-t border-white/20 pt-10">
-                                <p>© 2026 Aaru Beauty. All rights reserved.</p>
-                                <div className="flex gap-8 mt-6 md:mt-0">
-                                    <a href="#" className="hover:text-yellow-300 transition-colors">Privacy</a>
-                                    <a href="#" className="hover:text-yellow-300 transition-colors">Terms</a>
-                                    <a href="#" className="hover:text-yellow-300 transition-colors">Shipping</a>
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>
