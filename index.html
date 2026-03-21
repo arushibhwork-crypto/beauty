@@ -11,30 +11,33 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- Model Viewer Component -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
   <!-- Google Fonts -->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap');
 
     body {
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'DM Sans', sans-serif;
       margin: 0;
       padding: 0;
     }
 
-    .font-serif {
-      font-family: 'Playfair Display', serif;
+    h1, h2, h3, h4, h5, h6, .font-serif {
+      font-family: 'Cormorant Garamond', serif !important;
     }
 
-    .font-script {
-      font-family: 'Great Vibes', cursive;
+    .font-sans {
+      font-family: 'DM Sans', sans-serif !important;
     }
 
     .drop-shadow-3d {
-      text-shadow: 4px 4px 0px #D0D9A5, 8px 8px 0px #EAB4C0, 12px 12px 0px #8A9A5B;
+      text-shadow: 4px 4px 0px #EBBCC1, 8px 8px 0px #FBF5EB, 12px 12px 0px #5B6D62;
     }
 
     .drop-shadow-3d-small {
-      text-shadow: 3px 3px 0px #D0D9A5, 6px 6px 0px #8A9A5B;
+      text-shadow: 3px 3px 0px #EBBCC1, 6px 6px 0px #5B6D62;
     }
 
     .float-animation {
@@ -75,321 +78,638 @@
       100% { transform: translate(0px, 0px) scale(1); }
     }
 
-    @keyframes wiggle {
-      0%, 100% { transform: rotate(-6deg) scale(1); }
-      50% { transform: rotate(6deg) scale(1.05); }
+    .animate-marquee {
+      animation: marquee 15s linear infinite;
     }
 
-    .animate-wiggle {
-      animation: wiggle 2.5s ease-in-out infinite;
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
     }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
+    /* New Check/Grid Pattern for Pinboard Area */
+    .bg-chex-pattern {
+      background-color: #EBBCC1;
+      background-image:
+        linear-gradient(rgba(91, 109, 98, 0.25) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(91, 109, 98, 0.25) 2px, transparent 2px);
+      background-size: 50px 50px;
     }
-    ::-webkit-scrollbar-track {
-      background: #EAB4C0;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #8A9A5B;
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #D0D9A5;
-    }
-    
-    /* Hide scrollbar for nav pills on mobile */
+
+    /* Hide scrollbar for carousel */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
     .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Noise & Reveal Effects for Why REECH */
+    .bg-noise {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .reveal-container.revealed #why-reech-img {
+      filter: blur(0px);
+      transform: scale(1);
+      opacity: 0.25; 
+    }
+    
+    .reveal-container.revealed #why-reech-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+    
+    .reveal-container.revealed #why-reech-content {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    
+    .reveal-container.revealed .reveal-item {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Staggered animation delays for the list items */
+    .reveal-container.revealed .reveal-item:nth-child(1) { transition-delay: 300ms; }
+    .reveal-container.revealed .reveal-item:nth-child(2) { transition-delay: 500ms; }
+    .reveal-container.revealed .reveal-item:nth-child(3) { transition-delay: 700ms; }
+    .reveal-container.revealed .reveal-item:nth-child(4) { transition-delay: 900ms; }
+    .reveal-container.revealed .reveal-item:nth-child(5) { transition-delay: 1100ms; }
+
+    /* Utility to lock body scroll when mobile menu is open */
+    .body-lock {
+      overflow: hidden;
+    }
+
+    /* Modal Animation & Shapes */
+    .modal-organic {
+      border-radius: 60px 40px 70px 50px / 50px 60px 40px 70px;
+    }
+    .liquid-fill {
+      transform-origin: bottom;
+      transform-box: fill-box;
+      transform: scaleY(0);
+      transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .liquid-fill.filled {
+      transform: scaleY(1);
+    }
+    .modal-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-content-box {
+      transform: scale(0.9) translateY(30px);
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.active .modal-content-box {
+      transform: scale(1) translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
-<body class="min-h-screen bg-[#EAB4C0] text-[#8A9A5B] overflow-x-hidden selection:bg-[#D0D9A5] selection:text-[#8A9A5B] relative w-full">
+<body class="min-h-screen bg-[#FBF5EB] text-[#5B6D62] overflow-x-hidden selection:bg-[#EBBCC1] selection:text-[#5B6D62] relative">
 
   <!-- Loading Screen -->
-  <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#EAB4C0] transition-opacity duration-500">
+  <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#FBF5EB] transition-opacity duration-500">
     <div class="relative animate-bounce mb-4">
-      <i data-lucide="sparkles" class="w-12 h-12 text-[#8A9A5B]"></i>
+      <i data-lucide="sparkles" class="w-12 h-12 text-[#EBBCC1]"></i>
     </div>
-    <h1 class="text-4xl md:text-6xl font-serif font-bold tracking-tight text-[#8A9A5B]">
-      Vibe <span class="font-script font-normal lowercase text-[1.2em]">check...</span>
+    <h1 class="text-4xl md:text-6xl font-medium tracking-tight text-[#5B6D62]" style="font-family: 'Cormorant Garamond', serif;">
+      Vibe Check...
     </h1>
-    <p class="text-[#D0D9A5] mt-2 font-bold tracking-wide animate-pulse">Entering Ree'ch</p>
+    <p class="text-[#EBBCC1] mt-2 font-medium tracking-wide animate-pulse">Entering Ree'ch</p>
   </div>
 
   <!-- Navigation -->
-  <nav class="fixed top-0 w-full z-40 px-4 md:px-6 pt-4 md:pt-6 pb-2 transition-all duration-300 bg-[#EAB4C0]">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-      <!-- Logo -->
-      <div class="text-2xl md:text-3xl font-bold uppercase tracking-tighter text-[#8A9A5B] cursor-pointer shrink-0 self-start sm:self-auto" onclick="switchPage('home')">Ree'ch</div>
+  <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-[#FBF5EB]/95 backdrop-blur-md border-b-[3px] border-[#5B6D62]">
+    <!-- Main Nav Bar -->
+    <div class="relative w-full px-4 md:px-8 py-3 md:py-4">
+      <div class="max-w-7xl mx-auto flex justify-between items-center gap-4">
+        <!-- Logo -->
+        <div class="cursor-pointer shrink-0 flex flex-col items-center justify-center relative z-[60]" onclick="switchPage('home')">
+          <span class="text-2xl md:text-3xl font-serif font-medium uppercase text-[#5B6D62] tracking-wide leading-none mb-1">Ree'ch</span>
+          <span class="text-[0.6rem] md:text-[0.7rem] font-sans font-medium uppercase text-[#5B6D62] tracking-[0.3em] leading-none">The Social Jungle</span>
+        </div>
+        
+        <!-- Desktop Nav Links -->
+        <div class="hidden md:flex items-center justify-end gap-6 md:gap-10">
+          <button onclick="switchPage('home')" class="text-[#5B6D62] font-bold uppercase tracking-widest text-xs lg:text-sm transition-colors duration-300 hover:text-[#EBBCC1] focus:outline-none whitespace-nowrap">Home</button>
+          <button onclick="switchPage('about')" class="text-[#5B6D62] font-bold uppercase tracking-widest text-xs lg:text-sm transition-colors duration-300 hover:text-[#EBBCC1] focus:outline-none whitespace-nowrap">About</button>
+          <button onclick="scrollToServices()" class="text-[#5B6D62] font-bold uppercase tracking-widest text-xs lg:text-sm transition-colors duration-300 hover:text-[#EBBCC1] focus:outline-none whitespace-nowrap">Services</button>
+          <button onclick="scrollToContact()" class="text-[#5B6D62] font-bold uppercase tracking-widest text-xs lg:text-sm transition-colors duration-300 hover:text-[#EBBCC1] focus:outline-none whitespace-nowrap">Slay With Us</button>
+        </div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button onclick="toggleMobileMenu()" class="md:hidden text-[#5B6D62] p-2 -mr-2 focus:outline-none relative z-[60] hover:bg-[#EBBCC1]/20 rounded-full transition-colors">
+          <i id="mobile-menu-icon" data-lucide="menu" class="w-7 h-7 sm:w-8 sm:h-8"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="absolute top-[100%] left-0 w-full h-[calc(100vh-64px)] bg-[#FBF5EB] border-t border-[#5B6D62]/20 flex flex-col items-center justify-center gap-10 shadow-2xl transition-all duration-300 -translate-y-full opacity-0 -z-10 md:hidden overflow-y-auto pb-20">
+      <button onclick="switchPage('home')" class="text-[#5B6D62] font-black uppercase tracking-widest text-3xl sm:text-4xl transition-colors duration-300 hover:text-[#EBBCC1] focus:outline-none hover:scale-105 transform">Home</button>
+      <button onclick="switchPage('about')" class="text-[#5B6D62] font-black uppercase tracking-widest text-3xl sm:text-4xl transition-colors duration-300 hover:text-[#EBBCC1] focus:outline-none hover:scale-105 transform">About</button>
+      <button onclick="scrollToServices()" class="text-[#5B6D62] font-black uppercase tracking-widest text-3xl sm:text-4xl transition-colors duration-300 hover:text-[#EBBCC1] focus:outline-none hover:scale-105 transform">Services</button>
+      <button onclick="scrollToContact()" class="text-[#5B6D62] font-black uppercase tracking-widest text-3xl sm:text-4xl transition-colors duration-300 hover:text-[#EBBCC1] focus:outline-none hover:scale-105 transform">Slay With Us</button>
       
-      <!-- Nav Links & CTA -->
-      <div class="flex items-center justify-start sm:justify-end gap-6 md:gap-8 overflow-x-auto w-full sm:w-auto pb-2 pr-2 pt-1 no-scrollbar">
-        <button onclick="switchPage('home')" class="text-[#8A9A5B] font-bold uppercase tracking-widest text-xs md:text-sm hover:text-[#D0D9A5] transition-colors duration-300 focus:outline-none whitespace-nowrap">
-          Home
-        </button>
-        <button onclick="switchPage('about')" class="text-[#8A9A5B] font-bold uppercase tracking-widest text-xs md:text-sm hover:text-[#D0D9A5] transition-colors duration-300 focus:outline-none whitespace-nowrap">
-          About
-        </button>
-        <button onclick="scrollToServices()" class="text-[#8A9A5B] font-bold uppercase tracking-widest text-xs md:text-sm hover:text-[#D0D9A5] transition-colors duration-300 focus:outline-none whitespace-nowrap">
-          Services
-        </button>
-        <button onclick="scrollToContact()" class="text-[#8A9A5B] font-bold uppercase tracking-widest text-xs md:text-sm hover:text-[#D0D9A5] transition-colors duration-300 focus:outline-none whitespace-nowrap">
-          Slay With Us
-        </button>
+      <!-- Socials inside mobile nav -->
+      <div class="flex gap-6 mt-4">
+        <a href="https://www.instagram.com/reech.thesocialjungle/" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full bg-[#EBBCC1] flex items-center justify-center text-[#5B6D62] shadow-[3px_3px_0px_#5B6D62]">
+          <i data-lucide="instagram" class="w-5 h-5"></i>
+        </a>
+        <a href="#" class="w-12 h-12 rounded-full bg-[#EBBCC1] flex items-center justify-center text-[#5B6D62] shadow-[3px_3px_0px_#5B6D62]">
+          <i data-lucide="linkedin" class="w-5 h-5"></i>
+        </a>
       </div>
     </div>
   </nav>
 
   <!-- ======================== HOME PAGE VIEW ======================== -->
-  <main id="home-page" class="block pt-20 sm:pt-0">
+  <main id="home-page" class="block">
     <!-- Hero Section -->
-    <section class="relative min-h-[85vh] flex items-center justify-center pt-24 sm:pt-36 pb-16 overflow-hidden bg-[#EAB4C0]">
-      <!-- Animated Background Blobs -->
-      <div class="absolute top-20 left-10 w-48 h-48 sm:w-72 sm:h-72 bg-[#8A9A5B] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-      <div class="absolute top-40 right-10 w-48 h-48 sm:w-72 sm:h-72 bg-[#D0D9A5] rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
-      <div class="absolute -bottom-8 left-20 sm:left-40 w-48 h-48 sm:w-72 sm:h-72 bg-[#8A9A5B] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+    <section class="relative min-h-[90vh] md:min-h-screen flex flex-col md:flex-row pt-[64px] md:pt-[76px] bg-[#FBF5EB]">
+      
+      <!-- Left Column: Image Placeholder -->
+      <div class="w-full md:w-1/2 bg-black flex items-center justify-center min-h-[40vh] md:min-h-[calc(100vh-76px)] relative z-10 overflow-hidden">
+        <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Screenshot%202026-03-18%20at%205.55.48%E2%80%AFPM.png" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover">
+      </div>
 
-      <div class="relative z-10 max-w-[90rem] mx-auto px-4 sm:px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-8 py-10 lg:py-16 w-full mt-4 md:mt-12">
+      <!-- Right Column: Text Content -->
+      <div class="w-full md:w-1/2 flex flex-col items-center justify-center px-6 py-12 sm:py-16 md:py-20 lg:p-16 relative z-10">
+        <h1 class="text-5xl sm:text-6xl md:text-5xl lg:text-7xl xl:text-[5.5rem] font-serif font-normal text-[#5B6D62] leading-[1.1] max-w-2xl text-center">
+          We're 
+          <span class="italic relative inline-block">creatives
+            <!-- Pink underline sketch -->
+            <svg class="absolute w-[110%] h-3 sm:h-4 -bottom-1 -left-[5%] text-[#EBBCC1]" preserveAspectRatio="none" viewBox="0 0 100 10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+              <path d="M2,8 Q25,2 50,5 T98,5"/>
+            </svg>
+          </span> 
+          at <br class="hidden sm:block">
+          heart driven by <br class="hidden sm:block">
+          <span class="italic">purposeful strategy</span>
+        </h1>
         
-        <!-- Left Column: Text -->
-        <div class="flex flex-col items-start text-left space-y-4 relative z-20 w-full md:w-[55%] shrink-0 mt-8 sm:mt-0">
-          <h1 class="text-[3.5rem] sm:text-[5rem] md:text-[6.5rem] lg:text-[8.5rem] xl:text-[10rem] font-serif font-bold uppercase tracking-tighter leading-[0.85] md:leading-[0.8] text-[#8A9A5B] relative z-10 w-full">
-            BRANDS THAT <br>
-            <span class="text-[#D0D9A5] font-script lowercase tracking-normal text-[4.2rem] sm:text-[6.5rem] md:text-[8.5rem] lg:text-[11.5rem] xl:text-[13.5rem] drop-shadow-[3px_3px_0px_#8A9A5B] block mt-2 md:-mt-6 lg:-mt-8 relative z-20 font-normal">hit different.</span>
-          </h1>
-          
-          <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl max-w-2xl font-bold text-[#8A9A5B]/90 mt-10 sm:mt-16 md:mt-24 lg:mt-32 mb-6 md:mb-8 leading-relaxed relative z-30">
-            Trends switch. Positioning slays. <br class="hidden sm:block">
-            We don’t chase hype. We build perception.
-          </p>
+        <p class="mt-6 sm:mt-8 text-base md:text-lg text-[#5B6D62]/80 max-w-[28rem] text-center font-medium leading-relaxed px-4">
+          A marketing agency helping brands craft campaigns that turn heads and drive results
+        </p>
 
-          <button onclick="scrollToContact()" class="flex items-center gap-3 bg-[#8A9A5B] text-[#EAB4C0] px-8 py-4 sm:px-10 sm:py-5 rounded-full font-bold text-base sm:text-lg lg:text-xl uppercase tracking-wider hover:bg-[#D0D9A5] hover:text-[#8A9A5B] transition-all duration-300 shadow-[6px_6px_0px_#D0D9A5] sm:shadow-[8px_8px_0px_#D0D9A5] hover:shadow-[4px_4px_0px_#D0D9A5] hover:translate-y-1">
-            Start Building <i data-lucide="arrow-right" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        <div class="mt-10 sm:mt-12 flex justify-center w-full">
+          <button onclick="openTeaModal()" class="bg-[#5B6D62] text-[#FBF5EB] px-10 py-4 sm:px-12 rounded-full text-xs md:text-sm tracking-widest uppercase font-bold hover:bg-[#EBBCC1] hover:text-[#5B6D62] transition-colors shadow-lg active:scale-95">
+            Spill The Tea
           </button>
         </div>
-
-        <!-- Right Column: Aesthetic Oval Avatar Placeholder -->
-        <div class="relative w-full md:w-[45%] flex justify-center items-center mt-16 md:mt-0 float-animation group cursor-pointer z-10 lg:-ml-8">
-          
-          <!-- GenZ Dialogue Box -->
-          <div class="absolute right-0 top-0 sm:-right-2 sm:top-4 md:right-0 md:top-12 lg:-right-4 lg:top-24 bg-[#EAB4C0] border-2 border-[#8A9A5B] text-[#8A9A5B] px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl rounded-bl-none font-bold text-xs sm:text-sm shadow-[4px_4px_0px_#D0D9A5] z-30 animate-wiggle">
-            main character energy ✨
-          </div>
-
-          <div class="relative w-64 h-[350px] sm:w-72 sm:h-[420px] md:w-[22rem] md:h-[32rem] lg:w-[26rem] lg:h-[38rem] xl:w-[30rem] xl:h-[44rem] rounded-full bg-gradient-to-br from-[#D0D9A5]/60 to-[#EAB4C0]/20 shadow-[15px_15px_0px_#8A9A5B] sm:shadow-[20px_20px_0px_#8A9A5B] border-2 border-[#8A9A5B] flex flex-col items-center justify-center overflow-hidden transition-transform duration-500 hover:scale-[1.02] backdrop-blur-sm">
-             <div class="absolute inset-0 bg-white opacity-20 rotate-45 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-             <i data-lucide="star" class="w-10 h-10 sm:w-12 sm:h-12 text-[#8A9A5B] mb-4 opacity-50"></i>
-             <span class="text-xs sm:text-sm md:text-base font-bold text-[#8A9A5B]/90 uppercase tracking-widest text-center px-6 sm:px-8 italic">
-               [ Insert 3D Avatar ]
-            </span>
-          </div>
-          <!-- Decorative sparkles around oval -->
-          <i data-lucide="sparkles" class="absolute -top-4 right-8 sm:-top-6 sm:right-12 lg:right-4 w-10 h-10 sm:w-14 sm:h-14 text-[#D0D9A5] animate-spin-slow"></i>
-          <i data-lucide="star" class="absolute -bottom-2 left-10 sm:-bottom-4 sm:left-16 lg:left-8 w-8 h-8 sm:w-10 sm:h-10 text-[#8A9A5B] animate-bounce"></i>
-        </div>
-
       </div>
     </section>
 
+    <!-- Marquee Banner -->
+    <div class="bg-[#EBBCC1] text-[#5B6D62] py-3 md:py-4 flex overflow-hidden whitespace-nowrap relative border-b-[4px] md:border-b-[6px] border-[#5B6D62] z-20">
+      <div class="animate-marquee flex gap-2 items-center font-sans uppercase tracking-widest text-[10px] sm:text-xs md:text-sm lg:text-base font-medium">
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+        <span>THE MILLENNIAL & GEN Z WHISPERERS -</span>
+      </div>
+    </div>
+
     <!-- About Section (The Tea) -->
-    <section class="py-16 sm:py-24 px-4 sm:px-6 bg-[#8A9A5B] text-[#EAB4C0] relative rounded-t-[2rem] sm:rounded-t-[3rem] -mt-4 sm:-mt-6 z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
-      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16 items-center">
-        <div>
-          <h2 class="text-xs sm:text-sm font-serif font-bold tracking-widest uppercase text-[#D0D9A5] mb-4">The Tea ☕</h2>
-          <h3 class="text-4xl sm:text-5xl md:text-7xl font-serif font-bold leading-none mb-6 sm:mb-8">
-            Where culture meets <br class="hidden sm:block"><span class="text-[#D0D9A5] font-script font-normal lowercase text-[1.2em]">intention.</span>
+    <section class="py-16 md:py-24 px-6 bg-[#5B6D62] text-[#FBF5EB] relative z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
+        <div class="text-center lg:text-left">
+          <h2 class="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#EBBCC1] mb-3 md:mb-4">The Tea ☕</h2>
+          <h3 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-none mb-0">
+            Where culture meets <br class="hidden lg:block"><span class="text-[#EBBCC1] italic font-serif lowercase">intention.</span>
           </h3>
         </div>
-        <div class="text-base sm:text-lg md:text-xl font-bold leading-relaxed text-[#EAB4C0] space-y-4 sm:space-y-6">
+        <div class="text-base sm:text-lg md:text-xl font-medium leading-relaxed text-[#FBF5EB]/90 space-y-6 text-center lg:text-left px-2 sm:px-8 lg:px-0">
           <p>
             We’re an influencer marketing and brand strategy agency built for brands that want more than attention. <strong class="text-white">They want perception.</strong>
           </p>
           <p>
             In today’s scroll-heavy world, content is easy. Impact isn’t. We focus on narrative, positioning, and moments that feel natural - never forced.
           </p>
-          <p class="text-[#D0D9A5] font-bold text-xl sm:text-2xl pt-2 sm:pt-4">
+          <p class="text-[#EBBCC1] font-bold text-xl sm:text-2xl pt-2 md:pt-4">
             Because brands that try too hard fade. <br>Brands that stand firm? They stay iconic.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-20 sm:py-32 bg-[#EAB4C0] relative overflow-hidden">
-      
-      <!-- Decorative Background Blobs -->
-      <div class="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 bg-[#D0D9A5] rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob pointer-events-none"></div>
-      <div class="absolute bottom-20 left-0 w-64 h-64 sm:w-80 sm:h-80 bg-[#8A9A5B] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000 pointer-events-none"></div>
-
-      <!-- Floating Star Background -->
-      <i data-lucide="star" class="absolute bottom-40 right-6 sm:right-10 md:right-32 w-8 h-8 sm:w-12 sm:h-12 text-[#8A9A5B] float-animation opacity-50 pointer-events-none" style="animation-delay: 2s;"></i>
-
-      <div class="max-w-4xl mx-auto relative z-10 w-full px-4 sm:px-6">
-        <div class="text-center mb-16 sm:mb-20 flex flex-col items-center max-w-full">
+    <!-- Meet Ree Section -->
+    <section id="meet-ree" class="py-16 md:py-24 px-4 sm:px-6 bg-[#FBF5EB] relative z-10">
+      <div class="max-w-7xl mx-auto">
+        <div class="relative rounded-[2rem] sm:rounded-[3rem] bg-[#5B6D62] overflow-hidden shadow-[6px_6px_0px_#5B6D62] sm:shadow-[10px_10px_0px_#5B6D62] flex flex-col lg:flex-row border-4 border-[#5B6D62]">
           
-          <div class="relative inline-block mt-16 sm:mt-12 md:mt-20 mb-12 sm:mb-4 md:mb-8 w-full max-w-[fit-content]">
-            <!-- Sparkle Icon -->
-            <i data-lucide="sparkles" class="absolute -top-10 left-0 sm:-top-6 sm:-left-12 md:-top-8 md:-left-32 lg:-left-44 w-8 h-8 sm:w-10 sm:h-10 md:w-16 md:h-16 text-[#8A9A5B] float-animation pointer-events-none"></i>
+          <!-- Left Side: Full Avatar Space -->
+          <div class="w-full lg:w-1/2 relative min-h-[400px] md:min-h-[500px] lg:min-h-[600px] flex items-center justify-center bg-[#EBBCC1] border-b-4 lg:border-b-0 lg:border-r-4 border-[#5B6D62] overflow-hidden group">
             
-            <!-- Wiggling Dialogue Box -->
-            <div class="absolute -bottom-10 left-4 sm:bottom-2 sm:-left-20 md:bottom-8 md:-left-48 lg:-left-60 bg-[#D0D9A5] border-2 sm:border-[3px] border-[#8A9A5B] text-[#8A9A5B] px-2 py-1 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl sm:rounded-3xl rounded-bl-none font-bold text-[10px] sm:text-sm md:text-lg shadow-[3px_3px_0px_#8A9A5B] sm:shadow-[4px_4px_0px_#8A9A5B] md:shadow-[6px_6px_0px_#8A9A5B] z-30 animate-wiggle transform -rotate-6 whitespace-nowrap">
-              literally this 👇
+            <!-- 3D Avatar Model -->
+            <model-viewer 
+              src="model.glb" 
+              alt="Ree 3D Avatar"
+              camera-controls 
+              camera-orbit="90deg 90deg 2.5m"
+              exposure="1.2"
+              shadow-intensity="1"
+              environment-image="neutral"
+              class="absolute inset-0 w-full h-full z-10 outline-none cursor-grab active:cursor-grabbing"
+              style="--poster-color: transparent; background-color: transparent;"
+            ></model-viewer>
+            
+            <!-- "Observing..." Label -->
+            <div class="absolute bottom-6 right-6 md:bottom-8 md:right-8 bg-[#FBF5EB] border-2 border-[#5B6D62] text-[#5B6D62] px-4 py-2 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest flex items-center gap-2 shadow-[3px_3px_0px_#5B6D62] z-20">
+               <span class="w-2.5 h-2.5 rounded-full bg-[#EBBCC1] animate-pulse border border-[#5B6D62]"></span>
+               Observing… 👀
             </div>
-
-            <!-- Spinning Sticker -->
-            <div class="absolute -top-16 right-0 sm:-top-10 md:-top-16 sm:-right-20 md:-right-40 lg:-right-48 bg-[#D0D9A5] text-[#8A9A5B] border-2 sm:border-[3px] border-[#8A9A5B] rounded-full w-16 h-16 sm:w-24 sm:h-24 md:w-36 md:h-36 lg:w-40 lg:h-40 flex items-center justify-center font-bold uppercase text-center shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] animate-spin-slow z-20 text-[8px] sm:text-xs md:text-sm p-1 sm:p-2">
-              The<br>Blueprint
-            </div>
-
-            <h2 class="text-5xl sm:text-7xl md:text-[7rem] lg:text-[8.5rem] font-serif font-bold tracking-tighter text-[#8A9A5B] relative z-10 leading-none">Our <span class="font-script text-[#D0D9A5] lowercase font-normal text-[1.1em] tracking-normal drop-shadow-[2px_2px_0px_#8A9A5B]">magic</span></h2>
           </div>
-          
-          <p class="text-lg sm:text-xl md:text-2xl font-bold italic text-[#8A9A5B]/90 mt-4 sm:mt-6 max-w-2xl relative z-10 px-4">We don’t just “execute campaigns.” We engineer brand presence.</p>
+
+          <!-- Right Side: Content -->
+          <div class="w-full lg:w-1/2 p-8 sm:p-12 md:p-16 lg:p-20 flex flex-col justify-center relative z-10">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold uppercase text-[#FBF5EB] mb-4 tracking-wide">Meet Ree 👀</h2>
+            
+            <!-- Hook Line -->
+            <div class="mb-8 md:mb-10">
+              <span class="inline-block bg-[#EBBCC1] text-[#5B6D62] px-4 py-2 font-serif italic font-bold text-xl sm:text-2xl md:text-3xl mt-2 rounded-sm transform -rotate-1 shadow-[3px_3px_0px_#FBF5EB]">
+                She doesn’t blink. She observes.
+              </span>
+            </div>
+            
+            <!-- Body Text -->
+            <div class="space-y-4 md:space-y-6 text-base sm:text-lg md:text-xl text-[#FBF5EB]/90 font-medium leading-relaxed">
+              <p>While everyone’s chasing trends,<br class="hidden sm:block">Ree’s already seen what’s next.</p>
+              <p>No random creators.<br>No guesswork.</p>
+              <p>Just what actually hits<br>and stays.</p>
+            </div>
+            
+            <!-- Signature Line -->
+            <div class="mt-8 md:mt-10 border-l-4 border-[#EBBCC1] pl-5 py-2">
+              <p class="text-lg sm:text-xl md:text-2xl font-black uppercase tracking-wide text-[#FBF5EB] leading-tight">
+                If Ree approves it,<br>
+                <span class="text-[#EBBCC1] font-serif italic normal-case tracking-normal">it goes live.</span>
+              </p>
+            </div>
+            
+            <!-- Button -->
+            <div class="mt-10 md:mt-12">
+              <button class="group inline-flex items-center justify-center gap-3 bg-[#EBBCC1] text-[#5B6D62] px-8 py-4 rounded-full font-black uppercase tracking-widest text-sm hover:bg-[#FBF5EB] transition-colors shadow-[4px_4px_0px_#FBF5EB] active:translate-y-1 active:shadow-[2px_2px_0px_#FBF5EB]">
+                Hear Ree 
+                <i data-lucide="headphones" class="w-5 h-5 text-[#5B6D62] group-hover:scale-110 transition-transform duration-300"></i>
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
+    </section>
 
-      <div class="w-full relative z-10">
-        <div class="flex overflow-x-auto gap-6 sm:gap-8 pb-12 pt-4 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-40 snap-x snap-mandatory no-scrollbar items-start w-full" id="services-container">
+    <!-- Services Section -->
+    <section id="services" class="py-20 lg:py-32 px-4 sm:px-6 bg-[#FBF5EB]">
+      <div class="max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-16 lg:mb-24 px-4">
+          <h2 class="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-[#5B6D62] mb-4 md:mb-6 uppercase">Our magic</h2>
+          <p class="text-xl sm:text-2xl md:text-3xl font-serif italic text-[#5B6D62]/80 mt-2 md:mt-4 max-w-2xl mx-auto">We don’t just “execute campaigns.” We engineer brand presence.</p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-16 lg:gap-20 items-start">
           
-          <!-- Service 1 -->
-          <div class="service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col" data-active="false">
-            <!-- Image Placeholder (1:1 Aspect Ratio) -->
-            <div class="w-full aspect-square bg-[#D0D9A5] border-b-[3px] sm:border-b-4 border-[#8A9A5B] relative flex flex-col items-center justify-center group overflow-hidden shrink-0">
-               <div class="absolute inset-0 bg-[#8A9A5B] opacity-10 transition-opacity"></div>
-               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
-               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ Service Image ]</span>
-            </div>
-            
-            <!-- Clickable Header Area (Uniform Height) -->
-            <div class="service-header p-5 sm:p-6 flex justify-between items-start gap-4 cursor-pointer hover:bg-[#D0D9A5] transition-colors duration-300 h-32 sm:h-36 shrink-0">
-              <h3 class="text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide w-[80%] text-[#8A9A5B] leading-tight">Creative PR Architecture</h3>
-              <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]">
-                <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#8A9A5B]"></i>
+          <!-- Left Column: Accordions -->
+          <div class="w-full lg:w-1/2 flex flex-col">
+            <div class="space-y-4 sm:space-y-6 w-full" id="services-container">
+              
+              <!-- Service 1 -->
+              <div class="service-item border-4 border-[#5B6D62] rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer bg-[#FBF5EB] text-[#5B6D62] hover:bg-[#EBBCC1] shadow-[4px_4px_0px_#5B6D62] sm:shadow-[6px_6px_0px_#5B6D62]" data-active="false">
+                <div class="p-5 sm:p-6 md:p-8 flex justify-between items-center gap-4">
+                  <h3 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-wide flex-1 leading-tight">Creative PR Architecture</h3>
+                  <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#5B6D62] shrink-0">
+                    <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#5B6D62]"></i>
+                  </div>
+                </div>
+                <div class="service-content px-5 sm:px-6 md:px-8 overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+                  <h4 class="text-lg sm:text-xl font-serif italic text-[#EBBCC1] mb-3 sm:mb-4">Strategic visibility - not random hype.</h4>
+                  <p class="text-base sm:text-lg mb-5 sm:mb-6 leading-relaxed opacity-90">We design how your brand shows up in the public space. From campaign concepts to media angles, we build a PR blueprint that feels intentional, relevant, and culturally aligned. This isn’t just press. It’s perception planning.</p>
+                  <div class="bg-[#FBF5EB] text-[#5B6D62] p-5 sm:p-6 rounded-2xl border-2 border-[#5B6D62]">
+                    <h5 class="text-sm sm:text-base font-bold uppercase mb-3 sm:mb-4 text-[#5B6D62]/80">What you get:</h5>
+                    <ul class="space-y-2 text-sm sm:text-base">
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Campaign ideation & PR strategy</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Cultural positioning angles</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Media & visibility mapping</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Long-term brand narrative structure</li>
+                    </ul>
+                  </div>
+                  <p class="mt-5 sm:mt-6 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#EBBCC1]">Because exposure without strategy? Mid.</p>
+                </div>
               </div>
-            </div>
 
-            <!-- Dropdown Content -->
-            <div class="service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]">
-              <h4 class="text-lg sm:text-xl font-bold italic text-[#D0D9A5] mb-3 sm:mb-4 pt-4">Strategic visibility - not random hype.</h4>
-              <p class="text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed opacity-90 font-bold text-[#EAB4C0]">We design how your brand shows up in the public space. From campaign concepts to media angles, we build a PR blueprint that feels intentional, relevant, and culturally aligned. This isn’t just press. It’s perception planning.</p>
-              <div class="bg-[#EAB4C0] text-[#8A9A5B] p-4 sm:p-5 rounded-xl border-2 border-[#8A9A5B] mb-6 shadow-[3px_3px_0px_#D0D9A5]">
-                <h5 class="font-bold uppercase mb-3 text-[#8A9A5B]/90 text-sm sm:text-base">What you get:</h5>
-                <ul class="space-y-2 text-sm sm:text-base font-bold">
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Campaign ideation & PR strategy</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Cultural positioning angles</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Media & visibility mapping</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Long-term narrative structure</li>
-                </ul>
+              <!-- Service 2 -->
+              <div class="service-item border-4 border-[#5B6D62] rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer bg-[#FBF5EB] text-[#5B6D62] hover:bg-[#EBBCC1] shadow-[4px_4px_0px_#5B6D62] sm:shadow-[6px_6px_0px_#5B6D62]" data-active="false">
+                <div class="p-5 sm:p-6 md:p-8 flex justify-between items-center gap-4">
+                  <h3 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-wide flex-1 leading-tight">Moment & Influencer Marketing</h3>
+                  <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#5B6D62] shrink-0">
+                    <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#5B6D62]"></i>
+                  </div>
+                </div>
+                <div class="service-content px-5 sm:px-6 md:px-8 overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+                  <h4 class="text-lg sm:text-xl font-serif italic text-[#EBBCC1] mb-3 sm:mb-4">Right creator. Right timing. Real impact.</h4>
+                  <p class="text-base sm:text-lg mb-5 sm:mb-6 leading-relaxed opacity-90">We don’t just send products to influencers and hope for the best. We carefully match your brand with creators who align with your energy, audience, and positioning - then place your product inside moments that feel natural, not scripted.</p>
+                  <div class="bg-[#FBF5EB] text-[#5B6D62] p-5 sm:p-6 rounded-2xl border-2 border-[#5B6D62]">
+                    <h5 class="text-sm sm:text-base font-bold uppercase mb-3 sm:mb-4 text-[#5B6D62]/80">What you get:</h5>
+                    <ul class="space-y-2 text-sm sm:text-base">
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Influencer identification & vetting</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Strategic seeding plans</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Campaign rollouts</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Relationship-based creator collaborations</li>
+                    </ul>
+                  </div>
+                  <p class="mt-5 sm:mt-6 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#EBBCC1]">We seed stories, not just products.</p>
+                </div>
               </div>
-              <p class="pb-6 sm:pb-8 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#D0D9A5]">Because exposure without strategy? Mid.</p>
+
+              <!-- Service 3 -->
+              <div class="service-item border-4 border-[#5B6D62] rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer bg-[#FBF5EB] text-[#5B6D62] hover:bg-[#EBBCC1] shadow-[4px_4px_0px_#5B6D62] sm:shadow-[6px_6px_0px_#5B6D62]" data-active="false">
+                <div class="p-5 sm:p-6 md:p-8 flex justify-between items-center gap-4">
+                  <h3 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-wide flex-1 leading-tight">Narrative-Led Positioning</h3>
+                  <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#5B6D62] shrink-0">
+                    <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#5B6D62]"></i>
+                  </div>
+                </div>
+                <div class="service-content px-5 sm:px-6 md:px-8 overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+                  <h4 class="text-lg sm:text-xl font-serif italic text-[#EBBCC1] mb-3 sm:mb-4">Your story, but sharper.</h4>
+                  <p class="text-base sm:text-lg mb-5 sm:mb-6 leading-relaxed opacity-90">If people can’t explain your brand in one line, it’s a problem. We define your voice, tone, personality, and cultural stance so your brand feels consistent everywhere - from social to campaigns to collaborations.</p>
+                  <div class="bg-[#FBF5EB] text-[#5B6D62] p-5 sm:p-6 rounded-2xl border-2 border-[#5B6D62]">
+                    <h5 class="text-sm sm:text-base font-bold uppercase mb-3 sm:mb-4 text-[#5B6D62]/80">What you get:</h5>
+                    <ul class="space-y-2 text-sm sm:text-base">
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Core messaging framework</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Brand voice & tone guide</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Audience clarity</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Positioning statement & Narrative direction</li>
+                    </ul>
+                  </div>
+                  <p class="mt-5 sm:mt-6 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#EBBCC1]">Because trends change. Identity doesn’t.</p>
+                </div>
+              </div>
+
+              <!-- Service 4 -->
+              <div class="service-item border-4 border-[#5B6D62] rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer bg-[#FBF5EB] text-[#5B6D62] hover:bg-[#EBBCC1] shadow-[4px_4px_0px_#5B6D62] sm:shadow-[6px_6px_0px_#5B6D62]" data-active="false">
+                <div class="p-5 sm:p-6 md:p-8 flex justify-between items-center gap-4">
+                  <h3 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-wide flex-1 leading-tight">Performance-Driven UGC</h3>
+                  <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#5B6D62] shrink-0">
+                    <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#5B6D62]"></i>
+                  </div>
+                </div>
+                <div class="service-content px-5 sm:px-6 md:px-8 overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+                  <h4 class="text-lg sm:text-xl font-serif italic text-[#EBBCC1] mb-3 sm:mb-4">Content that looks native - and converts.</h4>
+                  <p class="text-base sm:text-lg mb-5 sm:mb-6 leading-relaxed opacity-90">We create creator-led content that blends seamlessly into feeds while still driving real results. Authentic energy. Strategic execution. Soft sell. Strong impact.</p>
+                  <div class="bg-[#FBF5EB] text-[#5B6D62] p-5 sm:p-6 rounded-2xl border-2 border-[#5B6D62]">
+                    <h5 class="text-sm sm:text-base font-bold uppercase mb-3 sm:mb-4 text-[#5B6D62]/80">What you get:</h5>
+                    <ul class="space-y-2 text-sm sm:text-base">
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> UGC creator sourcing</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Script & concept direction</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Conversion-focused content</li>
+                      <li class="flex items-start gap-3 font-medium"><i data-lucide="heart" class="w-4 h-4 text-[#EBBCC1] fill-current shrink-0 mt-1"></i> Paid-ad-ready assets & Performance tracking</li>
+                    </ul>
+                  </div>
+                  <p class="mt-5 sm:mt-6 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#EBBCC1]">It’s not just aesthetic. It performs.</p>
+                </div>
+              </div>
+
             </div>
           </div>
 
-          <!-- Service 2 -->
-          <div class="service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col" data-active="false">
-            <!-- Image Placeholder (1:1 Aspect Ratio) -->
-            <div class="w-full aspect-square bg-[#D0D9A5] border-b-[3px] sm:border-b-4 border-[#8A9A5B] relative flex flex-col items-center justify-center group overflow-hidden shrink-0">
-               <div class="absolute inset-0 bg-[#8A9A5B] opacity-10 transition-opacity"></div>
-               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
-               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ Service Image ]</span>
-            </div>
-            
-            <!-- Clickable Header Area (Uniform Height) -->
-            <div class="service-header p-5 sm:p-6 flex justify-between items-start gap-4 cursor-pointer hover:bg-[#D0D9A5] transition-colors duration-300 h-32 sm:h-36 shrink-0">
-              <h3 class="text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide w-[80%] text-[#8A9A5B] leading-tight">Moment & Influencer Marketing</h3>
-              <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]">
-                <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#8A9A5B]"></i>
+          <!-- Right Column: Phones Layout -->
+          <div class="w-full lg:w-1/2 flex justify-center mt-8 lg:mt-0">
+            <div class="flex flex-row items-start justify-center gap-3 sm:gap-6 md:gap-8 w-full max-w-lg">
+              
+              <!-- Phone 1 (Left, Higher) -->
+              <div class="w-[140px] sm:w-[200px] md:w-[240px] xl:w-[260px] h-[300px] sm:h-[420px] md:h-[500px] xl:h-[540px] bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_15px_40px_rgba(0,0,0,0.4)] md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center relative overflow-hidden ring-[4px] md:ring-[8px] ring-[#333] border-[3px] md:border-4 border-black shrink-0">
+                 <!-- Notch -->
+                <div class="absolute top-0 w-16 sm:w-24 md:w-32 h-4 sm:h-5 md:h-6 bg-black rounded-b-2xl z-30"></div>
+                
+                <!-- Phone 1 Slideshow -->
+                <div class="absolute inset-0 w-full h-full z-10 bg-black">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Screenshot%202026-03-17%20at%205.07.07%E2%80%AFPM.png" alt="Showcase 1" class="phone1-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-100">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Bisleri%20Hand%20Sanitizers.jpeg" alt="Showcase 2" class="phone1-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/vibrant%20fresh%20elegant%20creative%20classy%20luxury%20contemporary%20sparkling%20water%20packaging%20design.jpeg" alt="Showcase 3" class="phone1-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Product%20Styling%20and%20Photography%20for%20Coastals%20Hard%20Coco%20by%20Lady%20Sunday%20Styling.jpeg" alt="Showcase 4" class="phone1-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/(4)%20Instagram.jpeg" alt="Showcase 5" class="phone1-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0">
+                </div>
               </div>
-            </div>
 
-            <!-- Dropdown Content -->
-            <div class="service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]">
-              <h4 class="text-lg sm:text-xl font-bold italic text-[#D0D9A5] mb-3 sm:mb-4 pt-4">Right creator. Right timing. Real impact.</h4>
-              <p class="text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed opacity-90 font-bold text-[#EAB4C0]">We don’t just send products to influencers and hope for the best. We carefully match your brand with creators who align with your energy, audience, and positioning - then place your product inside moments that feel natural, not scripted.</p>
-              <div class="bg-[#EAB4C0] text-[#8A9A5B] p-4 sm:p-5 rounded-xl border-2 border-[#8A9A5B] mb-6 shadow-[3px_3px_0px_#D0D9A5]">
-                <h5 class="font-bold uppercase mb-3 text-[#8A9A5B]/90 text-sm sm:text-base">What you get:</h5>
-                <ul class="space-y-2 text-sm sm:text-base font-bold">
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Influencer identification</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Strategic seeding plans</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Campaign rollouts</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Relationship-based collabs</li>
-                </ul>
+              <!-- Phone 2 (Right, Lower) -->
+              <div class="w-[140px] sm:w-[200px] md:w-[240px] xl:w-[260px] h-[300px] sm:h-[420px] md:h-[500px] xl:h-[540px] bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_15px_40px_rgba(0,0,0,0.4)] md:shadow-2xl flex flex-col items-center justify-center relative overflow-hidden ring-[4px] md:ring-[8px] ring-[#333] border-[3px] md:border-4 border-black mt-10 sm:mt-16 md:mt-24 shrink-0">
+                <!-- Notch -->
+                <div class="absolute top-0 w-16 sm:w-24 md:w-32 h-4 sm:h-5 md:h-6 bg-black rounded-b-2xl z-30"></div>
+                
+                <!-- Phone 2 Slideshow -->
+                <div class="absolute inset-0 w-full h-full z-10 bg-black">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Colourful%20tennis%20court%20inspired%20still%20life%20photography%20by%20Florence%20James%20Collective.jpeg" alt="Showcase 1" class="phone2-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-100">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Laneige%20campaign%20photography%20by%20McKenzie%20Thompson.jpeg" alt="Showcase 2" class="phone2-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/_%20(9).jpeg" alt="Showcase 3" class="phone2-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Fotografi%CC%81a%20para%20@frambascol%20%E2%99%A5%EF%B8%8F_Agenda%20tu%20sesio%CC%81n%20ahora%20%F0%9F%8C%9F.jpeg" alt="Showcase 4" class="phone2-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0">
+                  <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Fotografi%CC%81a%20para%20@frunola%20%F0%9F%A9%B7%20Agenda%20tu%20sesio%CC%81n%20ahora%20%F0%9F%8C%9F.jpeg" alt="Showcase 5" class="phone2-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0">
+                </div>
               </div>
-              <p class="pb-6 sm:pb-8 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#D0D9A5]">We seed stories, not just products.</p>
+
             </div>
           </div>
 
-          <!-- Service 3 -->
-          <div class="service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col" data-active="false">
-            <!-- Image Placeholder (1:1 Aspect Ratio) -->
-            <div class="w-full aspect-square bg-[#D0D9A5] border-b-[3px] sm:border-b-4 border-[#8A9A5B] relative flex flex-col items-center justify-center group overflow-hidden shrink-0">
-               <div class="absolute inset-0 bg-[#8A9A5B] opacity-10 transition-opacity"></div>
-               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
-               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ Service Image ]</span>
-            </div>
-            
-            <!-- Clickable Header Area (Uniform Height) -->
-            <div class="service-header p-5 sm:p-6 flex justify-between items-start gap-4 cursor-pointer hover:bg-[#D0D9A5] transition-colors duration-300 h-32 sm:h-36 shrink-0">
-              <h3 class="text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide w-[80%] text-[#8A9A5B] leading-tight">Narrative-Led Positioning</h3>
-              <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]">
-                <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#8A9A5B]"></i>
-              </div>
-            </div>
+        </div>
+      </div>
+    </section>
 
-            <!-- Dropdown Content -->
-            <div class="service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]">
-              <h4 class="text-lg sm:text-xl font-bold italic text-[#D0D9A5] mb-3 sm:mb-4 pt-4">Your story, but sharper.</h4>
-              <p class="text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed opacity-90 font-bold text-[#EAB4C0]">If people can’t explain your brand in one line, it’s a problem. We define your voice, tone, personality, and cultural stance so your brand feels consistent everywhere - from social to campaigns to collaborations.</p>
-              <div class="bg-[#EAB4C0] text-[#8A9A5B] p-4 sm:p-5 rounded-xl border-2 border-[#8A9A5B] mb-6 shadow-[3px_3px_0px_#D0D9A5]">
-                <h5 class="font-bold uppercase mb-3 text-[#8A9A5B]/90 text-sm sm:text-base">What you get:</h5>
-                <ul class="space-y-2 text-sm sm:text-base font-bold">
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Core messaging framework</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Brand voice & tone guide</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Audience clarity</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Narrative direction</li>
-                </ul>
+    <!-- Who We're For Section (Carousel) -->
+    <section id="who-we-are-for" class="py-16 md:py-24 lg:py-32 bg-[#EBBCC1] border-t-4 border-[#5B6D62] relative overflow-hidden">
+      <!-- Decorative background element -->
+      <i data-lucide="sparkles" class="absolute top-6 right-6 md:top-10 md:right-10 w-12 h-12 md:w-20 md:h-20 text-[#FBF5EB] animate-pulse opacity-40"></i>
+      
+      <!-- Section Header -->
+      <div class="max-w-7xl mx-auto px-6 text-center mb-10 md:mb-16 relative z-10">
+        <h2 class="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#5B6D62] mb-4 bg-[#FBF5EB] inline-block px-4 py-1.5 rounded-full shadow-[3px_3px_0px_#5B6D62]">Who We're For</h2>
+        <h3 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter text-[#5B6D62] uppercase mb-4 leading-[1.1]">
+          Built For Brands That Want <br> <span class="text-[#FBF5EB] font-serif italic lowercase tracking-normal drop-shadow-[2px_2px_0px_#5B6D62]">More Than Just Views</span>
+        </h3>
+        <p class="text-lg sm:text-xl md:text-2xl font-serif italic text-[#5B6D62]/90 mt-4 md:mt-6">
+          Not for everyone. Just for brands that get it.
+        </p>
+      </div>
+
+      <!-- Horizontal Carousel Container -->
+      <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-12 sm:pb-16 pt-6 sm:pt-8 px-6 md:px-12 w-full no-scrollbar relative z-10">
+        
+        <!-- Card 1 -->
+        <div class="min-w-[85vw] sm:min-w-[320px] md:min-w-[400px] bg-[#FBF5EB] border-4 border-[#5B6D62] rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[6px_6px_0px_#5B6D62] sm:shadow-[8px_8px_0px_#5B6D62] snap-center transform -rotate-1 sm:-rotate-2 hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-center relative cursor-pointer group">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 bg-[#EBBCC1] rounded-full flex items-center justify-center border-2 border-[#5B6D62] mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shrink-0">
+            <i data-lucide="shuffle" class="w-5 h-5 sm:w-6 sm:h-6 text-[#5B6D62]"></i>
+          </div>
+          <p class="text-xl sm:text-2xl md:text-3xl font-bold text-[#5B6D62] leading-snug">
+            You’ve tried influencer marketing… <span class="font-serif italic text-[#EBBCC1] text-shadow-sm font-black drop-shadow-[1px_1px_0px_#5B6D62]">but it felt random.</span>
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="min-w-[85vw] sm:min-w-[320px] md:min-w-[400px] bg-[#FBF5EB] border-4 border-[#5B6D62] rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[6px_6px_0px_#5B6D62] sm:shadow-[8px_8px_0px_#5B6D62] snap-center transform rotate-1 hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-center relative cursor-pointer group">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 bg-[#5B6D62] rounded-full flex items-center justify-center border-2 border-[#5B6D62] mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shrink-0">
+            <i data-lucide="target" class="w-5 h-5 sm:w-6 sm:h-6 text-[#FBF5EB]"></i>
+          </div>
+          <p class="text-xl sm:text-2xl md:text-3xl font-bold text-[#5B6D62] leading-snug">
+            You don’t just want reach,<br> <span class="font-serif italic text-[#5B6D62] font-black">you want recall.</span>
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="min-w-[85vw] sm:min-w-[320px] md:min-w-[400px] bg-[#FBF5EB] border-4 border-[#5B6D62] rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[6px_6px_0px_#5B6D62] sm:shadow-[8px_8px_0px_#5B6D62] snap-center transform -rotate-1 hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-center relative cursor-pointer group">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 bg-[#EBBCC1] rounded-full flex items-center justify-center border-2 border-[#5B6D62] mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shrink-0">
+            <i data-lucide="heart" class="w-5 h-5 sm:w-6 sm:h-6 text-[#5B6D62] fill-current opacity-80"></i>
+          </div>
+          <p class="text-xl sm:text-2xl md:text-3xl font-bold text-[#5B6D62] leading-snug">
+            You care about how your brand <span class="font-serif italic text-[#EBBCC1] font-black drop-shadow-[1px_1px_0px_#5B6D62]">feels online.</span>
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="min-w-[85vw] sm:min-w-[320px] md:min-w-[400px] bg-[#FBF5EB] border-4 border-[#5B6D62] rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[6px_6px_0px_#5B6D62] sm:shadow-[8px_8px_0px_#5B6D62] snap-center transform rotate-1 sm:rotate-2 hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-center relative cursor-pointer group">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 bg-[#5B6D62] rounded-full flex items-center justify-center border-2 border-[#5B6D62] mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shrink-0">
+            <i data-lucide="send" class="w-5 h-5 sm:w-6 sm:h-6 text-[#FBF5EB]"></i>
+          </div>
+          <p class="text-xl sm:text-2xl md:text-3xl font-bold text-[#5B6D62] leading-snug">
+            You’re done with <br><span class="font-serif italic text-[#5B6D62] font-black">“post & pray”</span> strategies.
+          </p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="min-w-[85vw] sm:min-w-[320px] md:min-w-[400px] bg-[#FBF5EB] border-4 border-[#5B6D62] rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[6px_6px_0px_#5B6D62] sm:shadow-[8px_8px_0px_#5B6D62] snap-center transform -rotate-1 hover:rotate-0 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-center relative cursor-pointer group">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 bg-[#EBBCC1] rounded-full flex items-center justify-center border-2 border-[#5B6D62] mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shrink-0">
+            <i data-lucide="users" class="w-5 h-5 sm:w-6 sm:h-6 text-[#5B6D62] fill-current opacity-80"></i>
+          </div>
+          <p class="text-xl sm:text-2xl md:text-3xl font-bold text-[#5B6D62] leading-snug">
+            You want creators who fit,<br> <span class="font-serif italic text-[#EBBCC1] font-black drop-shadow-[1px_1px_0px_#5B6D62]">not just ones who are famous.</span>
+          </p>
+        </div>
+        
+        <!-- Spacer to allow last card to scroll fully into view -->
+        <div class="min-w-[20px] md:min-w-[40px] shrink-0"></div>
+      </div>
+
+      <!-- Section Footer Text -->
+      <div class="max-w-4xl mx-auto px-6 text-center mt-6 sm:mt-8 relative z-10">
+        <p class="text-xl sm:text-2xl md:text-4xl font-black text-[#5B6D62] uppercase tracking-wide leading-tight">
+          If you’re building a brand people talk about,<br>
+          <span class="text-[#FBF5EB] font-serif italic lowercase font-bold tracking-normal drop-shadow-[2px_2px_0px_#5B6D62] text-3xl sm:text-4xl md:text-5xl mt-2 block">
+            you’re in the right place.
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <!-- How We REECH (Visual Flowchart) -->
+    <section id="how-we-reech" class="py-16 md:py-24 lg:py-32 px-4 md:px-6 bg-[#5B6D62] text-[#FBF5EB] border-t-4 border-[#5B6D62] relative overflow-hidden">
+      <!-- Decorative background elements -->
+      <i data-lucide="sparkles" class="absolute top-10 left-6 md:top-16 md:left-10 w-12 h-12 md:w-16 md:h-16 text-[#EBBCC1] animate-pulse opacity-40"></i>
+      <i data-lucide="star" class="absolute bottom-10 right-6 md:bottom-20 md:right-10 w-12 h-12 md:w-20 md:h-20 text-[#FBF5EB] animate-spin-slow opacity-30"></i>
+
+      <div class="max-w-5xl mx-auto relative z-10">
+        
+        <!-- Heading -->
+        <div class="text-center mb-12 sm:mb-16 lg:mb-24 px-2">
+          <h2 class="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#5B6D62] mb-4 bg-[#EBBCC1] inline-block px-4 py-1 rounded-full shadow-[3px_3px_0px_#FBF5EB]">The Process</h2>
+          <h3 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-[#FBF5EB] mb-4 md:mb-6 uppercase">
+            The Way We <span class="text-[#EBBCC1] font-serif italic lowercase font-bold tracking-normal">Ree'ch</span>
+          </h3>
+        </div>
+
+        <!-- Flowchart Container -->
+        <div class="flex flex-col w-full gap-12 md:gap-20 pb-8 px-2 sm:px-4">
+          
+          <!-- Step 1 -->
+          <div class="relative w-full md:w-[85%] self-start bg-[#EBBCC1] text-[#5B6D62] rounded-3xl md:rounded-r-[6rem] md:rounded-l-none p-6 sm:p-8 md:p-12 shadow-[6px_6px_0px_#FBF5EB] md:shadow-[10px_10px_0px_#FBF5EB] z-10">
+            <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-6 md:gap-12 relative z-10">
+              <div class="flex-1 text-center md:text-left">
+                <h4 class="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-wide mb-3 md:mb-4">1. Spot the Vibe</h4>
+                <p class="text-base sm:text-lg md:text-2xl font-serif italic font-medium leading-relaxed">We decode your brand energy + what your audience is actually into.</p>
               </div>
-              <p class="pb-6 sm:pb-8 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#D0D9A5]">Because trends change. Identity doesn’t.</p>
+              <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 bg-[#FBF5EB] rounded-full border-4 border-dashed border-[#5B6D62] flex items-center justify-center shrink-0 shadow-inner relative overflow-hidden">
+                <img src="https://uploads.onecompiler.io/44gq59f7a/44gwkwznz/%F0%9F%91%91%20Empower%20Your%20Feed_%20Boss%20Babe%20Templates%20(Free!).jpeg" alt="Spot the Vibe" class="w-full h-full object-cover">
+              </div>
             </div>
+            <!-- Tail -->
+            <div class="hidden md:block absolute -bottom-4 md:-bottom-6 right-10 md:right-20 lg:right-32 w-12 h-12 md:w-16 md:h-16 bg-[#EBBCC1] shadow-[6px_6px_0px_#FBF5EB] md:shadow-[10px_10px_0px_#FBF5EB] rotate-45 -z-10"></div>
           </div>
 
-          <!-- Service 4 -->
-          <div class="service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col" data-active="false">
-            <!-- Image Placeholder (1:1 Aspect Ratio) -->
-            <div class="w-full aspect-square bg-[#D0D9A5] border-b-[3px] sm:border-b-4 border-[#8A9A5B] relative flex flex-col items-center justify-center group overflow-hidden shrink-0">
-               <div class="absolute inset-0 bg-[#8A9A5B] opacity-10 transition-opacity"></div>
-               <i data-lucide="image" class="w-12 h-12 text-[#8A9A5B] mb-2 opacity-60"></i>
-               <span class="text-xs sm:text-sm font-bold text-[#8A9A5B] uppercase tracking-widest">[ Service Image ]</span>
-            </div>
-            
-            <!-- Clickable Header Area (Uniform Height) -->
-            <div class="service-header p-5 sm:p-6 flex justify-between items-start gap-4 cursor-pointer hover:bg-[#D0D9A5] transition-colors duration-300 h-32 sm:h-36 shrink-0">
-              <h3 class="text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide w-[80%] text-[#8A9A5B] leading-tight">Performance-Driven UGC</h3>
-              <div class="icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]">
-                <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5 text-[#8A9A5B]"></i>
+          <!-- Step 2 -->
+          <div class="relative w-full md:w-[85%] self-end bg-[#FBF5EB] text-[#5B6D62] rounded-3xl md:rounded-l-[6rem] md:rounded-r-none p-6 sm:p-8 md:p-12 shadow-[6px_6px_0px_#EBBCC1] md:shadow-[10px_10px_0px_#EBBCC1] z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-12 relative z-10">
+              <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 bg-[#EBBCC1] rounded-full border-4 border-dashed border-[#5B6D62] flex items-center justify-center shrink-0 shadow-inner relative overflow-hidden">
+                <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/_%20(11).jpeg" alt="Match the Characters" class="w-full h-full object-cover">
+              </div>
+              <div class="flex-1 text-center md:text-right">
+                <h4 class="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-wide mb-3 md:mb-4">2. Match the Characters</h4>
+                <p class="text-base sm:text-lg md:text-2xl font-serif italic font-medium leading-relaxed">Creators who don’t just fit, they feel right for your brand.</p>
               </div>
             </div>
+            <!-- Tail -->
+            <div class="hidden md:block absolute -bottom-4 md:-bottom-6 left-10 md:left-20 lg:left-32 w-12 h-12 md:w-16 md:h-16 bg-[#FBF5EB] shadow-[6px_6px_0px_#EBBCC1] md:shadow-[10px_10px_0px_#EBBCC1] rotate-45 -z-10"></div>
+          </div>
 
-            <!-- Dropdown Content -->
-            <div class="service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]">
-              <h4 class="text-lg sm:text-xl font-bold italic text-[#D0D9A5] mb-3 sm:mb-4 pt-4">Content that looks native - and converts.</h4>
-              <p class="text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed opacity-90 font-bold text-[#EAB4C0]">We create creator-led content that blends seamlessly into feeds while still driving real results. Authentic energy. Strategic execution. Soft sell. Strong impact.</p>
-              <div class="bg-[#EAB4C0] text-[#8A9A5B] p-4 sm:p-5 rounded-xl border-2 border-[#8A9A5B] mb-6 shadow-[3px_3px_0px_#D0D9A5]">
-                <h5 class="font-bold uppercase mb-3 text-[#8A9A5B]/90 text-sm sm:text-base">What you get:</h5>
-                <ul class="space-y-2 text-sm sm:text-base font-bold">
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> UGC creator sourcing</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Script & concept direction</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Conversion-focused content</li>
-                  <li class="flex items-center gap-2 sm:gap-3"><i data-lucide="heart" class="w-3 h-3 sm:w-4 sm:h-4 text-[#8A9A5B] fill-current shrink-0"></i> Paid-ad-ready assets</li>
-                </ul>
+          <!-- Step 3 -->
+          <div class="relative w-full md:w-[85%] self-start bg-[#EBBCC1] text-[#5B6D62] rounded-3xl md:rounded-r-[6rem] md:rounded-l-none p-6 sm:p-8 md:p-12 shadow-[6px_6px_0px_#FBF5EB] md:shadow-[10px_10px_0px_#FBF5EB] z-10">
+            <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-6 md:gap-12 relative z-10">
+              <div class="flex-1 text-center md:text-left">
+                <h4 class="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-wide mb-3 md:mb-4">3. Cook the Sauce</h4>
+                <p class="text-base sm:text-lg md:text-2xl font-serif italic font-medium leading-relaxed">Trend-first ideas, hooks that slap, content people don’t skip.</p>
               </div>
-              <p class="pb-6 sm:pb-8 font-bold uppercase tracking-widest text-xs sm:text-sm text-[#D0D9A5]">It’s not just aesthetic. It performs.</p>
+              <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 bg-[#FBF5EB] rounded-full border-4 border-dashed border-[#5B6D62] flex items-center justify-center shrink-0 shadow-inner relative overflow-hidden">
+                <img src="https://uploads.onecompiler.io/44gq59f7a/44gwkwznz/Product%20Styling%20_%20Stories%20by%20Chloe.jpeg" alt="Cook the Sauce" class="w-full h-full object-cover">
+              </div>
+            </div>
+            <!-- Tail -->
+            <div class="hidden md:block absolute -bottom-4 md:-bottom-6 right-10 md:right-20 lg:right-32 w-12 h-12 md:w-16 md:h-16 bg-[#EBBCC1] shadow-[6px_6px_0px_#FBF5EB] md:shadow-[10px_10px_0px_#FBF5EB] rotate-45 -z-10"></div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="relative w-full md:w-[85%] self-end bg-[#FBF5EB] text-[#5B6D62] rounded-3xl md:rounded-l-[6rem] md:rounded-r-none p-6 sm:p-8 md:p-12 shadow-[6px_6px_0px_#EBBCC1] md:shadow-[10px_10px_0px_#EBBCC1] z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-12 relative z-10">
+              <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 bg-[#EBBCC1] rounded-full border-4 border-dashed border-[#5B6D62] flex items-center justify-center shrink-0 shadow-inner relative overflow-hidden">
+                <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/bachelorette%20planning%20_%20bachelorette%20weekend%20_%20charleston%20bachelorette.jpeg" alt="Drop & Disrupt" class="w-full h-full object-cover">
+              </div>
+              <div class="flex-1 text-center md:text-right">
+                <h4 class="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-wide mb-3 md:mb-4">4. Drop & Disrupt</h4>
+                <p class="text-base sm:text-lg md:text-2xl font-serif italic font-medium leading-relaxed">Launch it where it matters, when it matters. No random posting.</p>
+              </div>
+            </div>
+            <!-- Tail -->
+            <div class="hidden md:block absolute -bottom-4 md:-bottom-6 left-10 md:left-20 lg:left-32 w-12 h-12 md:w-16 md:h-16 bg-[#FBF5EB] shadow-[6px_6px_0px_#EBBCC1] md:shadow-[10px_10px_0px_#EBBCC1] rotate-45 -z-10"></div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="relative w-full md:w-[85%] self-start bg-[#EBBCC1] text-[#5B6D62] rounded-3xl md:rounded-r-[6rem] md:rounded-l-none p-6 sm:p-8 md:p-12 shadow-[6px_6px_0px_#FBF5EB] md:shadow-[10px_10px_0px_#FBF5EB] z-10">
+            <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-6 md:gap-12 relative z-10">
+              <div class="flex-1 text-center md:text-left">
+                <h4 class="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-wide mb-3 md:mb-4">5. Scale the Buzz</h4>
+                <p class="text-base sm:text-lg md:text-2xl font-serif italic font-medium leading-relaxed">Double down on what’s popping. Optimize, remix, repeat.</p>
+              </div>
+              <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 bg-[#FBF5EB] rounded-full border-4 border-dashed border-[#5B6D62] flex items-center justify-center shrink-0 shadow-inner relative overflow-hidden">
+                <img src="https://uploads.onecompiler.io/44gq59f7a/44gwkwznz/WhatsApp%20Image%202026-03-19%20at%2014.19.51.jpeg" alt="Scale the Buzz" class="w-full h-full object-cover">
+              </div>
             </div>
           </div>
 
@@ -398,73 +718,74 @@
     </section>
 
     <!-- The Sauce Section (Flip Cards) -->
-    <section id="the-sauce" class="py-20 sm:py-32 px-4 sm:px-6 bg-[#D0D9A5] border-t-4 border-[#8A9A5B] relative overflow-hidden">
+    <section id="the-sauce" class="py-16 md:py-24 lg:py-32 px-6 bg-[#EBBCC1] border-t-4 border-[#5B6D62] relative overflow-hidden">
       <!-- Decorative background elements -->
-      <i data-lucide="star" class="absolute top-10 left-6 sm:left-10 w-12 h-12 sm:w-16 sm:h-16 text-[#8A9A5B] animate-spin-slow opacity-50"></i>
-      <i data-lucide="sparkles" class="absolute bottom-10 right-6 sm:right-10 w-16 h-16 sm:w-24 sm:h-24 text-[#EAB4C0] animate-pulse opacity-60"></i>
+      <i data-lucide="star" class="absolute top-8 left-8 md:top-10 md:left-10 w-12 h-12 md:w-16 md:h-16 text-[#EBBCC1] animate-spin-slow opacity-50"></i>
+      <i data-lucide="sparkles" class="absolute bottom-8 right-8 md:bottom-10 md:right-10 w-16 h-16 md:w-24 md:h-24 text-[#FBF5EB] animate-pulse opacity-60"></i>
 
       <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16 sm:mb-20 relative z-10 px-2">
-          <h2 class="text-xs sm:text-sm font-serif font-bold tracking-widest uppercase text-[#8A9A5B] mb-4 bg-[#EAB4C0] inline-block px-3 py-1 sm:px-4 sm:py-1 rounded-full shadow-[2px_2px_0px_#8A9A5B] sm:shadow-[3px_3px_0px_#8A9A5B]">What we do</h2>
-          <h3 class="text-5xl sm:text-6xl md:text-8xl font-serif font-bold tracking-tighter text-[#8A9A5B] mb-4 sm:mb-6 uppercase leading-none">
-            THE <span class="font-script text-[#EAB4C0] lowercase font-normal text-[1.2em] tracking-normal drop-shadow-[2px_2px_0px_#8A9A5B]">sauce</span>
+        <div class="text-center mb-16 md:mb-20 relative z-10">
+          <h2 class="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#5B6D62] mb-4 bg-[#FBF5EB] inline-block px-4 py-1.5 rounded-full shadow-[3px_3px_0px_#5B6D62]">What we do</h2>
+          <h3 class="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-[#5B6D62] mb-4 sm:mb-6 uppercase">
+            THE SAUCE
           </h3>
-          <p class="text-xl sm:text-2xl md:text-3xl font-bold italic text-[#8A9A5B]/90 mt-2 sm:mt-4 max-w-2xl mx-auto">Everything you need to stop the scroll and start the conversation.</p>
+          <p class="text-lg sm:text-xl md:text-3xl font-serif italic text-[#5B6D62]/80 mt-2 md:mt-4 max-w-2xl mx-auto px-4">Everything you need to stop the scroll and start the conversation.</p>
         </div>
 
         <!-- Flip Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 perspective-1000 z-10 relative">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 perspective-1000 z-10 relative px-2">
           
           <!-- Card 1 -->
-          <div class="group h-[380px] sm:h-[450px] [perspective:1000px] cursor-pointer">
-            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#8A9A5B] sm:shadow-[10px_10px_0px_#8A9A5B] rounded-2xl sm:rounded-[2rem]">
+          <div class="group h-[380px] sm:h-[420px] md:h-[450px] [perspective:1000px] cursor-pointer">
+            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#5B6D62] md:shadow-[10px_10px_0px_#5B6D62] rounded-[2rem]">
               <!-- Front -->
-              <div class="absolute inset-0 bg-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
-                <div class="absolute -top-10 -right-10 w-24 h-24 sm:w-32 sm:h-32 bg-[#D0D9A5] rounded-full mix-blend-multiply opacity-50 animate-blob"></div>
-                <i data-lucide="zap" class="w-20 h-20 sm:w-24 sm:h-24 text-[#8A9A5B] mb-6 sm:mb-8 fill-[#8A9A5B] group-hover:scale-110 transition-transform duration-300"></i>
-                <h4 class="text-3xl sm:text-4xl font-serif font-bold uppercase text-center leading-none text-[#8A9A5B]">Viral<br><span class="text-[#8A9A5B] font-script capitalize font-normal text-[2.5rem] sm:text-[3rem] tracking-normal block mt-2">Strategy</span></h4>
+              <div class="absolute inset-0 bg-[#FBF5EB] rounded-[2rem] border-4 border-[#5B6D62] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-24 h-24 sm:w-32 sm:h-32 bg-[#EBBCC1] rounded-full mix-blend-multiply opacity-30 animate-blob"></div>
+                <i data-lucide="zap" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 text-[#EBBCC1] mb-6 sm:mb-8 fill-[#EBBCC1] group-hover:scale-110 transition-transform duration-300"></i>
+                <h4 class="text-3xl sm:text-4xl font-black uppercase text-center leading-none text-[#5B6D62]">Viral<br><span class="text-[#EBBCC1] font-serif italic font-bold lowercase text-[2rem] sm:text-[2.5rem] tracking-normal block mt-2">strategy</span></h4>
               </div>
               <!-- Back -->
-              <div class="absolute inset-0 bg-[#8A9A5B] text-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 sm:p-8 text-center">
-                <h4 class="text-xl sm:text-2xl font-serif font-bold uppercase mb-4 sm:mb-6 text-[#D0D9A5]">Viral Strategy</h4>
-                <p class="text-base sm:text-xl font-bold leading-relaxed">We don't do boring briefs. We hack culture and jump on trends before they peak. We script the hooks that keep them watching.</p>
-                <i data-lucide="sparkles" class="w-6 h-6 sm:w-8 sm:h-8 text-[#EAB4C0] mt-6 sm:mt-8 opacity-50"></i>
+              <div class="absolute inset-0 bg-[#5B6D62] text-[#FBF5EB] rounded-[2rem] border-4 border-[#5B6D62] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 md:p-8 text-center">
+                <h4 class="text-xl lg:text-2xl font-black uppercase mb-4 md:mb-6 text-[#EBBCC1] w-full leading-snug">Viral<br>Strategy</h4>
+                <p class="text-base md:text-lg xl:text-xl font-medium leading-relaxed">We don't do boring briefs. We hack culture and jump on trends before they peak. We script the hooks that keep them watching.</p>
+                <i data-lucide="sparkles" class="w-6 h-6 sm:w-8 sm:h-8 text-[#FBF5EB] mt-6 opacity-50 shrink-0"></i>
               </div>
             </div>
           </div>
 
           <!-- Card 2 -->
-          <div class="group h-[380px] sm:h-[450px] [perspective:1000px] cursor-pointer md:mt-12">
-            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#8A9A5B] sm:shadow-[10px_10px_0px_#8A9A5B] rounded-2xl sm:rounded-[2rem]">
+          <div class="group h-[380px] sm:h-[420px] md:h-[450px] [perspective:1000px] cursor-pointer lg:mt-12">
+            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#5B6D62] md:shadow-[10px_10px_0px_#5B6D62] rounded-[2rem]">
               <!-- Front -->
-              <div class="absolute inset-0 bg-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
-                <div class="absolute -bottom-10 -left-10 w-24 h-24 sm:w-32 sm:h-32 bg-[#D0D9A5] rounded-full mix-blend-multiply opacity-50 animate-blob"></div>
-                <i data-lucide="heart-handshake" class="w-20 h-20 sm:w-24 sm:h-24 text-[#8A9A5B] mb-6 sm:mb-8 group-hover:scale-110 transition-transform duration-300"></i>
-                <h4 class="text-3xl sm:text-4xl font-serif font-bold uppercase text-center leading-none text-[#8A9A5B]">Brand<br><span class="text-[#8A9A5B] font-script capitalize font-normal text-[2.2rem] sm:text-[2.6rem] tracking-normal block mt-2">Matchmaking</span></h4>
+              <div class="absolute inset-0 bg-[#FBF5EB] rounded-[2rem] border-4 border-[#5B6D62] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
+                <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/_%20(12).jpeg" alt="Brand Matchmaking Background" class="absolute inset-0 w-full h-full object-cover z-0" style="transform: scale(1.25) translateY(-4%);">
+                <div class="absolute -bottom-10 -left-10 w-24 h-24 sm:w-32 sm:h-32 bg-[#5B6D62] rounded-full mix-blend-multiply opacity-20 animate-blob z-10"></div>
+                <i data-lucide="heart-handshake" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 text-[#FBF5EB] mb-6 sm:mb-8 group-hover:scale-110 transition-transform duration-300 relative z-20"></i>
+                <h4 class="text-3xl sm:text-4xl font-bold uppercase text-center leading-none text-[#FBF5EB] relative z-20">BRAND<br><span class="text-[#FBF5EB] font-serif italic font-bold lowercase text-[1.8rem] sm:text-[2rem] lg:text-[2.2rem] tracking-normal block mt-2">matchmaking</span></h4>
               </div>
               <!-- Back -->
-              <div class="absolute inset-0 bg-[#8A9A5B] text-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 sm:p-8 text-center">
-                <h4 class="text-xl sm:text-2xl font-serif font-bold uppercase mb-4 sm:mb-6 text-[#D0D9A5]">Brand Matchmaking</h4>
-                <p class="text-base sm:text-xl font-bold leading-relaxed">No forced sponsorships. We pair your brand with creators who already vibe with your product. Authenticity is the only currency.</p>
-                <i data-lucide="users" class="w-6 h-6 sm:w-8 sm:h-8 text-[#EAB4C0] mt-6 sm:mt-8 opacity-50"></i>
+              <div class="absolute inset-0 bg-[#5B6D62] text-[#FBF5EB] rounded-[2rem] border-4 border-[#5B6D62] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 md:p-8 text-center">
+                <h4 class="text-xl lg:text-2xl font-black uppercase mb-4 md:mb-6 text-[#EBBCC1] w-full leading-snug">Brand<br>Matchmaking</h4>
+                <p class="text-base md:text-lg xl:text-xl font-medium leading-relaxed">No forced sponsorships. We pair your brand with creators who already vibe with your product. Authenticity is the only currency.</p>
+                <i data-lucide="users" class="w-6 h-6 sm:w-8 sm:h-8 text-[#FBF5EB] mt-6 opacity-50 shrink-0"></i>
               </div>
             </div>
           </div>
-
+          <!-- Card 2 -->
           <!-- Card 3 -->
-          <div class="group h-[380px] sm:h-[450px] [perspective:1000px] cursor-pointer">
-            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#8A9A5B] sm:shadow-[10px_10px_0px_#8A9A5B] rounded-2xl sm:rounded-[2rem]">
+          <div class="group h-[380px] sm:h-[420px] md:h-[450px] [perspective:1000px] cursor-pointer md:col-span-2 lg:col-span-1 md:w-1/2 lg:w-full md:mx-auto lg:mx-0">
+            <div class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[6px_6px_0px_#5B6D62] md:shadow-[10px_10px_0px_#5B6D62] rounded-[2rem]">
               <!-- Front -->
-              <div class="absolute inset-0 bg-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
-                <div class="absolute bottom-4 -right-8 w-24 h-24 sm:w-32 sm:h-32 bg-[#D0D9A5] rounded-full mix-blend-multiply opacity-50 animate-blob animation-delay-4000"></div>
-                <i data-lucide="flame" class="w-20 h-20 sm:w-24 sm:h-24 text-[#8A9A5B] mb-6 sm:mb-8 fill-[#8A9A5B] group-hover:scale-110 transition-transform duration-300"></i>
-                <h4 class="text-3xl sm:text-4xl font-serif font-bold uppercase text-center leading-none text-[#8A9A5B]">Paid<br><span class="text-[#8A9A5B] font-script capitalize font-normal text-[2.2rem] sm:text-[2.6rem] tracking-normal block mt-2">Amplification</span></h4>
+              <div class="absolute inset-0 bg-[#FBF5EB] rounded-[2rem] border-4 border-[#5B6D62] [backface-visibility:hidden] flex flex-col items-center justify-center p-6 sm:p-8 overflow-hidden">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 bg-[#EBBCC1] rounded-full mix-blend-multiply opacity-40 animate-blob animation-delay-4000"></div>
+                <i data-lucide="flame" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 text-[#EBBCC1] mb-6 sm:mb-8 fill-[#EBBCC1] group-hover:scale-110 transition-transform duration-300"></i>
+                <h4 class="text-3xl sm:text-4xl font-black uppercase text-center leading-none text-[#5B6D62]">Paid<br><span class="text-[#EBBCC1] font-serif italic font-bold lowercase text-[1.8rem] sm:text-[1.9rem] lg:text-[2.1rem] tracking-normal block mt-2">amplification</span></h4>
               </div>
               <!-- Back -->
-              <div class="absolute inset-0 bg-[#8A9A5B] text-[#EAB4C0] rounded-2xl sm:rounded-[2rem] border-[3px] sm:border-4 border-[#8A9A5B] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 sm:p-8 text-center">
-                <h4 class="text-xl sm:text-2xl font-serif font-bold uppercase mb-4 sm:mb-6 text-[#D0D9A5]">Paid Amplification</h4>
-                <p class="text-base sm:text-xl font-bold leading-relaxed">When a post bangs, we put gas on the fire. Our whitelisting strategy turns organic wins into massive ROAS.</p>
-                <i data-lucide="rocket" class="w-6 h-6 sm:w-8 sm:h-8 text-[#EAB4C0] mt-6 sm:mt-8 opacity-50"></i>
+              <div class="absolute inset-0 bg-[#5B6D62] text-[#FBF5EB] rounded-[2rem] border-4 border-[#5B6D62] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center p-6 md:p-8 text-center">
+                <h4 class="text-xl lg:text-2xl font-black uppercase mb-4 md:mb-6 text-[#EBBCC1] w-full leading-snug">Paid<br>Amplification</h4>
+                <p class="text-base md:text-lg xl:text-xl font-medium leading-relaxed">When a post bangs, we put gas on the fire. Our whitelisting strategy turns organic wins into massive ROAS.</p>
+                <i data-lucide="rocket" class="w-6 h-6 sm:w-8 sm:h-8 text-[#FBF5EB] mt-6 opacity-50 shrink-0"></i>
               </div>
             </div>
           </div>
@@ -475,106 +796,233 @@
   </main>
 
   <!-- ======================== ABOUT PAGE VIEW ======================== -->
-  <main id="about-page" class="hidden min-h-screen bg-[#EAB4C0] pt-20 sm:pt-0">
-    <!-- Vision & Mission Grid -->
-    <section class="pt-24 sm:pt-48 pb-16 sm:pb-24 px-4 sm:px-6 bg-[#EAB4C0]">
-      <div class="max-w-7xl mx-auto flex flex-col gap-12 sm:gap-20">
+  <main id="about-page" class="hidden min-h-screen bg-[#FBF5EB]">
+    
+    <!-- New "About Us" Header & Pinboard Section -->
+    <section class="pt-24 md:pt-28 pb-0 bg-[#FBF5EB]">
+      <!-- Header Text -->
+      <div class="max-w-7xl mx-auto px-6 mb-6 md:mb-8 text-center">
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-[#5B6D62]">About Us</h1>
+      </div>
+
+      <!-- Chex Background & Pinboard -->
+      <div class="bg-chex-pattern relative z-10 border-b-4 border-[#5B6D62]">
         
-        <!-- Vision Block -->
-        <div class="bg-[#D0D9A5] p-6 sm:p-10 md:p-14 rounded-3xl sm:rounded-[2rem] shadow-[6px_6px_0px_#8A9A5B] sm:shadow-[8px_8px_0px_#8A9A5B] flex flex-col md:flex-row gap-8 md:gap-12 relative items-center">
-          
-          <!-- Spinning GenZ Sticker -->
-          <div class="absolute -top-6 -right-2 sm:-top-8 sm:-right-4 md:-right-8 bg-[#EAB4C0] text-[#8A9A5B] border-2 border-[#8A9A5B] rounded-full w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center font-bold uppercase text-center shadow-[3px_3px_0px_#8A9A5B] sm:shadow-[4px_4px_0px_#8A9A5B] animate-spin-slow z-20 leading-tight p-2 text-xs sm:text-base">
-            Vibes<br>Only
-          </div>
-
-          <!-- Left side: Heading & Image -->
-          <div class="w-full md:w-5/12 lg:w-1/3 flex flex-col items-start">
-            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#8A9A5B] uppercase mb-6">Vision</h2>
-            <div class="w-full max-w-[280px] sm:max-w-[320px] aspect-square bg-white border-4 border-[#8A9A5B] rounded-2xl sm:rounded-[2rem] flex flex-col items-center justify-center shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] overflow-hidden relative">
-               <div class="absolute inset-0 bg-[#8A9A5B] opacity-5 transition-opacity"></div>
-               <i data-lucide="image" class="w-10 h-10 text-[#8A9A5B] mb-2 opacity-60"></i>
-               <span class="text-xs font-bold text-[#8A9A5B] uppercase tracking-widest">[ 1:1 IMAGE ~ 400x400px ]</span>
-            </div>
-          </div>
-
-          <!-- Right side: Text -->
-          <div class="w-full md:w-7/12 lg:w-2/3 flex flex-col justify-center pt-4 md:pt-0">
-            <h3 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#8A9A5B] mb-6 sm:mb-8 leading-tight">
-              Seen.<br>Saved.<br><span class="font-script text-[#EAB4C0] capitalize font-normal text-[1.4em] drop-shadow-[2px_2px_0px_#8A9A5B]">Spoken about.</span>
-            </h3>
-            <p class="text-xl sm:text-2xl lg:text-3xl text-[#8A9A5B] font-bold leading-relaxed">
-              Hype fades. Perception stays. <br>We shape how the internet remembers you.
-            </p>
-          </div>
+        <!-- Wave SVG Transition (Beige fill masking top of grid) -->
+        <div class="w-full relative z-20 -mt-[1px]">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" class="w-full h-8 sm:h-12 md:h-16 fill-[#FBF5EB] block relative z-20">
+            <path d="M0,0 L0,50 Q250,100 500,50 T1000,50 L1000,0 Z" />
+          </svg>
         </div>
 
-        <!-- Mission Block -->
-        <div class="bg-[#8A9A5B] p-6 sm:p-10 md:p-14 rounded-3xl sm:rounded-[2rem] shadow-[6px_6px_0px_#D0D9A5] sm:shadow-[8px_8px_0px_#D0D9A5] flex flex-col md:flex-row-reverse gap-8 md:gap-12 relative items-center">
+        <div class="pt-8 pb-16 sm:pb-20 md:pt-16 md:pb-32 px-4 sm:px-6 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           
-          <!-- Right side (First on Mobile): Heading & Image -->
-          <div class="w-full md:w-5/12 lg:w-1/3 flex flex-col items-start md:items-end">
-            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#EAB4C0] uppercase mb-6 md:text-right">Mission</h2>
-            <div class="w-full max-w-[280px] sm:max-w-[320px] aspect-square bg-white border-4 border-[#EAB4C0] rounded-2xl sm:rounded-[2rem] flex flex-col items-center justify-center shadow-[4px_4px_0px_#EAB4C0] sm:shadow-[6px_6px_0px_#EAB4C0] overflow-hidden relative">
-               <div class="absolute inset-0 bg-[#EAB4C0] opacity-10 transition-opacity"></div>
-               <i data-lucide="image" class="w-10 h-10 text-[#8A9A5B] mb-2 opacity-60"></i>
-               <span class="text-xs font-bold text-[#8A9A5B] uppercase tracking-widest">[ 1:1 IMAGE ~ 400x400px ]</span>
+          <!-- Left: Pinned Images -->
+          <div class="lg:col-span-6 relative flex justify-center lg:justify-start pt-6 sm:pt-10 pb-16 sm:pb-20">
+            
+            <!-- Image 1 -->
+            <div class="relative w-[80%] sm:w-[85%] max-w-[280px] sm:max-w-[320px] bg-[#FBF5EB] p-3 sm:p-4 pb-12 sm:pb-16 shadow-[6px_6px_0px_#5B6D62] sm:shadow-[8px_8px_0px_#5B6D62] -rotate-3 border-2 border-[#5B6D62] z-10 hover:rotate-0 transition-transform duration-300">
+              <!-- Pin -->
+              <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#EBBCC1] border-2 border-[#5B6D62] shadow-[2px_2px_0px_#5B6D62] z-20">
+                <div class="w-1.5 h-1.5 rounded-full bg-white opacity-60 absolute top-1 left-1"></div>
+              </div>
+              <!-- Image Placeholder -->
+              <div class="w-full aspect-[4/5] bg-[#EBBCC1]/40 border-2 border-[#5B6D62]/20 flex items-center justify-center relative overflow-hidden">
+                <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/Remote%20work%20passion.jpeg" alt="Ree'ch Creative" class="absolute inset-0 w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Image 2 (Overlapping) -->
+            <div class="absolute bottom-4 sm:bottom-0 right-2 sm:right-8 md:right-12 lg:-right-8 w-[60%] sm:w-[65%] max-w-[200px] sm:max-w-[240px] bg-[#FBF5EB] p-2.5 sm:p-3 pb-10 sm:pb-12 shadow-[6px_6px_0px_#5B6D62] sm:shadow-[8px_8px_0px_#5B6D62] rotate-6 border-2 border-[#5B6D62] z-20 hover:rotate-12 transition-transform duration-300">
+              <!-- Pin -->
+              <div class="absolute -top-2.5 sm:-top-3 left-1/2 transform -translate-x-1/2 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#5B6D62] border-2 border-[#FBF5EB] shadow-[2px_2px_0px_#5B6D62] z-20">
+                <div class="w-1 h-1 rounded-full bg-white opacity-60 absolute top-1 left-1"></div>
+              </div>
+              <!-- Image Placeholder -->
+              <div class="w-full aspect-square bg-[#EBBCC1]/40 border-2 border-[#5B6D62]/20 flex items-center justify-center relative overflow-hidden">
+                <img src="https://uploads.onecompiler.io/44gq59f7a/44gq593fe/FF%20Bellen%20Podcast.jpeg" alt="Ree'ch Workspace" class="absolute inset-0 w-full h-full object-cover">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right: Pinned Note/Info -->
+          <div class="lg:col-span-6 relative mt-6 sm:mt-10 lg:mt-0">
+            <div class="relative bg-[#FBF5EB] p-6 sm:p-8 md:p-12 shadow-[8px_8px_0px_#5B6D62] md:shadow-[12px_12px_0px_#5B6D62] rotate-1 border-[3px] md:border-4 border-[#5B6D62] hover:-rotate-1 transition-transform duration-300">
+              <!-- Pin -->
+              <div class="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#EBBCC1] border-2 border-[#5B6D62] shadow-[2px_2px_0px_rgba(0,0,0,0.2)] sm:shadow-[3px_3px_0px_rgba(0,0,0,0.2)] z-20">
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white opacity-60 absolute top-1 sm:top-1.5 left-1 sm:left-1.5"></div>
+              </div>
+
+              <h3 class="text-3xl sm:text-4xl md:text-5xl font-black uppercase text-[#5B6D62] mb-6 sm:mb-8 relative inline-block">
+                What is Ree'ch?
+                <!-- underline -->
+                <svg class="absolute w-full h-2 sm:h-3 -bottom-1 left-0 text-[#EBBCC1]" preserveAspectRatio="none" viewBox="0 0 100 10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+                  <path d="M2,8 Q25,2 50,5 T98,5"/>
+                </svg>
+              </h3>
+              
+              <div class="space-y-4 sm:space-y-6 text-[#5B6D62] text-base sm:text-lg md:text-xl font-medium leading-relaxed">
+                <p>
+                  <strong class="font-black text-lg sm:text-xl md:text-2xl block mb-1">Ree'ch isn’t just about being seen.</strong>
+                  It’s about being felt.
+                </p>
+                <p>
+                  In a world full of noise,<br>
+                  we focus on what actually lands<br>
+                  <span class="bg-[#EBBCC1]/40 px-2 py-1 rounded inline-block mt-2 font-serif italic text-xl sm:text-2xl font-bold">real connections, real conversations, real impact.</span>
+                </p>
+                <p>
+                  Not every view matters.<br>
+                  But the right ones? <br class="md:hidden">They change everything.
+                </p>
+                <p class="font-serif italic text-2xl sm:text-3xl md:text-4xl font-bold mt-6 sm:mt-8 text-[#EBBCC1] drop-shadow-[1px_1px_0px_#5B6D62] sm:drop-shadow-[2px_2px_0px_#5B6D62]">
+                  That’s Ree'ch.
+                </p>
+              </div>
             </div>
           </div>
 
-          <!-- Left side (Second on Mobile): Text -->
-          <div class="w-full md:w-7/12 lg:w-2/3 flex flex-col justify-center pt-4 md:pt-0">
-            <p class="text-2xl sm:text-3xl lg:text-4xl text-[#EAB4C0] font-bold mb-6 sm:mb-8 leading-snug">
-              Ree’ch exists to build brands that don’t just trend <br>
-              <span class="text-[#8A9A5B] bg-[#D0D9A5] px-3 py-1 sm:py-2 rounded-lg italic inline-block mt-4 shadow-[3px_3px_0px_#EAB4C0]">they take up space.</span>
-            </p>
-            <p class="text-lg sm:text-xl lg:text-2xl text-white font-bold leading-relaxed">
-              Because chasing the algorithm is exhausting. Owning your positioning? Power move. We don’t follow waves. We create presence.
-            </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why REECH (Interactive Sensitive Content Section) -->
+    <section id="why-reech" class="py-16 md:py-24 lg:py-32 px-4 sm:px-6 bg-[#5B6D62] text-[#FBF5EB] relative overflow-hidden border-b-4 border-[#5B6D62]">
+      <!-- Header -->
+      <div class="max-w-4xl mx-auto text-center mb-10 md:mb-16 relative z-10">
+        <h2 class="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#EBBCC1] mb-4 bg-[#FBF5EB]/10 inline-block px-4 py-1.5 rounded-full shadow-[3px_3px_0px_#EBBCC1]">Not for everyone</h2>
+        <h3 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-[#FBF5EB] mb-2 sm:mb-4">Why Ree'ch</h3>
+        <p class="text-xl md:text-2xl lg:text-3xl font-serif italic text-[#EBBCC1] mt-2 sm:mt-4 max-w-2xl mx-auto">We don’t play the usual game.</p>
+      </div>
+
+      <!-- Interactive Reveal Container -->
+      <div class="reveal-container max-w-5xl mx-auto relative rounded-3xl sm:rounded-[2rem] overflow-hidden cursor-pointer group shadow-[6px_6px_0px_#EBBCC1] sm:shadow-[10px_10px_0px_#EBBCC1] min-h-[500px] sm:min-h-[600px] md:min-h-[700px] bg-[#111] transition-all duration-500 hover:shadow-[3px_3px_0px_#EBBCC1] sm:hover:shadow-[5px_5px_0px_#EBBCC1] hover:translate-y-1" onclick="this.classList.add('revealed')">
+        
+        <!-- Image with Blur -->
+        <img src="https://uploads.onecompiler.io/43x9h4bdj/44gkzry97/Screenshot%202026-03-17%20at%204.59.31%E2%80%AFPM.png" alt="Creative Content" class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 blur-[15px] scale-110 opacity-60 group-hover:blur-[12px]" id="why-reech-img">
+        
+        <!-- Subtle Grain Overlay -->
+        <div class="absolute inset-0 bg-noise z-10 mix-blend-overlay"></div>
+
+        <!-- Initial Overlay Text -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center z-20 transition-all duration-700 p-4" id="why-reech-overlay">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-[#111]/60 backdrop-blur-md flex items-center justify-center mb-4 sm:mb-6 border border-white/10 shadow-xl group-hover:scale-110 transition-transform duration-500">
+            <i data-lucide="eye-off" class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-[#EBBCC1]"></i>
           </div>
+          <h4 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-widest text-[#FBF5EB] mb-2 sm:mb-3 text-center drop-shadow-md">Sensitive Content</h4>
+          <p class="text-base sm:text-lg md:text-xl font-serif italic text-[#EBBCC1] drop-shadow-md flex items-center gap-2">
+            <i data-lucide="pointer" class="w-3 h-3 sm:w-4 sm:h-4"></i> Tap to reveal
+          </p>
+        </div>
+
+        <!-- Revealed Content -->
+        <div class="absolute inset-0 z-30 flex flex-col justify-center p-5 sm:p-8 md:p-16 opacity-0 pointer-events-none transition-all duration-1000 translate-y-6 sm:translate-y-10 bg-[#111]/80 md:bg-[#111]/70 backdrop-blur-md md:backdrop-blur-sm" id="why-reech-content">
+          <div class="max-w-4xl mx-auto w-full space-y-5 sm:space-y-6 md:space-y-8">
+            
+            <!-- Point 1 -->
+            <div class="reveal-item opacity-0 transition-all duration-700 translate-y-4 sm:translate-y-6">
+              <h5 class="text-lg sm:text-xl md:text-3xl font-black text-[#EBBCC1] uppercase tracking-wide flex items-start md:items-center gap-2 sm:gap-3 md:gap-4 mb-1">
+                <i data-lucide="zap" class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 shrink-0 mt-0.5 md:mt-0 fill-current opacity-80"></i> No random creators
+              </h5>
+              <p class="text-sm sm:text-base md:text-xl font-medium text-[#FBF5EB]/90 pl-7 sm:pl-9 md:pl-12">Every collab is intentional. If it doesn’t fit, we skip.</p>
+            </div>
+            
+            <!-- Point 2 -->
+            <div class="reveal-item opacity-0 transition-all duration-700 translate-y-4 sm:translate-y-6">
+              <h5 class="text-lg sm:text-xl md:text-3xl font-black text-[#EBBCC1] uppercase tracking-wide flex items-start md:items-center gap-2 sm:gap-3 md:gap-4 mb-1">
+                <i data-lucide="trending-up" class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 shrink-0 mt-0.5 md:mt-0 opacity-80"></i> Trend-first thinking
+              </h5>
+              <p class="text-sm sm:text-base md:text-xl font-medium text-[#FBF5EB]/90 pl-7 sm:pl-9 md:pl-12">We catch what’s rising before it’s everywhere.</p>
+            </div>
+
+            <!-- Point 3 -->
+            <div class="reveal-item opacity-0 transition-all duration-700 translate-y-4 sm:translate-y-6">
+              <h5 class="text-lg sm:text-xl md:text-3xl font-black text-[#EBBCC1] uppercase tracking-wide flex items-start md:items-center gap-2 sm:gap-3 md:gap-4 mb-1">
+                <i data-lucide="target" class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 shrink-0 mt-0.5 md:mt-0 opacity-80"></i> Content that hits
+              </h5>
+              <p class="text-sm sm:text-base md:text-xl font-medium text-[#FBF5EB]/90 pl-7 sm:pl-9 md:pl-12">We don’t push ads. We create moments people care about.</p>
+            </div>
+
+            <!-- Point 4 -->
+            <div class="reveal-item opacity-0 transition-all duration-700 translate-y-4 sm:translate-y-6">
+              <h5 class="text-lg sm:text-xl md:text-3xl font-black text-[#EBBCC1] uppercase tracking-wide flex items-start md:items-center gap-2 sm:gap-3 md:gap-4 mb-1">
+                <i data-lucide="globe" class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 shrink-0 mt-0.5 md:mt-0 opacity-80"></i> Culture-led strategy
+              </h5>
+              <p class="text-sm sm:text-base md:text-xl font-medium text-[#FBF5EB]/90 pl-7 sm:pl-9 md:pl-12">Because brands don’t grow on logic alone, they grow on vibe.</p>
+            </div>
+
+            <!-- Point 5 -->
+            <div class="reveal-item opacity-0 transition-all duration-700 translate-y-4 sm:translate-y-6">
+              <h5 class="text-lg sm:text-xl md:text-3xl font-black text-[#EBBCC1] uppercase tracking-wide flex items-start md:items-center gap-2 sm:gap-3 md:gap-4 mb-1">
+                <i data-lucide="volume-x" class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 shrink-0 mt-0.5 md:mt-0 opacity-80"></i> Less noise, more impact
+              </h5>
+              <p class="text-sm sm:text-base md:text-xl font-medium text-[#FBF5EB]/90 pl-7 sm:pl-9 md:pl-12">If it doesn’t hit, it doesn’t go out. Simple.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vision & Mission Grid -->
+    <section class="py-16 md:py-24 px-4 sm:px-6 bg-[#FBF5EB]">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+        
+        <!-- Vision Card -->
+        <div class="bg-[#EBBCC1] p-6 sm:p-8 md:p-12 lg:p-14 rounded-3xl sm:rounded-[2rem] shadow-[6px_6px_0px_#5B6D62] sm:shadow-[8px_8px_0px_#5B6D62] transform transition-transform hover:-translate-y-2">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-[#5B6D62] uppercase mb-4 sm:mb-6 md:mb-8">Vision</h2>
+          <h3 class="text-2xl sm:text-3xl md:text-4xl font-serif italic text-[#5B6D62] mb-4 md:mb-6 leading-tight">Seen.<br>Saved.<br>Spoken about.</h3>
+          <p class="text-base sm:text-lg md:text-xl text-[#5B6D62] font-medium">
+            Hype fades. Perception stays. <br>We shape how the internet remembers you.
+          </p>
+        </div>
+
+        <!-- Mission Card -->
+        <div class="bg-[#5B6D62] p-6 sm:p-8 md:p-12 lg:p-14 rounded-3xl sm:rounded-[2rem] shadow-[6px_6px_0px_#EBBCC1] sm:shadow-[8px_8px_0px_#EBBCC1] transform transition-transform hover:-translate-y-2 md:translate-y-8 lg:translate-y-12">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-[#FBF5EB] uppercase mb-4 sm:mb-6 md:mb-8">Mission</h2>
+          <p class="text-xl sm:text-2xl md:text-3xl text-[#FBF5EB] font-serif italic mb-4 md:mb-6 leading-snug">
+            Ree'ch exists to build brands that don’t just trend <br>
+            <span class="text-[#5B6D62] bg-[#EBBCC1] px-2 rounded-md inline-block mt-2">they take up space.</span>
+          </p>
+          <p class="text-sm sm:text-base md:text-lg text-[#FBF5EB] font-medium">
+            Because chasing the algorithm is exhausting. Owning your positioning? Power move. We don’t follow waves. We create presence.
+          </p>
         </div>
 
       </div>
     </section>
 
     <!-- Founder Section -->
-    <section class="py-16 sm:py-24 px-4 sm:px-6 bg-[#D0D9A5] relative overflow-hidden border-y-4 border-[#8A9A5B]">
-      <div class="absolute -right-10 sm:-right-20 top-0 w-64 h-64 sm:w-96 sm:h-96 bg-[#8A9A5B] rounded-full mix-blend-multiply blur-3xl opacity-20"></div>
-      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 sm:gap-16 relative z-10">
+    <section class="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#EBBCC1] relative overflow-hidden border-y-4 border-[#5B6D62]">
+      <div class="absolute -right-10 md:-right-20 top-0 w-64 h-64 md:w-96 md:h-96 bg-[#5B6D62] rounded-full mix-blend-multiply blur-3xl opacity-10"></div>
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16 relative z-10">
         
-        <div class="w-full md:w-1/2 flex justify-center relative mt-12 sm:mt-0">
-          
-          <!-- GenZ Dialogue Box -->
-          <div class="absolute -left-2 sm:-left-2 md:left-4 -top-6 sm:top-10 bg-[#EAB4C0] border-2 border-[#8A9A5B] text-[#8A9A5B] px-4 py-2 sm:px-5 sm:py-3 rounded-2xl sm:rounded-3xl rounded-br-none font-bold text-sm sm:text-md md:text-lg shadow-[4px_4px_0px_#D0D9A5] sm:shadow-[6px_6px_0px_#D0D9A5] z-30 float-animation" style="animation-duration: 4s;">
-            serving looks & strategy 💅
-          </div>
-
+        <div class="w-full md:w-1/2 flex justify-center">
           <!-- Founder Image Frame / Placeholder -->
-          <div class="w-64 h-80 sm:w-72 sm:h-96 md:w-96 md:h-[500px] bg-[#EAB4C0] p-3 sm:p-4 pb-12 sm:pb-16 rounded-lg shadow-[10px_10px_0px_#8A9A5B] sm:shadow-[15px_15px_0px_#8A9A5B] transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-             <div class="w-full h-full bg-[#D0D9A5] border-2 border-dashed border-[#8A9A5B] flex flex-col items-center justify-center text-center p-4 sm:p-6">
-               <i data-lucide="sparkles" class="w-8 h-8 sm:w-10 sm:h-10 text-[#8A9A5B] mb-3 sm:mb-4"></i>
-               <p class="font-bold text-[#8A9A5B] uppercase tracking-widest text-xs sm:text-base">[ Anushree's Photo Here ]</p>
-               <p class="text-xs sm:text-sm mt-2 font-bold italic text-[#8A9A5B]/90">Make it aesthetic ✨</p>
+          <div class="w-[80%] sm:w-72 md:w-80 lg:w-96 aspect-[3/4] md:h-[500px] bg-[#FBF5EB] p-3 sm:p-4 pb-12 sm:pb-16 rounded-xl sm:rounded-2xl shadow-[10px_10px_0px_#5B6D62] sm:shadow-[15px_15px_0px_#5B6D62] transform -rotate-3 hover:rotate-0 transition-transform duration-500 flex flex-col">
+             <div class="w-full flex-1 border-2 border-[#5B6D62] overflow-hidden relative">
+               <img src="https://uploads.onecompiler.io/44gq59f7a/44gwkwznz/Screenshot%202026-03-20%20at%209.40.03%E2%80%AFPM.png" alt="Anushree" class="absolute inset-0 w-full h-full object-cover">
              </div>
-             <p class="text-center mt-4 sm:mt-6 font-script text-xl sm:text-2xl text-[#8A9A5B] font-bold">Anushree</p>
+             <p class="text-center mt-4 sm:mt-6 font-serif italic text-2xl sm:text-3xl text-[#5B6D62] font-bold">Anushree</p>
           </div>
         </div>
 
-        <div class="w-full md:w-1/2 text-[#8A9A5B] text-center md:text-left">
-          <h2 class="text-xs sm:text-sm font-serif font-bold tracking-widest uppercase text-[#8A9A5B] mb-2">The Brains Behind The Brand</h2>
-          <h3 class="text-4xl sm:text-5xl md:text-7xl font-serif font-bold uppercase mb-6 sm:mb-8">
-            Meet <br class="sm:hidden"><span class="text-[#EAB4C0] font-script capitalize tracking-normal text-[4rem] sm:text-[5.5rem] md:text-[8.5rem] drop-shadow-[2px_2px_0px_#8A9A5B] sm:drop-shadow-[3px_3px_0px_#8A9A5B] block mt-2 md:-mt-4 relative z-20 leading-[0.8] font-normal">Anushree</span>
+        <div class="w-full md:w-1/2 text-[#5B6D62] mt-8 md:mt-0 text-center md:text-left px-2 sm:px-0">
+          <h2 class="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#5B6D62] mb-2">The Brains Behind The Brand</h2>
+          <h3 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase mb-6 sm:mb-8">
+            Meet <span class="text-[#FBF5EB] font-serif italic normal-case tracking-normal text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] drop-shadow-[2px_2px_0px_#5B6D62] sm:drop-shadow-[3px_3px_0px_#5B6D62] block mt-1 md:-mt-2 lg:-mt-4 relative z-20 leading-[1] w-full break-words">Anushree</span>
           </h3>
           
-          <div class="text-base sm:text-lg md:text-xl font-bold space-y-4 sm:space-y-6 leading-relaxed">
+          <div class="text-base sm:text-lg md:text-xl font-medium space-y-4 sm:space-y-6 leading-relaxed">
             <p>
-              Ree’ch was built by Anushree, a goal-driven creative who understands that branding isn’t just aesthetics <br>
-              <strong class="bg-[#8A9A5B] text-[#EAB4C0] px-2 py-0.5 sm:py-1 rounded inline-block mt-2">it’s psychology.</strong>
+              Ree'ch was built by Anushree, a goal-driven creative who understands that branding isn’t just aesthetics <br class="hidden sm:block">
+              <strong class="bg-[#5B6D62] text-[#FBF5EB] px-2 py-1 rounded inline-block mt-1 sm:mt-2">it’s psychology.</strong>
             </p>
             <p>
-              She saw brands chasing trends, burning budgets, and still blending in. So she built something different. Ree’ch was created to help brands stand firm, speak clearly, and move with culture — not behind it.
+              She saw brands chasing trends, burning budgets, and still blending in. So she built something different. Ree'ch was created to help brands stand firm, speak clearly, and move with culture, not behind it.
             </p>
-            <div class="text-xl sm:text-2xl font-bold italic text-[#8A9A5B] pt-2 sm:pt-4">
+            <div class="text-xl sm:text-2xl font-serif italic text-[#5B6D62] pt-2 sm:pt-4">
               No fluff. No fake hype. <br>Just sharp strategy and real presence.
             </div>
           </div>
@@ -587,53 +1035,135 @@
   <!-- ======================== SHARED SECTIONS ======================== -->
 
   <!-- Contact Section -->
-  <section id="contact" class="py-20 sm:py-32 px-4 sm:px-6 bg-[#8A9A5B] text-[#EAB4C0] text-center relative overflow-hidden">
+  <section id="contact" class="py-16 sm:py-20 md:py-32 px-4 sm:px-6 bg-[#5B6D62] text-[#FBF5EB] text-center relative overflow-hidden">
     <!-- Decorative elements -->
-    <i data-lucide="star" class="absolute top-10 left-10 sm:top-20 sm:left-20 w-8 h-8 sm:w-12 sm:h-12 text-[#D0D9A5] animate-spin-slow"></i>
-    <i data-lucide="star" class="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-10 h-10 sm:w-16 sm:h-16 text-[#EAB4C0] animate-bounce"></i>
+    <i data-lucide="star" class="absolute top-8 sm:top-10 md:top-20 left-6 sm:left-10 md:left-20 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 text-[#EBBCC1] animate-spin-slow"></i>
+    <i data-lucide="star" class="absolute bottom-8 sm:bottom-10 md:bottom-20 right-6 sm:right-10 md:right-20 w-10 sm:w-12 md:w-16 h-10 sm:h-12 md:h-16 text-[#FBF5EB] animate-bounce"></i>
 
-    <div class="max-w-4xl mx-auto relative z-10">
-      <h2 class="text-4xl sm:text-5xl md:text-8xl font-serif font-bold uppercase tracking-tighter mb-6 sm:mb-8 leading-none px-2">
-        Ready to stop <br class="hidden md:block"><span class="font-script text-[#D0D9A5] lowercase font-normal text-[1.1em] tracking-normal">blending in?</span>
+    <div class="max-w-4xl mx-auto relative z-10 px-4 sm:px-0">
+      <h2 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter mb-4 sm:mb-6 md:mb-8 leading-[1.1]">
+        Ready to stop blending in?
       </h2>
-      <p class="text-xl sm:text-2xl md:text-3xl font-bold italic text-[#EAB4C0] mb-10 sm:mb-12 px-4">
+      <p class="text-lg sm:text-2xl md:text-3xl font-serif italic text-[#FBF5EB]/80 mb-8 sm:mb-10 md:mb-12">
         Let’s build something that actually hits.
       </p>
       
       <!-- Button -->
-      <button onclick="scrollToContact()" class="bg-[#D0D9A5] text-[#8A9A5B] text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-widest px-8 py-4 sm:px-12 sm:py-6 rounded-full hover:bg-[#EAB4C0] transition-all duration-300 shadow-[6px_6px_0px_#D0D9A5] sm:shadow-[8px_8px_0px_#D0D9A5] hover:shadow-[3px_3px_0px_#D0D9A5] sm:hover:shadow-[4px_4px_0px_#D0D9A5] hover:translate-y-1 w-full sm:w-auto max-w-sm mx-auto">
-        Spill The Tea <span class="block text-xs sm:text-sm font-bold opacity-70 mt-1 sm:inline sm:ml-2 sm:mt-0">(Contact Us)</span>
+      <button onclick="openTeaModal()" class="bg-[#EBBCC1] text-[#5B6D62] text-base sm:text-xl md:text-2xl font-black uppercase tracking-widest px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 rounded-full hover:bg-[#FBF5EB] transition-all duration-300 shadow-[4px_4px_0px_#EBBCC1] md:shadow-[6px_6px_0px_#EBBCC1] hover:shadow-[2px_2px_0px_#EBBCC1] md:hover:shadow-[3px_3px_0px_#EBBCC1] hover:translate-y-1 active:scale-95">
+        Spill The Tea
       </button>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-[#EAB4C0] text-[#8A9A5B] py-10 sm:py-12 px-4 sm:px-6 border-t-4 border-[#8A9A5B]">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
-      <div class="text-3xl sm:text-4xl font-bold uppercase tracking-tighter cursor-pointer" onclick="switchPage('home')">Ree'ch</div>
+  <footer class="bg-[#FBF5EB] text-[#5B6D62] py-10 md:py-12 px-6 border-t-4 border-[#5B6D62]">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8">
       
-      <div class="font-bold text-base sm:text-lg md:text-xl text-center md:text-left px-4">
-        Built for culture. <br class="sm:hidden"><span class="text-[#D0D9A5] italic font-bold lowercase">Not just the feed.</span>
+      <div class="cursor-pointer flex flex-col items-center md:items-start" onclick="switchPage('home')">
+        <span class="text-3xl md:text-4xl font-serif font-medium uppercase text-[#5B6D62] tracking-wide leading-none mb-1">Ree'ch</span>
+        <span class="text-[0.6rem] sm:text-[0.65rem] md:text-[0.75rem] font-sans font-medium uppercase text-[#5B6D62] tracking-[0.3em] leading-none">The Social Jungle</span>
+      </div>
+      
+      <div class="font-bold text-base sm:text-lg md:text-xl text-center md:text-left px-4 sm:px-0">
+        Built for culture. <br class="sm:hidden"><span class="text-[#EBBCC1] italic font-serif lowercase">Not just the feed.</span>
       </div>
 
       <div class="flex gap-4">
-        <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#8A9A5B] bg-[#D0D9A5] text-[#8A9A5B] flex items-center justify-center hover:bg-[#8A9A5B] hover:text-[#EAB4C0] transition-colors duration-300 shadow-[2px_2px_0px_#8A9A5B] sm:shadow-[3px_3px_0px_#8A9A5B]">
-          <i data-lucide="instagram" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        <a href="https://www.instagram.com/reech.thesocialjungle/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#EBBCC1] flex items-center justify-center hover:bg-[#5B6D62] hover:text-[#FBF5EB] transition-colors duration-300 shadow-[2px_2px_0px_#5B6D62] md:shadow-[3px_3px_0px_#5B6D62]">
+          <i data-lucide="instagram" class="w-5 h-5 md:w-6 md:h-6"></i>
         </a>
-        <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#8A9A5B] bg-[#D0D9A5] text-[#8A9A5B] flex items-center justify-center hover:bg-[#8A9A5B] hover:text-[#EAB4C0] transition-colors duration-300 shadow-[2px_2px_0px_#8A9A5B] sm:shadow-[3px_3px_0px_#8A9A5B]">
-          <i data-lucide="twitter" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        <a href="#" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#EBBCC1] flex items-center justify-center hover:bg-[#5B6D62] hover:text-[#FBF5EB] transition-colors duration-300 shadow-[2px_2px_0px_#5B6D62] md:shadow-[3px_3px_0px_#5B6D62]">
+          <i data-lucide="linkedin" class="w-5 h-5 md:w-6 md:h-6"></i>
         </a>
-        <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[#8A9A5B] bg-[#D0D9A5] text-[#8A9A5B] flex items-center justify-center hover:bg-[#8A9A5B] hover:text-[#EAB4C0] transition-colors duration-300 shadow-[2px_2px_0px_#8A9A5B] sm:shadow-[3px_3px_0px_#8A9A5B]">
-          <i data-lucide="mail" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        <a href="#" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#EBBCC1] flex items-center justify-center hover:bg-[#5B6D62] hover:text-[#FBF5EB] transition-colors duration-300 shadow-[2px_2px_0px_#5B6D62] md:shadow-[3px_3px_0px_#5B6D62]">
+          <i data-lucide="mail" class="w-5 h-5 md:w-6 md:h-6"></i>
         </a>
       </div>
     </div>
   </footer>
 
+  <!-- Spill The Tea Modal -->
+  <div id="teaModal" class="fixed inset-0 z-[100] modal-overlay flex items-center justify-center p-4 md:p-6 bg-[#111]/40 backdrop-blur-sm">
+    <div class="modal-content-box relative bg-[#FBF5EB] w-full max-w-lg p-10 md:p-14 shadow-[10px_10px_0px_#5B6D62] modal-organic border-4 border-[#5B6D62] flex flex-col items-center justify-center text-center">
+      
+      <!-- Close Button -->
+      <button onclick="closeTeaModal()" class="absolute top-6 right-6 md:top-8 md:right-8 text-[#5B6D62] hover:text-[#EBBCC1] transition-colors focus:outline-none hover:rotate-90 transform duration-300">
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+
+      <!-- Headings -->
+      <h3 class="text-4xl md:text-5xl font-black text-[#5B6D62] uppercase tracking-tighter mb-4 leading-none">We're listening 👀</h3>
+      <p class="text-xl md:text-2xl font-serif italic text-[#5B6D62]/80 mb-6 leading-snug">Brand idea, campaign chaos, <br class="hidden sm:block">or something big?</p>
+      <p class="text-sm font-bold tracking-widest uppercase text-[#EBBCC1] mb-8 animate-pulse">Tap to spill.</p>
+
+      <!-- Interactive Cup -->
+      <div class="relative w-28 h-28 md:w-32 md:h-32 cursor-pointer group" onclick="fillTea()">
+        <svg width="100%" height="100%" viewBox="0 0 100 100" class="overflow-visible stroke-[#5B6D62]">
+          <!-- Cup Inner Mask -->
+          <clipPath id="cupInner">
+            <path d="M22,20 L78,20 L68,85 Q65,95 50,95 Q35,95 32,85 Z" />
+          </clipPath>
+          
+          <!-- Liquid Background -->
+          <g clip-path="url(#cupInner)">
+            <rect id="teaLiquid" x="10" y="10" width="80" height="90" fill="#EBBCC1" class="liquid-fill stroke-none" />
+          </g>
+          
+          <!-- Cup Outline -->
+          <path d="M20,20 L80,20 L70,85 Q65,95 50,95 Q35,95 30,85 Z" fill="none" stroke-width="5" stroke-linejoin="round" />
+          
+          <!-- Cup Handle -->
+          <path d="M80,35 Q100,35 93,60 Q88,70 75,70" fill="none" stroke-width="5" stroke-linecap="round" />
+          
+          <!-- Tea Tag -->
+          <path d="M30,20 Q20,5 10,10" fill="none" stroke-width="2" stroke-dasharray="2,2" />
+          <rect x="2" y="10" width="12" height="16" fill="#FBF5EB" stroke-width="2" />
+        </svg>
+        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-[#5B6D62]/10 rounded-full blur-sm group-hover:bg-[#EBBCC1]/40 transition-colors"></div>
+      </div>
+
+      <!-- Email Reveal -->
+      <div id="emailBox" class="mt-10 opacity-0 translate-y-6 transition-all duration-700 pointer-events-none">
+        <button onclick="copyEmail(this)" class="group relative bg-[#5B6D62] text-[#FBF5EB] px-6 py-4 md:px-8 md:py-5 rounded-full flex items-center justify-center gap-3 hover:bg-[#EBBCC1] hover:text-[#5B6D62] transition-colors shadow-[4px_4px_0px_#EBBCC1] active:translate-y-1 active:shadow-[2px_2px_0px_#EBBCC1]">
+          <i data-lucide="mail" class="w-5 h-5 md:w-6 md:h-6"></i>
+          <span class="font-bold tracking-widest text-sm md:text-base uppercase">reechisrare@gmail.com</span>
+          <!-- Tooltip -->
+          <span class="copyTooltip absolute -top-10 left-1/2 -translate-x-1/2 bg-[#FBF5EB] text-[#5B6D62] border-2 border-[#5B6D62] text-xs font-black uppercase px-3 py-1 rounded-lg shadow-[3px_3px_0px_#5B6D62] opacity-0 transition-opacity duration-300 pointer-events-none">Copied 👀</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();
+
+    // Mobile Menu Logic
+    let isMobileMenuOpen = false;
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('mobile-menu-icon');
+      isMobileMenuOpen = !isMobileMenuOpen;
+      
+      if (isMobileMenuOpen) {
+        menu.classList.remove('-translate-y-full', 'opacity-0');
+        menu.classList.add('translate-y-0', 'opacity-100');
+        icon.setAttribute('data-lucide', 'x');
+        document.body.classList.add('body-lock');
+      } else {
+        menu.classList.add('-translate-y-full', 'opacity-0');
+        menu.classList.remove('translate-y-0', 'opacity-100');
+        icon.setAttribute('data-lucide', 'menu');
+        document.body.classList.remove('body-lock');
+      }
+      lucide.createIcons();
+    }
+
+    function closeMobileMenu() {
+      if (isMobileMenuOpen) toggleMobileMenu();
+    }
 
     // Loader Vibe Check Logic
     window.addEventListener('load', () => {
@@ -648,6 +1178,7 @@
 
     // --- Page Routing Logic ---
     function switchPage(page) {
+      closeMobileMenu();
       // Instantly go to top
       window.scrollTo({ top: 0, behavior: 'instant' });
       
@@ -668,6 +1199,7 @@
     }
 
     function scrollToServices() {
+      closeMobileMenu();
       const homePage = document.getElementById('home-page');
       
       // If we are not on the homepage, switch to it first
@@ -675,81 +1207,178 @@
         switchPage('home');
         // Wait a tiny bit for the DOM to render the home page before scrolling
         setTimeout(() => {
-          document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-        }, 50);
+          // Adjust for fixed header offset
+          const y = document.getElementById('services').getBoundingClientRect().top + window.scrollY - 70;
+          window.scrollTo({top: y, behavior: 'smooth'});
+        }, 100);
       } else {
         // If already on homepage, just scroll
-        document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+        const y = document.getElementById('services').getBoundingClientRect().top + window.scrollY - 70;
+        window.scrollTo({top: y, behavior: 'smooth'});
       }
     }
 
     function scrollToContact() {
-      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      closeMobileMenu();
+      const y = document.getElementById('contact').getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({top: y, behavior: 'smooth'});
     }
     // -------------------------
 
-    // Services Scrolling Cards Accordion Logic
-    const serviceCards = document.querySelectorAll('.service-card');
-    
-    serviceCards.forEach(card => {
-      const header = card.querySelector('.service-header');
-      header.addEventListener('click', () => {
-        const isActive = card.getAttribute('data-active') === 'true';
+    // Tea Modal Logic
+    function openTeaModal() {
+      const modal = document.getElementById('teaModal');
+      modal.classList.add('active');
+      document.body.classList.add('body-lock');
+      
+      // Reset state every time it opens
+      document.getElementById('teaLiquid').classList.remove('filled');
+      const emailBox = document.getElementById('emailBox');
+      emailBox.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      emailBox.classList.add('opacity-0', 'translate-y-6', 'pointer-events-none');
+    }
 
-        // Close all cards to ensure clean layout
-        serviceCards.forEach(c => {
-          c.setAttribute('data-active', 'false');
-          
+    function closeTeaModal() {
+      const modal = document.getElementById('teaModal');
+      modal.classList.remove('active');
+      document.body.classList.remove('body-lock');
+    }
+
+    function fillTea() {
+      const liquid = document.getElementById('teaLiquid');
+      const emailBox = document.getElementById('emailBox');
+      
+      if (!liquid.classList.contains('filled')) {
+        liquid.classList.add('filled');
+        
+        // Show email after liquid starts filling
+        setTimeout(() => {
+          emailBox.classList.remove('opacity-0', 'translate-y-6', 'pointer-events-none');
+          emailBox.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        }, 800);
+      }
+    }
+
+    function copyEmail(btnElement) {
+      const email = 'reechisrare@gmail.com';
+      
+      // Create temp input to copy text
+      const tempInput = document.createElement('input');
+      tempInput.value = email;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      
+      // Trigger tooltip
+      const tooltip = btnElement.querySelector('.copyTooltip');
+      tooltip.classList.remove('opacity-0');
+      tooltip.classList.add('opacity-100');
+      
+      setTimeout(() => {
+        tooltip.classList.remove('opacity-100');
+        tooltip.classList.add('opacity-0');
+      }, 2000);
+    }
+
+    // Phone Image Slideshow Logic
+    const phone1Slides = document.querySelectorAll('.phone1-slide');
+    const phone2Slides = document.querySelectorAll('.phone2-slide');
+    let currentSlide1 = 0;
+    let currentSlide2 = 0;
+    let slideshowInterval;
+
+    function nextPhoneSlides() {
+      // Advance Phone 1
+      if(phone1Slides.length > 0) {
+        phone1Slides[currentSlide1].classList.remove('opacity-100');
+        phone1Slides[currentSlide1].classList.add('opacity-0');
+        currentSlide1 = (currentSlide1 + 1) % phone1Slides.length;
+        phone1Slides[currentSlide1].classList.remove('opacity-0');
+        phone1Slides[currentSlide1].classList.add('opacity-100');
+      }
+      
+      // Advance Phone 2
+      if(phone2Slides.length > 0) {
+        phone2Slides[currentSlide2].classList.remove('opacity-100');
+        phone2Slides[currentSlide2].classList.add('opacity-0');
+        currentSlide2 = (currentSlide2 + 1) % phone2Slides.length;
+        phone2Slides[currentSlide2].classList.remove('opacity-0');
+        phone2Slides[currentSlide2].classList.add('opacity-100');
+      }
+    }
+
+    // Autoplay Slideshow only when in view
+    const servicesSection = document.getElementById('services');
+    if (servicesSection) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          if (!slideshowInterval) {
+            // Change slide every 3.5 seconds
+            slideshowInterval = setInterval(nextPhoneSlides, 3500); 
+          }
+        } else {
+          clearInterval(slideshowInterval);
+          slideshowInterval = null;
+        }
+      }, { threshold: 0.1 });
+      observer.observe(servicesSection);
+    }
+
+    // Services Accordion Logic
+    const services = document.querySelectorAll('.service-item');
+    
+    services.forEach(service => {
+      service.addEventListener('click', () => {
+        const isActive = service.getAttribute('data-active') === 'true';
+
+        // Close all services
+        services.forEach(s => {
+          s.setAttribute('data-active', 'false');
           // Reset main container
-          c.className = 'service-card w-[290px] sm:w-[350px] flex-shrink-0 border-[3px] sm:border-4 border-[#8A9A5B] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 bg-[#EAB4C0] shadow-[4px_4px_0px_#8A9A5B] sm:shadow-[6px_6px_0px_#8A9A5B] snap-center flex flex-col';
+          s.className = 'service-item border-4 border-[#5B6D62] rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer bg-[#FBF5EB] text-[#5B6D62] hover:bg-[#EBBCC1] shadow-[4px_4px_0px_#5B6D62] sm:shadow-[6px_6px_0px_#5B6D62]';
           
-          // Reset header background
-          const h = c.querySelector('.service-header');
-          h.classList.remove('bg-[#D0D9A5]');
+          // Reset icon container
+          const iconContainer = s.querySelector('.icon-container');
+          iconContainer.className = 'icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#5B6D62] shrink-0';
           
-          // Reset icon container and color
-          const iconContainer = c.querySelector('.icon-container');
-          iconContainer.className = 'icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 border-[#8A9A5B] shrink-0 bg-[#EAB4C0]';
-          
+          // Reset icon color
           const icon = iconContainer.querySelector('svg') || iconContainer.querySelector('i');
           if (icon) {
-            icon.classList.remove('text-[#EAB4C0]');
-            icon.classList.add('text-[#8A9A5B]');
+            icon.classList.remove('text-[#FBF5EB]');
+            icon.classList.add('text-[#5B6D62]');
           }
 
           // Hide content
-          const content = c.querySelector('.service-content');
-          content.className = 'service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-0 opacity-0 bg-[#8A9A5B]';
+          const content = s.querySelector('.service-content');
+          content.className = 'service-content px-5 sm:px-6 md:px-8 overflow-hidden transition-all duration-500 max-h-0 opacity-0';
         });
 
-        // If the clicked card wasn't active, open it
+        // If it wasn't active, open it
         if (!isActive) {
-          card.setAttribute('data-active', 'true');
+          service.setAttribute('data-active', 'true');
           
-          // Active header background
-          header.classList.add('bg-[#D0D9A5]');
+          // Set active main container
+          service.className = 'service-item border-4 border-[#5B6D62] rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer bg-[#5B6D62] text-[#FBF5EB] shadow-[6px_6px_0px_#EBBCC1] sm:shadow-[10px_10px_0px_#EBBCC1]';
           
-          // Active icon state (turns into an 'X' via rotation, changes color)
-          const iconContainer = card.querySelector('.icon-container');
-          iconContainer.className = 'icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 bg-[#8A9A5B] border-[#8A9A5B] rotate-45 shrink-0';
+          // Set active icon container
+          const iconContainer = service.querySelector('.icon-container');
+          iconContainer.className = 'icon-container w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-transform duration-300 bg-[#EBBCC1] border-[#EBBCC1] rotate-45 shrink-0';
           
+          // Set active icon color
           const icon = iconContainer.querySelector('svg') || iconContainer.querySelector('i');
           if (icon) {
-            icon.classList.remove('text-[#8A9A5B]');
-            icon.classList.add('text-[#EAB4C0]'); 
+            icon.classList.remove('text-[#5B6D62]');
+            icon.classList.add('text-[#5B6D62]'); 
           }
 
-          // Show dropdown content vertically expanding
-          const content = card.querySelector('.service-content');
-          content.className = 'service-content px-5 sm:px-6 overflow-hidden transition-all duration-500 max-h-[1000px] opacity-100 bg-[#8A9A5B]';
-          
-          // Optional: smoothly scroll the horizontal container so the open card is centered
-          setTimeout(() => {
-            card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-          }, 300);
+          // Show content
+          const content = service.querySelector('.service-content');
+          content.className = 'service-content px-5 sm:px-6 md:px-8 overflow-hidden transition-all duration-500 max-h-[800px] pb-6 sm:pb-8 opacity-100';
         }
       });
     });
+
   </script>
 </body>
 </html>
